@@ -1,0 +1,362 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li>My Fundraisers</li>
+      </ul>
+      <h1 class="active">Invite Friends</h1>
+    </div>
+  </div>
+</div>
+<div class="container-fluid sections">
+  <div class="row inviteFriendBox">
+    <div class="container">
+      <div class="contactTabWraper">
+        <div class="contactTab active" data-target="customeContactData">Contacts</div>
+        <div class="contactTab" data-target="GmailContactData">Gmail contacts</div>
+        <div class="contactTab" id="ListOfInvitees" data-target="ListOfInvitesData"
+          *ngIf="selectedContacts || InviteFriendList.length > 0">List of invitees</div>
+      </div>
+      <div class="contactDataWrapper customeContactData">
+        <div class="col-xs-12" style="background: #fde7b2; padding: 20px 20px 5px 20px; margin-bottom: 20px;">
+          <div class="row">
+            <form #INVITE_FRIEND_OTHER="ngForm" (ngSubmit)="InviteFriendsOther(INVITE_FRIEND_OTHER)">
+
+              <div class="form-group col-xs-12 col-sm-3">
+                <!-- <label class="control-label" for="name">Name </label> -->
+                <input [(ngModel)]="I_F_NAME" #NAME="ngModel" id="InviteFriendName" name="InviteFriendName" type="text"
+                  class="form-control" placeholder="Enter Name" pattern="[a-zA-Z&amp;0-9-.,'_() ]*" required />
+                <div class="errorMsg"
+                  *ngIf="(NAME.touched && !NAME.valid) || (INVITE_FRIEND_OTHER.submitted && !NAME.valid)">
+                  <span *ngIf="NAME.errors.required"> Name is required.</span>
+                  <span *ngIf="NAME.errors.pattern">Please enter valid characters.</span>
+                </div>
+              </div>
+              <div class="form-group col-xs-12 col-sm-4">
+                <!-- <label class="control-label" for="email">Email ID</label> -->
+                <input [(ngModel)]="I_F_EMAILID" #EMAILID="ngModel" id="InviteFriendEmail" name="InviteFriendEmail"
+                  type="text" class="form-control" placeholder="Enter Email"
+                  pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" required />
+                <div class="errorMsg"
+                  *ngIf="(EMAILID.touched && !EMAILID.valid) || (INVITE_FRIEND_OTHER.submitted && !EMAILID.valid)">
+                  <span *ngIf="EMAILID.errors.required">Email ID is required.</span>
+                  <span *ngIf="EMAILID.errors.pattern">Please enter valid Email ID.</span>
+                </div>
+              </div>
+              <div class="form-group col-xs-12 col-sm-3">
+                <!-- <label class="control-label" for="mobile">Mobile No.</label> -->
+                <input [(ngModel)]="I_F_MOBILE" #CONTECTNO="ngModel" id="InviteFriendContactNo"
+                  name="InviteFriendContactNo" type="text" class="form-control" placeholder="Enter a Mobile No."
+                  minlength="10" maxlength="10" pattern="^([5-9]{1})([0-9]{9})$" required />
+                <div class="errorMsg"
+                  *ngIf="(CONTECTNO.touched && !CONTECTNO.valid) || (INVITE_FRIEND_OTHER.submitted && !CONTECTNO.valid)">
+                  <span *ngIf="CONTECTNO.errors.required">Contact No is required.</span>
+                  <span *ngIf="CONTECTNO.errors.pattern">Please enter valid Contact No.</span>
+                  <span *ngIf="CONTECTNO.errors.minlength">Contact No. should be minimum {{
+                    CONTECTNO.errors.minlength.requiredLength }} characters.</span>
+                </div>
+              </div>
+              <div class="form-group col-xs-12 col-sm-2 text-right">
+                <!-- <label class="control-label col-xs-12" >&nbsp;</label> -->
+                <button class="btn BtnBox" style="margin-bottom: 0;" type="submit">Add Friend <i
+                    class="fa fa-plus-circle" aria-hidden="true"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-xs-12" *ngIf='InviteFriendList.length > 0'>
+
+          <div class="contantTable">
+            <div class="row">
+              <h5 class="C_th C_Name">Name</h5>
+              <h5 class="C_th C_Email">Email ID</h5>
+              <h5 class="C_th C_Mobile">Mobile No.</h5>
+              <h5 class="C_th C_Checkbox">&nbsp;</h5>
+            </div>
+            <div class="row">
+              <div class="G_C_scrollData">
+                <div *ngFor='let friendInfo of InviteFriendList; let isEven=even'>
+                  <div class="NewDataRow col-xs-12" [class.GC-border-right]="isEven">
+                    <div class="row">
+                      <div class="C_td C_Name">{{friendInfo.FullName}} </div>
+                      <div class="C_td C_Email">{{friendInfo.Email}}</div>
+                      <div class="C_td C_Mobile">{{friendInfo.MOBILE_NO}}</div>
+                      <div class="C_td C_Checkbox"><img src="/assets/images/icon-delete.png" class="deletFriendInfo"
+                          (click)='deleteIntry(i)' /></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="table-responsive">
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Email ID</th>
+                    <th colspan="2">Mobile No.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor='let friendInfo of InviteFriendList; let i = index' [attr.data-index]="i">
+                    <td>{{friendInfo.FullName}}</td>
+                    <td>{{friendInfo.Email}}</td>
+                    <td>{{friendInfo.MOBILE_NO}}</td>
+                    <td width='40'>
+                      <img src="/assets/images/icon-delete.png" class="deletFriendInfo" (click)='deleteIntry(i)' />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> -->
+          <div class="form-group col-xs-12 text-right">
+            <!-- <label class="control-label col-xs-12" >&nbsp;</label> -->
+            <button class="btn BtnBox" style="margin-bottom: 0;" type="submit" (click)="ListOfInvitees()">List of
+              Invitees <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="contactDataWrapper GmailContactData">
+        <div class="col-xs-12 gmailHeadTextBg">
+            <div class="gmailHeadText">Gmail | Add friends from your Gmail contacts</div>
+          <div class="gmailHeadBtn" *ngIf="GoogleContactList?.length < 1">
+            <button class="btn BtnBox" type="submit" (click)="GetGoogleContact()">Add Gmail Contacts <i
+                class="fa fa-plus-circle" aria-hidden="true"></i></button></div>
+        </div>
+        <div class="col-xs-12" *ngIf="GoogleContactList?.length > 0">
+          <!-- <h3>Gmail Contacts</h3> -->
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Search Name & Email ID Here"
+                      (keyup)="SearchContactByText($event)">
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div class="form-group text-right">
+                    <div class="checkboxWrap" style="margin-top: 10px; float: right;">
+                      <div class="checkbox">
+                        <input type="checkbox" class="clsNeedType" id="SelectAll" (change)="SelectAll_Contacts($event)">
+                      </div>
+                      <label>Select All ({{GoogleContactList?.length}}) </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="GoogleContacts" class="col-xs-12 checkboxWrap">
+              <div class="row" style="background: #000000;">
+                <div class="col-xs-12 GC-border-right">
+                  <div class="row">
+                    <h5 class="G_C_Name C_th">Name</h5>
+                    <h5 class="G_C_Email C_th">Email ID</h5>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div *ngFor="let contact of GoogleContactList; let isEven=even">
+                  <div class="DataRow col-xs-12" [class.GC-border-right]="isEven" *ngIf="contact.visible">
+                    <div class="row">
+                      <div class="G_C_Name C_td">{{contact.FullName? contact.FullName : '&nbsp;'}}</div>
+                      <div class="G_C_Email C_td">{{contact.Email}}</div>
+                      <div class="G_C_Checkbox C_td">
+                        <div class="checkbox">
+                          <input type="checkbox" *ngIf="contact.checked" checked value="{{contact.Email}}"
+                            id="GC{{contact.ID}}" (change)="AddRemoveItem($event,contact.Email)">
+                          <input type="checkbox" *ngIf="contact.checked === false" value="{{contact.Email}}"
+                            id="GC{{contact.ID}}" (change)="AddRemoveItem($event,contact.Email)">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="paginationWapper" id="pager"></div>
+            </div>
+            <div class="col-xs-12" *ngIf="selectedContacts">
+
+              <!-- <div class="row" style="background: #000000;">
+                <div class="col-xs-12 col-sm-6 GC-border-right">
+                  <div class="row">
+                    <h4 class="G_C_Name G_C_TH col-xs-5">Name</h4>
+                    <h4 class="G_C_Email G_C_TH col-xs-6">Email ID</h4>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 hidden-xs">
+                  <div class="row">
+                    <h4 class="G_C_Name G_C_TH col-xs-5">Name</h4>
+                    <h4 class="G_C_Email G_C_TH col-xs-6">Email ID</h4>
+                  </div>
+                </div>
+              </div> -->
+
+              <!-- <div *ngFor="let Item of GoogleContactList; let isEven=even">
+                <div class="NewDataRow col-xs-12 col-sm-6" [class.GC-border-right]="isEven" *ngIf="Item.checked">
+                  <div class="row">
+                    <div class="G_C_Name col-xs-5">{{Item.FullName? Item.FullName : '&nbsp;'}}
+                      <input type="text" id="Nameinfo{{Item.ID}}" value="{{Item.FullName}}" class="NameField" (blur)="saveName($event, Item.ID)" />
+                    </div>
+                    <div class="G_C_Email col-xs-5">{{Item.Email}}</div>
+                    <div class="G_C_Checkbox col-xs-2">
+                      <img src="/assets/images/icon-edit.png" class="editEntry" id="Edit{{Item.ID}}" (click)='Edit_C_Intry($event, Item.ID)' />
+                      <img src="/assets/images/icon-save.png" class="saveEntry" />
+                      <img src="/assets/images/icon-delete.png" class="deletFriendInfo" (click)='AddRemoveItem($event, Item.Email)' />
+                    </div>
+                  </div>
+
+                </div>
+              </div> -->
+
+              <div class="form-group col-xs-12 text-right">
+                <!-- <label class="control-label col-xs-12" >&nbsp;</label> -->
+                <button class="btn BtnBox" style="margin-bottom: 0;" type="submit" (click)="ListOfInvitees()">List of
+                  Invitees <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+              </div>
+
+              <!-- <div class="text-center">
+                    <button class="btn InviteNowBtn" (click)='inviteNowGoogleContact()'>Invite now</button>
+                  </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contactDataWrapper ListOfInvitesData">
+        <div class="col-xs-12" *ngIf='InviteFriendList.length > 0'>
+          <h4 class="text-center">Contacts</h4>
+          <div class="contantTable">
+            <div class="row">
+              <h5 class="C_th C_Name">Name</h5>
+              <h5 class="C_th C_Email">Email ID</h5>
+              <h5 class="C_th C_Mobile">Mobile No.</h5>
+              <h5 class="C_th C_Checkbox">&nbsp;</h5>
+            </div>
+            <div class="row">
+              <div class="G_C_scrollData">
+                <div *ngFor='let friendInfo of InviteFriendList; let isEven=even'>
+                  <div class="NewDataRow col-xs-12" [class.GC-border-right]="isEven">
+                    <div class="row">
+                      <div class="C_td C_Name">{{friendInfo.FullName}} </div>
+                      <div class="C_td C_Email">{{friendInfo.Email}}</div>
+                      <div class="C_td C_Mobile">{{friendInfo.MOBILE_NO}}</div>
+                      <div class="C_td C_Checkbox"><img src="/assets/images/icon-delete.png" class="deletFriendInfo"
+                          (click)='deleteIntry(i)' /></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12" *ngIf="selectedContacts">
+          <h4 class="text-center">Gmail contacts</h4>
+          <div class="contantTable">
+            <div class="row">
+              <h5 class="G_C_Name C_th">Name</h5>
+              <h5 class="G_C_Email C_th">Email ID</h5>
+              <h5 class="G_C_Checkbox C_th">Edit</h5>
+            </div>
+            <div class="row">
+              <!-- <div *ngFor="let Item of GoogleContactList; let isEven=even">
+                    <div class="NewDataRow col-xs-12 col-sm-6" [class.GC-border-right]="isEven" *ngIf="Item.checked">
+                      <div class="row">
+                        <div class="G_C_Name col-xs-5">{{Item.FullName? Item.FullName : '&nbsp;'}} </div>
+                        <div class="G_C_Email col-xs-5">{{Item.Email}}</div>
+                      </div>
+                    </div>
+                  </div> -->
+
+              <div class="G_C_scrollData">
+                <div *ngFor="let Item of GoogleContactList; let isEven=even">
+                  <div class="NewDataRow col-xs-12" [class.GC-border-right]="isEven" *ngIf="Item.checked">
+                    <div class="row">
+                      <div class="G_C_Name C_td">{{Item.FullName? Item.FullName : '&nbsp;'}}
+                        <input type="text" id="Nameinfo{{Item.ID}}" value="{{Item.FullName}}" class="NameField"
+                          (blur)="saveName($event, Item.ID)" />
+                      </div>
+                      <div class="G_C_Email C_td">{{Item.Email}}</div>
+                      <div class="G_C_Checkbox C_td">
+                        <img src="/assets/images/icon-delete.png" class="deletFriendInfo"
+                          (click)='AddRemoveItem($event, Item.Email)' />
+                        <img src="/assets/images/icon-edit.png" class="editEntry" id="Edit{{Item.ID}}"
+                          (click)='Edit_C_Intry($event, Item.ID)' />
+                        <img src="/assets/images/icon-save.png" class="saveEntry" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="text-center">
+                <button class="btn InviteNowBtn" (click)='inviteNowGoogleContact()'>Invite now</button>
+              </div> -->
+        </div>
+
+        <div class="col-xs-12" *ngIf="selectedContacts || InviteFriendList.length > 0">
+          <div class="form-group text-center">
+            <button class="btn InviteNowBtn" (click)='inviteNow()'>Invite now</button>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="container ThankYouBox hidden">
+      <div class="ThankUWapper text-center" style="padding: 0;">
+        <div class="col-xs-12">
+          <div class="thankyouImg">
+            <img src="/assets/images/thankyou-icon.png" class="img-responsive">
+          </div>
+          <h1 style="padding-top: 20px;">Thank You!</h1>
+          <img src="/assets/images/download.png" style="width:50px;" />
+          <div class="icon">Fundraising invitation(s) sent successfully!</div>
+          <p class="t1" (click)='ExploreNeeds()' style="color: #f37021; cursor: pointer; text-decoration:underline;">
+            Explore
+            more needs and fundraise. </p>
+          <div class="row">
+            <div class="col-xs-12" style="background: #f37021; padding-top: 20px; padding-bottom: 20px">
+              <p class="t1" style=" color: #ffffff; text-transform: uppercase;"> inspire your friends by spreading the
+                word</p>
+              <p><a [href]="returnUrl" style="color: #333333">{{returnUrl}}</a></p>
+              <div class="clr"></div>
+              <div class="col-xs-12">
+                <ul class="shareicon" style="float:none;">
+                  <li style="display: inline-block; float:none;">
+                    <div id="shareButtonF" style="display: inline-block; float: none; margin-right: 10px"
+                      class="need-share-button-default" data-share-icon-style="box"
+                      data-share-networks="Facebook,Twitter,GooglePlus,Linkedin"
+                      data-share-share-button-class="custom-button">
+                      <span class="custom-button"><img src="/assets/images/icon-share.png" class="icon"
+                          style="margin: 0 !important" /></span>
+                    </div>
+                    Share
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="clr"></div>
+      </div>
+    </div>
+  </div>
+</div>

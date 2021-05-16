@@ -1,0 +1,460 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a routerLink="">Home</a>
+        </li>
+        <li class="active">My Fundraisers</li>
+      </ul>
+      <h1>My Fundraisers</h1>
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid sections">
+  <div class="row ">
+    <div class="container">
+      <div class="col-xs-12" *ngIf="FUND_RAISE_DATA?.length > 0">
+        <div class="form-group text-right">
+          <a class="" style="cursor: pointer;" (click)="RemoveAllFundraise()">Clear all</a>
+        </div>
+      </div>
+      <div class="row" *ngIf="FUND_RAISE_DATA?.length > 0">
+        <div class="FundraisingWapper col-xs-12" *ngFor="let NeedDetail of FUND_RAISE_DATA; let i = index">
+          <div class="row">
+              <button class="closeBtn" (click)="DeleteNeedMapingID(NeedDetail.MAPPINGID)"></button>
+            <div class="col-xs-12" *ngIf='NeedDetail.STATUS_INFORMATION !== "Donation Completed"'>
+              <h2><a routerLink="/donate/details/{{NeedDetail.NEEDID}}/{{NeedDetail.NEED_NAME | slugify }}" title="{{NeedDetail.NEED_LINK_DESCRIPTION}}">{{NeedDetail.NEED_NAME}}</a></h2>
+            </div>
+            <div class="col-xs-12" *ngIf='NeedDetail.STATUS_INFORMATION == "Donation Completed"'>
+              <h2><a routerLink="/donate/completed-needs/{{NeedDetail.NEEDID}}/{{NeedDetail.NEED_NAME | slugify }}" title="{{NeedDetail.NEED_LINK_DESCRIPTION}}">{{NeedDetail.NEED_NAME}}</a></h2>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-7" *ngIf="NeedDetail.NEEDTYPEID == 1 || NeedDetail.NEEDTYPEID == 2">
+              <div class="BoxDetails">
+                <div class="Images" *ngIf='NeedDetail.STATUS_INFORMATION !== "Donation Completed"'>
+                  <a routerLink="/donate/details/{{NeedDetail.NEEDID}}/{{NeedDetail.NEED_NAME | slugify }}" title="{{NeedDetail.NEED_LINK_DESCRIPTION}}"><img src="{{NeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{NeedDetail.NEED_ALT_IMAGE_TEXT}}"
+                      class="img-responsive" alt="{{NeedDetail.NEED_ALT_IMAGE_TEXT}}" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                </div>
+                <div class="Images" *ngIf='NeedDetail.STATUS_INFORMATION == "Donation Completed"'>
+                  <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                  <a routerLink="/donate/completed-needs/{{NeedDetail.NEEDID}}/{{NeedDetail.NEED_NAME | slugify }}"><img
+                      src="{{NeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{NeedDetail.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                </div>
+                <div class="Data">
+                  <div class="text-left" *ngIf="NeedDetail.NEEDTYPEID == 1">
+                    <div class="col-xs-4 f-Bold">
+                      {{NeedDetail.TOTAL_DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                      <p>Raised</p>
+                    </div>
+                    <div class="col-xs-4  text-center f-Bold">
+                      <div class="percentage">
+                        <p class="count">{{CalculatePercentage(NeedDetail.TOTAL_NEED_AMOUNT,NeedDetail.TOTAL_DONATION_AMOUNT)}}
+                          <span>%</span>
+                        </p>
+                        <div class="bgarea" [style.width.%]="CalculatePercentage(NeedDetail.TOTAL_NEED_AMOUNT,NeedDetail.TOTAL_DONATION_AMOUNT)"></div>
+                      </div>
+                      <p>Completed</p>
+                    </div>
+                    <div class="col-xs-4  f-Bold">
+                      <span class="reminingA">{{CalculateRemaingAmt(NeedDetail.TOTAL_NEED_AMOUNT,
+                        NeedDetail.TOTAL_DONATION_AMOUNT) | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <p>Remaining</p>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                  </div>
+                  <div class="GoalLeft-Wapper" *ngIf="NeedDetail.NEEDTYPEID == 1">
+                    <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal.png">
+                      </div>
+                      <p>
+                        {{NeedDetail.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0' }}
+                        <span class="name">Goal</span>
+                      </p>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal2.png">
+                      </div>
+                      <p>{{NeedDetail.TOTAL_DONORS}}
+                        <span class="name" *ngIf="NeedDetail.TOTAL_DONORS < 2">Supporter</span>
+                        <span class="name" *ngIf="NeedDetail.TOTAL_DONORS > 1">Supporters</span>
+                      </p>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-lg-4 f-Bold">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal3.png">
+                      </div>
+                      <p>{{CalculateDays(NeedDetail.END_DATE)}}
+                        <span class="name">Days Left</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="GoalLeft-Wapper ExPadding" *ngIf="NeedDetail.NEEDTYPEID == 2">
+                    <div class="col-xs-4 col-sm-4 col-lg-4   border">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal.png">
+                      </div>
+                      <p>
+                        {{NeedDetail.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0' }}
+                        <span class="name">Goal</span>
+                      </p>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-lg-4  border">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal2.png">
+                      </div>
+                      <p>{{NeedDetail.TOTAL_DONORS}}
+                        <span class="name" *ngIf="NeedDetail.TOTAL_DONORS < 2">Supporter</span>
+                        <span class="name" *ngIf="NeedDetail.TOTAL_DONORS > 1">Supporters</span>
+                      </p>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-lg-4 ">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal3.png">
+                      </div>
+                      <p>{{CalculateDays(NeedDetail.END_DATE)}}
+                        <span class="name">Days Left</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-7" *ngIf="NeedDetail.NEEDTYPEID == 3 || NeedDetail.NEEDTYPEID == 4">
+              <div class="BoxDetails">
+                <div class="Images" *ngIf='NeedDetail.STATUS_INFORMATION !== "Donation Completed"'>
+                  <a routerLink="/donate/details/{{NeedDetail.NEEDID}}/{{NeedDetail.NEED_NAME | slugify }}"><img src="{{NeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}"
+                      class="img-responsive" alt="{{NeedDetail.NEED_ALT_IMAGE_TEXT}}" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                </div>
+                <div class="Images" *ngIf='NeedDetail.STATUS_INFORMATION == "Donation Completed"'>
+                  <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                  <a routerLink="/donate/completed-needs/{{NeedDetail.NEEDID}}/{{NeedDetail.NEED_NAME | slugify }}" title="{{NeedDetail.NEED_LINK_DESCRIPTION}}"><img
+                      src="{{NeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{NeedDetail.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                </div>
+                <div class="Data">
+                  <div class=" GoalLeft-Wapper ExPadding">
+                    <div class="col-xs-6 col-sm-6 col-md-6 border">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal4.png">
+                      </div>
+                      <p>
+                        {{NeedDetail.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0' }}
+                        <span class="name">Gift Amount</span>
+                      </p>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                      <div class="icon">
+                        <img src="/assets/images/icon-goal2.png">
+                      </div>
+                      <p>{{NeedDetail.TOTAL_DONORS}}
+                        <span class="name" *ngIf="NeedDetail.TOTAL_DONORS < 2">Supporter</span>
+                        <span class="name" *ngIf="NeedDetail.TOTAL_DONORS > 1">Supporters</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-5" *ngIf="NeedDetail.NEEDTYPEID !== 2 && NeedDetail.NEEDTYPEID !== 5">
+              <p class="t1">{{NeedDetail.NEED_SHORT_DESCRIPTION}}</p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-5" *ngIf="NeedDetail.NEEDTYPEID == 2 || NeedDetail.NEEDTYPEID == 5">
+              <p class="t1">{{NeedDetail.NEED_SHORT_DESCRIPTION}}</p>
+            </div>
+            
+          </div>
+          <div class="row" *ngFor="let ChildNeedDetail of NeedDetail.NEEDS_CHILD; let i = index">
+            <div class="FundraisingWapper child col-xs-12">
+              <div class="row">
+                <div class="col-xs-12" *ngIf='ChildNeedDetail.STATUS_INFORMATION !== "Donation Completed"'>
+                  <h2><a routerLink="/donate/details/{{ChildNeedDetail.NEEDID}}/{{ChildNeedDetail.NEED_NAME | slugify }}" title="{{ChildNeedDetail.NEED_LINK_DESCRIPTION}}">{{ChildNeedDetail.NEED_NAME}}</a></h2>
+                </div>
+                <div class="col-xs-12" *ngIf='ChildNeedDetail.STATUS_INFORMATION == "Donation Completed"'>
+                  <h2><a routerLink="/donate/completed-needs/{{ChildNeedDetail.NEEDID}}/{{ChildNeedDetail.NEED_NAME | slugify }}" title="{{ChildNeedDetail.NEED_LINK_DESCRIPTION}}">{{ChildNeedDetail.NEED_NAME}}</a></h2>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-7" *ngIf="ChildNeedDetail.NEEDTYPEID !== 3">
+                  <div class="BoxDetails">
+                    <div class="Images" *ngIf='ChildNeedDetail.STATUS_INFORMATION !== "Donation Completed"'>
+                      <a routerLink="/donate/details/{{ChildNeedDetail.NEEDID}}/{{ChildNeedDetail.NEED_NAME | slugify }}" title="{{ChildNeedDetail.NEED_LINK_DESCRIPTION}}"><img
+                          src="{{ChildNeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{ChildNeedDetail.NEED_ALT_IMAGE_TEXT}}" alt="{{ChildNeedDetail.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                    </div>
+                    <div class="Images" *ngIf='ChildNeedDetail.STATUS_INFORMATION == "Donation Completed"'>
+                      <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                      <a routerLink="/donate/completed-needs/{{ChildNeedDetail.NEEDID}}/{{ChildNeedDetail.NEED_NAME | slugify }}" title="{{ChildNeedDetail.NEED_LINK_DESCRIPTION}}"><img
+                          src="{{ChildNeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{ChildNeedDetail.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                    </div>
+                    <div class="Data">
+                      <div class="col-xs-4 f-Bold">
+                        {{ChildNeedDetail.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                        <p>Raised</p>
+                      </div>
+                      <div class="col-xs-4  text-center f-Bold">
+                        <div class="percentage">
+                          <p class="count">{{CalculatePercentage(ChildNeedDetail.TOTAL_NEED_AMOUNT,ChildNeedDetail.DONATION_AMOUNT)}}
+                            <span>%</span>
+                          </p>
+                          <div class="bgarea" [style.width.%]="CalculatePercentage(ChildNeedDetail.TOTAL_NEED_AMOUNT,ChildNeedDetail.DONATION_AMOUNT)"></div>
+                        </div>
+                        <p>Completed</p>
+                      </div>
+                      <div class="col-xs-4  f-Bold">
+                        <span class="reminingA">{{ChildNeedDetail.TOTAL_NEED_AMOUNT - ChildNeedDetail.DONATION_AMOUNT |
+                          currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                        <p>Remaining</p>
+                      </div>
+                      <div class="clearfix"></div>
+                      <hr>
+                      <div class="GoalLeft-Wapper">
+                        <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                          <div class="icon">
+                            <img src="/assets/images/icon-goal.png">
+                          </div>
+                          <p>
+                            {{ChildNeedDetail.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0' }}
+                            <span class="name">Goal</span>
+                          </p>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                          <div class="icon">
+                            <img src="/assets/images/icon-goal2.png">
+                          </div>
+                          <p>{{ChildNeedDetail.TOTAL_DONORS}}
+                            <span class="name" *ngIf="ChildNeedDetail.TOTAL_DONORS < 2">Supporter</span>
+                            <span class="name" *ngIf="ChildNeedDetail.TOTAL_DONORS > 1">Supporters</span>
+                          </p>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-lg-4 ">
+                          <div class="icon">
+                            <img src="/assets/images/icon-goal3.png">
+                          </div>
+                          <p>{{CalculateDays(ChildNeedDetail.END_DATE)}}
+                            <span class="name">Days Left</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-7" *ngIf="ChildNeedDetail.NEEDTYPEID == 3">
+                  <div class="BoxDetails">
+                    <div class="Images" *ngIf='ChildNeedDetail.STATUS_INFORMATION !== "Donation Completed"'>
+                      <img src="{{ChildNeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{ChildNeedDetail.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" />
+                    </div>
+                    <div class="Images" *ngIf='ChildNeedDetail.STATUS_INFORMATION == "Donation Completed"'>
+                      <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                      <a routerLink="/donate/completed-needs/{{ChildNeedDetail.NEEDID}}/{{ChildNeedDetail.NEED_NAME | slugify }}" title="{{ChildNeedDetail.NEED_LINK_DESCRIPTION}}"><img
+                          src="{{ChildNeedDetail.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{ChildNeedDetail.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" /></a>
+                    </div>
+                    <div class="Data">
+
+                      <div class=" GoalLeft-Wapper ExPadding">
+                        <div class="col-xs-6 col-sm-6 col-md-6 border">
+                          <div class="icon">
+                            <img src="/assets/images/icon-goal4.png">
+                          </div>
+                          <p>
+                            {{ChildNeedDetail.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0' }}
+                            <span class="name">Gift Amount</span>
+                          </p>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                          <div class="icon">
+                            <img src="/assets/images/icon-goal2.png">
+                          </div>
+                          <p>{{ChildNeedDetail.TOTAL_DONORS}}
+                            <span class="name" *ngIf="ChildNeedDetail.TOTAL_DONORS < 2">Supporter</span>
+                            <span class="name" *ngIf="ChildNeedDetail.TOTAL_DONORS > 1">Supporters</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-lg-5" >
+                  <p class="t1">{{ChildNeedDetail.NEED_SHORT_DESCRIPTION}}</p>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="BtnBox text-center pull-right" (click)="addFundraisingNeeds()">Add more needs</button>
+      <br />
+      <br />
+      <br />
+      <div class="row" *ngIf="FUND_RAISE_DATA.length > 0">
+          <div class="col-xs-12">
+              <h4>Tell your friends, colleagues and neighbours that you’re fundraising for a great cause.</h4>
+            </div>
+      </div>
+      
+      <div class="row" *ngIf="FUND_RAISE_DATA.length > 0">
+        <form #fundrisingMessageForm="ngForm" (ngSubmit)="saveFundriseData(fundrisingMessageForm, content)" novalidate>
+          <div class="TotalFundraisingAmount">
+            <div class="col-xs-12 col-sm-12 col-lg-7 border">
+              <div class="MessageHe">Message</div>
+              <div class="MessageArea">
+                <textarea rows="5" minlength="10" id="message" name="message" #messageText="ngModel" [(ngModel)]="message"
+                  class="form-control textarea" type="text" required></textarea>
+                <div class="alert alert-danger" *ngIf="(messageText.touched && !messageText.valid) || (fundrisingMessageForm.submitted && !messageText.valid)">
+                  <div *ngIf="messageText.errors.required">message is required.</div>
+                  <div *ngIf="messageText.errors.minlength">message should be minimum {{
+                    messageText.errors.minlength.requiredLength }} characters.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-5">              
+
+              <div class="TotalAmountBox">
+                <h2>My goal</h2>
+                <input id="TotalFundraisingAmount" #amount="ngModel" name="TotalFundraisingAmount" [(ngModel)]="TotalFundraisingAmount"
+                  required pattern="^\d{1,8}(,\d{1,8}){0,9}" type="tel" class="form-control typeNumberOnly rs">
+                <div class="alert alert-danger" *ngIf="(amount.touched && !amount.valid) || (fundrisingMessageForm.submitted && !amount.valid)">
+                  <div *ngIf="amount.errors.required">My Campaign Goal is required.</div>
+                  <div *ngIf="amount.errors.pattern">Please enter Number.</div>
+                </div>
+              </div>
+              <button type="submit" class="BtnBox">Invite Now</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Invite Friends </h4>
+    <button type="button" class="close CloseInviteFriendsModel" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row GetInvoledWapper">
+      <div class=" col-xs-12 formWapper">
+        <div class="row">
+            <div class="col-xs-12 Box">
+                <div style="display: block; cursor: pointer;" (click)="InviteFrom('Gmail')" (click)="d('Cross click')">
+                  <div class="Icon">
+                    <img src="/assets/images/icon-gnmail.png" class="img-responsive">
+                  </div>
+                  <div class="Text">
+                    <p class="t1">Gmail</p>
+                    <p class="t2">Add friends from your Gmail contacts</p>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+              </div>
+              
+              <div class="col-xs-12 Box">
+                <div style="display: block; cursor: pointer;" (click)="InviteFrom('Other')" (click)="d('Cross click')">
+                  <div class="Icon">
+                    <img src="/assets/images/icon-custome.png" class="img-responsive">
+                  </div>
+                  <div class="Text">
+                    <p class="t1">Other</p>
+                    <p class="t2"> Send an email or a SMS</p>
+                  </div>
+                </div>
+      
+                <div class="clearfix"></div>
+                <hr>
+              </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentCustom let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Invite Friends klsfsfslfjsl</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class=" col-xs-12 formWapper">
+        <div class="AddUserForm">
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="control-label col-sm-4">Name</label>
+                <div class="col-sm-8">
+                  <input name="" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <label class="control-label col-sm-4">Mobile No.</label>
+                <div class="col-sm-8">
+                  <input name="" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="control-label col-sm-4">Email ID</label>
+                <div class="col-sm-8">
+                  <input name="" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="BtnBox" type="submit">Invite Now</button>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <div class="col-xs-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th colspan="2">Mobile No</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sanrtosh Janardan Kadam</td>
+                <td>santoshKadam1982@gmail.com</td>
+                <td>+91 8291112690</td>
+                <td>
+                  <img src="/assets/images/icon-edit.png" width="21" height="21">
+                  <img src="/assets/images/icon-delete.png" width="21" height="21"> </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+<!-- <app-invite-friend></app-invite-friend>
+<app-invite-friends-custom></app-invite-friends-custom> -->

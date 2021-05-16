@@ -1,0 +1,44 @@
+
+
+.leftRs {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background :url(/assets/images/T_th_prev.png) no-repeat;
+    border:none;
+    border-radius: 999px;
+    left: 0;
+    z-index: 10;
+}
+
+.rightRs {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background :url(/assets/images/T_th_next.png) no-repeat;
+    border:none;
+    border-radius: 999px;
+    right: 0;
+    z-index: 10;
+}
+
+.profileForm { position: relative; display: none; }
+.EditProfileForm { position: relative;  display: none; }
+.profileForm.active, .EditProfileForm.active { display: block; }
+.EditProfileForm .form-control { background: none; color: #ffffff;  border: 1px solid #5f5f5f; font-size: 16px; height: 40px; line-height: 1em;}
+.EditProfileForm label { font-size: 16px; font-weight: 300; color: #949494  }
+.EditProfileForm label.label { font-size: 16px; font-weight: 300; color: #ffffff; }
+.EditProfileForm .form-group { position: relative }
+.EditProfileForm .form-group select option { color: #333333; }
+.EditProfileForm .form-group .mat-datepicker-toggle { position: absolute; right: 0; top: 27px; background: #5f5f5f;  }
+.EditProfileForm input:-webkit-autofill, .EditProfileForm input:-webkit-autofill:hover, .EditProfileForm input:-webkit-autofill:focus, .EditProfileForm input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #ffffff !important;}
+    .EditProfileForm .form-group .btn { color: #333333; }
+    

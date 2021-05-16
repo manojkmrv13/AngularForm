@@ -1,0 +1,21 @@
+
+.FaqWapper .panel-default { border-bottom: 1px solid #f26622;  }
+.FaqWapper .panel-default>.panel-heading{ border:0; background-color:transparent; padding:0px 0; }
+.FaqWapper .panel-default:last-child { border: none; }
+.FaqWapper .panel-group .panel{ background-color:transparent; box-shadow:none;  border-radius:0; }
+.FaqWapper .panel-group  .panel-default>.panel-heading+.panel-collapse>.panel-body{border-top:none;}
+.FaqWapper .collapse{ border-bottom: 1px solid transparent; border-radius:0;}
+.FaqWapper .panel-body{ padding: 10px 0 20px 0;}
+.FaqWapper .panel-title>a{ width:100%; display:inline-block;  padding:15px 0; color:#f37021; font-size:18px; text-decoration:none;}
+.FaqWapper .panel-group .panel+.panel{ margin:0;}
+.FaqWapper p{ color:#231f20; font-size:14px; font-weight: 500; margin:0 0 15px 0}
+.FaqWapper .glyphicon{ width:25px; height:25px; border:1px solid #f37021; line-height:24px; text-align:center; border-radius:20px; float:right;     font-weight: 400 !important;
+    font-size: 18px;
+    font-family: inherit;}
+    .FaqWapper ul { margin: 0; padding-left: 20px; }
+    .FaqWapper ul li { margin: 0 0 15px 0; } 
+    a.faq-live {
+        color: #f37021;
+        text-decoration: none;
+    }
+    

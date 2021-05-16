@@ -1,0 +1,179 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a routerLink="">Home</a>
+        </li>
+        <li class="active">My Receipts</li>
+      </ul>
+      <h1>My Receipts</h1>
+      
+    </div>
+  </div>
+  <br />
+  <br />
+  <div class="row">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-3 visible-md visible-lg">
+          <div class="MenuWapper">
+            <ul>
+              <li><a routerLink="/account/my-profile"><i><img src="../assets/images/icon-home.png" class="img-responsive"></i>
+                  My Profile</a> </li>
+              <li><a routerLink="/account/my-contribution"><i><img src="../assets/images/icon-donation.png" class="img-responsive"></i>
+                  My Contribution</a> </li>
+                  <li><a href="{{ChildSponsership+'&type=TaxReceipt'}}" target="_blank"><i><img src="../assets/images/icon-certificates.png" class="img-responsive" ></i> My Receipts</a> </li>
+              <li><a routerLink="/account/share-my-experience"><i><img src="../assets/images/icon-testimoinal.png"
+                      class="img-responsive"></i> Share My Experience</a> </li>
+              <li><a routerLink="/account/notifications"><i><img src="../assets/images/icon-notification.png" class="img-responsive"></i>
+                  Notifications</a> </li>
+              <li><a routerLink="/account/change-password"><i><img src="../assets/images/icon-password.png" class="img-responsive"></i>
+                  Change Password</a> </li>
+              <li><a routerLink="/account/fundraising-activity"><i><img src="../assets/images/icon-fundraising.png"
+                      class="img-responsive"></i> My Fundraising Activity</a> </li>
+              <li><a routerLink="/account/my-cart"><i><img src="/assets/images/cartIcon_myWorld.jpg" class="img-responsive"></i>
+                  My Cart</a></li>
+                  <li><a href="{{ChildSponsership}}" target="_blank"><i><img src="/assets/images/childSpIcon_myWorld.jpg" class="img-responsive"></i> Child Sponsorship</a></li>
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-9">          
+
+          <div class="row TaxCertificatesWapper" >
+            <form #TAX_CERTIFICATES="ngForm" (ngSubmit)="SortDate(TAX_CERTIFICATES)" novalidate>
+              <div class="formWapper">
+                <div class="form-group">                  
+                    <div style="display:inline-block">
+                      <label>From </label>&nbsp;
+                      <input matInput id="startDate" name="startDate" [(ngModel)]="STARTDATE" #StartDateField="ngModel" [matDatepicker]="pickerF"
+                        data-val="" [min]="From_MinDate" [max]="From_MaxDate" placeholder="Choose a date" (dateChange)="SetMinMaxDate(pickerF)"
+                        readonly>
+                      <mat-datepicker-toggle matSuffix [for]="pickerF"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerF></mat-datepicker>
+                      <div class="errorMsg" *ngIf="(StartDateField.touched && !StartDateField.valid) || (TAX_CERTIFICATES.submitted && !StartDateField.valid)">
+                        <span *ngIf="StartDateField.errors.required"> DD/Cheque Number is required.</span>
+                      </div>
+                    </div>
+
+                    &nbsp;
+                    <div style="display:inline-block">
+                      <label> To </label>&nbsp;
+                      <input matInput id="endDate" name="endDate" [(ngModel)]="ENDDATE" #EndDateField="ngModel" [matDatepicker]="pickerE"
+                        data-val="" [min]="To_MinDate" [max]="To_MaxDate" placeholder="Choose a date" (dateChange)="SetMinMaxDate(pickerE)"
+                        readonly>
+                      <mat-datepicker-toggle matSuffix [for]="pickerE"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerE></mat-datepicker>&nbsp;
+                      <div class="errorMsg" *ngIf="(EndDateField.touched && !EndDateField.valid) || (TAX_CERTIFICATES.submitted && !EndDateField.valid)">
+                        <span *ngIf="EndDateField.errors.required"> DD/Cheque Number is required.</span>
+                      </div>
+                    </div>
+                    &nbsp;<button type="submit" class="BtnBox">Submit</button> &nbsp; 
+                    &nbsp;
+                    
+                    <a style="font-size:1.1em; font-weight:500; " (click)="DownloadPDF()" *ngIf="TaxCertificatesList?.length > 0"> Download tax receipt <i class="fa fa-arrow-circle-o-down fa-lg" aria-hidden="true"></i></a>  
+                    <a id="downloadPDF"  href="" *ngIf="TaxCertificatesList?.length > 0" download target="_blank"></a>              
+                </div>
+              </div>
+            </form>
+            <div class="clearfix"></div>
+            <!-- <div class="" *ngIf="TaxCertificatesList?.length < 1">
+                <div class="col-xs-12 text-center">
+                  <div class="loadingBox resultNotFound">
+                    <div class="group"><img src="/assets/images/records.png"> &nbsp;<span>No Records found</span></div>
+                  </div>
+                </div>
+              </div> -->
+
+            <div class="TableWapper" *ngIf="TaxCertificatesList?.length > 0">
+              <div>
+                <!-- <div class="col-xs-12 text-center"><img src="/assets/images/world-vision.png" class="inline-block" style="margin: 30px 0;" /></div> -->
+                <div class="clearfix"></div>
+                <div class="table-responsive">
+                  <table class="table table-condensed">
+                  <thead>
+                    <tr style="color: #f37021;">
+                      <th style="border-top:1px solid #ddd;">Date</th>
+                      <th style="border-top:1px solid #ddd;" class="text-center">Pay ID</th>
+                      <th style="border-top:1px solid #ddd;" class="text-right">Order ID</th>
+                      <th style="border-top:1px solid #ddd;" class="text-right">Payment Mode</th>
+                      <th style="border-top:1px solid #ddd;" class="text-right">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of TaxCertificatesList">
+                      <td>{{item.ENTRYDATE | date:'dd-MMM-yyyy'}}</td>
+                      <td class="text-center">{{item.PAYID}}</td>
+                      <td class="text-right" >{{item.IDMS_ID}}</td>
+                      <td class="text-right">{{item.MODEOFPAYMENT}}</td>
+                      <!-- <td style="color: #f37021;">{{ReplaceWithComa(item.AMOUNT)}}</td> -->
+                      <td style="color: #f37021;" class="text-right">{{item.AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</td>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th style="color: #f37021;" class="text-right">{{TotalOFTaxRecipt | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</th>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+                
+              </div>
+              <!-- <div id="content">
+                  <div class="col-xs-12 text-center">
+                      <img src="/assets/images/world-vision.png" class="inline-block" style="margin: 30px 0; float: right;" />
+                      <h4 style="color:#333333">CONSOLIDATED RECEIPT</h4>
+                      <p style="color:#333333">( Contributions received between 01-Apr-2017 and 05-Oct-2018 )</p>
+
+                      <div class="col-xs-6">
+                         <p> Mr.Zenob Stephen <br/>
+                          2/10, Thendral Nagar East<br/>
+                          NA<br/>
+                          NA<br/>
+                          Chennai<br/>
+                          Tamil Nadu<br/>
+                          India<br/>
+                          9710923315</p>
+                      </div>
+                      <div class="col-xs-6">
+                        <p>
+                            Print Date: 05-Oct-2018
+                            Partner ID: 1270997
+                        </p>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <table class="table table-bordered table-condensed">
+                    <thead>
+                      <tr>
+                        <th style="background-color: #ffe4d7;">Date</th>
+                        <th style="background:#ffe4d7;">Donation ID</th>
+                        <th style="background:#ffe4d7;">Payment Method</th>
+                        <th style="background: #ffe4d7;">Bank Name</th>
+                        <th style="background: #ffe4d7;">Amount</th>                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of TaxCertificatesList">
+                        <td>{{item.ENTRYDATE | date:'dd-MMM-yyyy'}}</td>
+                        <td>{{item.IDMS_ID}}</td>
+                        <td>{{item.MODEOFPAYMENT}}</td>
+                        <td>{{item.BANKNAME}}</td>
+                        <td>{{item.AMOUNT}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div> -->
+            </div>
+            <div id="editor"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

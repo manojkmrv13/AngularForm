@@ -1,0 +1,189 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li class="active"><a routerLink="/donate">Donate</a></li>
+      </ul>
+      <h1 class="pull-left">Completed Needs</h1>
+    </div>
+  </div>
+  <div class="row filterContainer">
+    <div class="container">
+      <div class="filterWapper row">
+        <div class="col-xs-12 filterBox needTypeBox">
+          <div class="he">Select need type:</div>
+          <ul class="checkboxWrap" *ngIf="needTypeData">
+            <li *ngFor="let nt of needTypeData">
+              <div class="checkbox">
+                <input name="{{nt.NEEDTYPE}}" type="checkbox" id="{{nt.NEEDTYPEID}}" value="{{nt.NEEDTYPEID}}"
+                  (change)="GetSelectedNeedType($event.target.value, $event)" />
+              </div>
+              <label for="{{nt.NEEDTYPEID}}">{{nt.NEEDTYPE}}</label>
+            </li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12 filterBox">
+          <div class="he">Select Categories:</div>
+          <ul class="checkboxWrap" *ngIf="needSectorData">
+            <li *ngFor="let nss of needSectorData">
+              <div class="checkbox">
+                <input name="{{nss.SECTOR}}" value="{{nss.SECTORID}}" id="Categories{{nss.SECTORID}}" type="checkbox"
+                  (change)="GetSelectedSector($event.target.value, $event)" />
+              </div>
+              <label for="Categories{{nss.SECTORID}}">{{nss.SECTOR}}</label>
+            </li>
+          </ul>
+        </div>
+        <div class="btnGroup pull-right">
+          <input name="" type="button" class="BtnBox center-block" value="Clear Fliter" (click)="GetClearFliterAPI()">
+          <input name="" type="button" class="BtnBox showresult center-block" value="Show Results" (click)="Search()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row listviewWapper">
+    <div class="container sameHeightWrap">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+            <div id="no_recordsfound" class="loadingBox resultNotFound" *ngIf="ComplitetNeeds?.length < 1">
+              <div class="group">
+                <img src="/assets/images/records.png" /> &nbsp;<span> Currently, there are no needs in the selected
+                  category. Please select another need type/categories to donate.</span>
+              </div>
+            </div>
+        </div>          
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let need of ComplitetNeeds; let i = index;">
+          <div class="MainBox">
+            <div class="imageBox" *ngIf="need.NEEDTYPEID == 1 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">
+              <a routerLink="/donate/completed-needs/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}" style="color:#ffffff;"><img
+                  [defaultImage]="defaultImage" [offset]="offset" [lazyLoad]="need.NEED_THUMBNAIL_IMAGE_6_FILEPATH"
+                  onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';"
+                  class="img-responsive" alt="{{need.NEED_ALT_IMAGE_TEXT}}"></a>
+              <div *ngIf="need.GROUP_NEED_ID != 0">
+                <div class="flag">
+                  <p>Part of
+                    <br />{{need.GROUP_NEED_TYPE}}</p>
+                </div>
+                <div class="partOfNeedName"><a
+                    routerLink="/donate/completed-needs/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"
+                    style="color:#ffffff;" title="{{need.NEED_LINK_DESCRIPTION}}">{{need.GROUP_NEED_NAME}}</a> </div>
+              </div>
+            </div>
+
+            <div class="imgSliderWrapper" *ngIf="need.NEEDTYPEID == 2 || need.NEEDTYPEID == 5">
+              <img src="/assets/images/image_not_available.jpg" class="img-responsive viewImgSample" />
+              <div class="noOFNeeds">
+                <h2> {{ need.NEEDS_CHILD.length }}
+                  <span *ngIf="need.NEEDS_CHILD.length == 1">Need</span><span
+                    *ngIf="need.NEEDS_CHILD.length > 1">Needs</span>
+                </h2>
+              </div>
+              <div class="imgSlider">
+                <div class="imgWrapper" *ngFor="let childNeed of need.NEEDS_CHILD">
+                  <div>
+                    <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'"
+                      routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">
+                      <img [defaultImage]="defaultImage" [offset]="offset" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}"
+                        [lazyLoad]="childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH" class="img-responsive"
+                        onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';"></a>
+                    <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'" title="{{childNeed.NEED_ALT_IMAGE_TEXT}}"
+                      routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}">
+                      <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                      <img [defaultImage]="defaultImage" [offset]="offset" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}"
+                        [lazyLoad]="childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH" class="img-responsive"
+                        onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';">
+                    </a>
+                    <div class="needName">
+                      <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'"
+                        routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_ALT_IMAGE_TEXT}}">{{childNeed.NEED_NAME}}</a>
+                      <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'"
+                        routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_ALT_IMAGE_TEXT}}">{{childNeed.NEED_NAME}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="BoxName">
+              <div class="icon">
+                <img src="{{need.SECTOR_ICON_FILEPATH}}" alt="{{need.SECTOR_ALT_ICON_TEXT}}" width="35" height="35">
+              </div>
+              <h2>
+                <a routerLink="/donate/cat-{{need.SECTOR | slugify}}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.SECTOR}}</a>
+                <br>
+                <span>
+                  <a routerLink="/donate/{{need.NEEDTYPE | slugify }}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.NEEDTYPE}}</a>
+                </span>
+              </h2>
+              <div class="clearfix"></div>
+              <hr>
+              <h3>
+                <a
+                  routerLink="/donate/completed-needs/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.NEED_NAME}}</a>
+              </h3>
+
+              <p class="sameHeight discription"
+                [innerHTML]="(need.NEED_SHORT_DESCRIPTION.length>150)? (need.NEED_SHORT_DESCRIPTION | slice:0:150)+'..':(need.NEED_SHORT_DESCRIPTION)">
+              </p>
+
+            </div>
+
+            <div class=" GoalLeft-Wapper" *ngIf='need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4 || need.NEEDTYPEID == 5'>
+              <div class="col-xs-6 col-sm-6 col-md-6 border">
+                <div class="icon">
+                  <img src="/assets/images/icon-goal4.png">
+                </div>
+                <p>
+                  {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                  <span class="name">Gift Amount</span>
+                </p>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="icon">
+                  <img src="/assets/images/icon-goal2.png">
+                </div>
+                <p>{{need.TOTAL_DONORS}}
+                  <span class="name" *ngIf="need.TOTAL_DONORS < 2">Supporter</span>
+                  <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                </p>
+              </div>
+            </div>
+
+
+            <div class="GoalLeft-Wapper" *ngIf='need.NEEDTYPEID == 1 || need.NEEDTYPEID == 2 '>
+              <div class="col-xs-6 border">
+                <div class="icon">
+                  <img src="/assets/images/icon-goal.png">
+                </div>
+                <p>
+                  <span *ngIf="need.NEEDTYPEID !== 2">
+                    {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '4.0-0' }} </span> <!-- number:0 -->
+                  <span *ngIf="need.NEEDTYPEID == 2">
+                    {{ need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED | currency : 'INR' : 'symbol-narrow' : '4.0-0' }} </span>
+                  <span class="name">Goal</span>
+                </p>
+              </div>
+              <div class="col-xs-6">
+                <div class="icon">
+                  <img src="/assets/images/icon-goal2.png">
+                </div>
+                <p>{{need.TOTAL_DONORS}}
+                  <span class="name" *ngIf="need.TOTAL_DONORS < 2">Supporter</span>
+                  <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

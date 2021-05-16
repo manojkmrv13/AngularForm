@@ -1,0 +1,903 @@
+<div class="container-fluid impact-bck">
+    <div class="row sections">
+       <div class="container">
+          <div class="listviewWapper forResponsiveView">
+             <div class="row sameHeightWrap background-wrap">
+               <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig1" (init)="slickInit($event)"
+              (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                <div *ngFor = "let item of getTopDonation | slice:0:6;let i = index;let i = index" ngxSlickItem class="col-xs-12 col-sm-6 col-lg-4">
+                   <div class="MainBox topsec">
+                      <div class="BoxName">
+                        <a> <img
+                            src="{{item.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" alt=""
+                              onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'"
+                              class="img-responsive"></a> 
+                          <h2 class="banner-bottomh2">{{item.NEED_NAME}}</h2>
+                         <div class="sameHeight need-topsection">
+                            <h3 style="display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;">{{item.NEED_SHORT_DESCRIPTION}}
+                            </h3>
+                            <div class="row donate mobleresponse">
+                               <div *ngIf="item.NEEDTYPE == 'Gift Catalogue'" class="col-lg-7 col-md-12  col-sm-12 forHidden">
+                                <span class="forRupee inQty">₹</span>
+                                <input *ngIf="item.NEEDTYPE == 'Gift Catalogue'" class="input" [readonly]="item.NEEDTYPE == 'Gift Catalogue'" name="" id="" (keypress)="keyPressonetime($event,i,item)" (change)="notmonthlyamountchange(item.selectedquantity,i,item)"
+                                     type="number" class="form-control input rs typeNumberOnly addCommaSep inQtyInput ipad" [(ngModel)]="item.NEED_AMOUNT">
+                                     <div *ngIf="item.NEEDTYPE == 'Gift Catalogue'" class="col-md-6 col-sm-5 tab-onlyqty">
+                                        <span class="SelectQuantity tabtop">Qty {{item.selectedquantity}}</span>
+                                        <select [(ngModel)]="item.selectedquantity"  class='form-control common-form' (change)="ChangingValuenotmonthly($event.target.value,i,item)">
+                                      <option  value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                      <option value='5'>5</option>
+                                      <option value='6'>6</option>
+                                      <option value='7'>7</option>
+                                      <option value='8'>8</option>
+                                      <option value='9'>9</option>
+                                      <option value='10'>10</option>
+                                            </select>
+                                        </div>
+                               </div>
+                               <div  *ngIf="item.NEEDTYPE == 'Recurrin Gifts'" class=" col-lg-7 col-md-12 col-sm-12 mobileview Recurrin">
+                                <span class="forRupee">₹</span>
+                                    <input *ngIf="item.NEED_AMOUNT != '0'" class="input col-md-6" name="" id="" (change)="notmonthlyamountchange(item.selectedfrequencyval,i,item)"
+                                    type="number" class="form-control input rs typeNumberOnly addCommaSep monthlyrel" readonly [(ngModel)]="item.NEED_AMOUNT">
+                                    <div  class="col-md-6 col-sm-5 tab-onlyqty">
+                                    <select  class='form-control common-form col-md-6' [(ngModel)]="item.selectedfrequency"
+                                    (change)="ChangingValue(item.selectedfrequency,i,item)" >
+                              <option *ngFor="let dt of item.PAY_FREQUENCY" [ngValue]="dt">{{
+                                dt.FREQUENCY }}</option>
+                                    </select>
+                                </div>
+                               </div>
+                               <div class="percentageSection" *ngIf="item.NEEDTYPE == 'Individual Needs' && item.DONATION_PERCENTAGE != 100">
+                                <div class="goal_amount">
+                                    <span> Goal</span><p>₹{{item.TOTAL_NEED_AMOUNT | number}}</p>
+                                </div>
+                                <div class="raised_amount">
+                                <span> Required</span>
+                                <p>₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT | number}}</p>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="progressBar_line">
+                                     <p class="inner_percent" [style.width.%]="item.DONATION_PERCENTAGE"></p>
+                                </div>
+                                <span *ngIf="item.DONATION_PERCENTAGE != '100'" class="percentInputWrapper" class="myContribution">My Contribution</span>
+                                <span *ngIf="item.DONATION_PERCENTAGE != '100'" class="percentInputWrapper">
+                                 <span class="forRupees">₹</span>
+                                 <input *ngIf="item.NEEDTYPE == 'Individual Needs'" class="input" name=""  id="" (keypress)="keyPress($event,i,item)" (change)="indivitualchange($event,item.val,i,item)"
+                                 type="number" class="form-control input rs typeNumberOnly addCommaSep percentInput contributiondef" [(ngModel)]="item.val" [disabled]="!item.removeFromCheckout">
+                                 <span><button *ngIf="!item.removeFromCheckout" class="progressAdd"  (click)="donateNow(item)"><img src="../../../assets/images/giveThemAStartAdd-actmin.png"></button><button *ngIf="item.removeFromCheckout" class="progressAdd"  (click)="donateNow(item)"><img src="../../../assets/images/giveThemAStartAdd-act.png"></button></span>
+                                 <span class="forAmountAlert" *ngIf="item.val < item.MINIMUM_AMOUNT_PAYABLE && item.editable">Enter from ₹{{item.MINIMUM_AMOUNT_PAYABLE}} to ₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT}}</span>
+                                </span>
+                               <div class="clearfix"></div>
+                           </div>
+                               <div *ngIf="item.removeFromCheckout && item.NEEDTYPE != 'Individual Needs'" class="col-lg-5 col-md-12 col-sm-12 tab-onlybtn adding">
+                                  <button name="" class="BtnBox btn btn-demo" [disabled]="item.NEED_AMOUNT == '0'" (click)="donateNow(item)">Donate<span class="donateAdd"><img src="../../../assets/images/acco-plus.png"></span></button>
+                               </div>
+                               <div *ngIf="!item.removeFromCheckout && item.NEEDTYPE != 'Individual Needs'" class="col-lg-5 col-md-12 col-sm-12 tab-onlybtn adding">
+                                <button name="" class="BtnBox btn btn-demo remove" (click)="donateNow(item)">Remove<img src="../../../assets/images/acco-min.png"></button>
+                             </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+              </ngx-slick-carousel> 
+              
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  <div class="checkouts visible-xs">
+    <div class="row">
+        <div class="container upi-pay">
+        <div class="col-xs-7">
+            <h3 class="upi-pay">Do the UPI Payment</h3>
+         </div>
+         <div class="col-xs-5">
+            <a href="upi://pay?pa=wvi@sc&pn=World%Vision%India&mc=8398&cu=INR"><button name="" class="BtnBox btn btn-upi">UPI PAY</button></a>
+         </div>
+       
+    </div>
+    </div>
+    
+</div>
+  <div class="container givethemastar hidden-xs">
+    <div class="row">
+       <div class="col-xs-12 ">
+          <h3 class="givethem">Give Them A Start</h3>
+          <nav>
+             <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+              <li [class.active]="selectedIndex === i" *ngFor="let data of getCurrentSectors;let i = index">
+                  <a [class.active]="selectedIndex === i"  (click)="tabClick(data,i)" id="nav-home-tab" data-toggle="tab" href="#{{data}}" role="tab" aria-controls="nav-home" >{{data}}</a>
+                 </li>
+                
+             </div>
+          </nav>
+          <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+             <div class="tab-pane fade active in" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+              
+              <div class="tab-pane fade active in" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="content-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="auto">
+                  <div  class="swiper-container swiper-init configDesktop" [swiper]="configDesktop" [(index)]="index">
+                    <div class="swiper-wrapper">
+                        <div  *ngFor = "let item of resultArray;let i = index" class="col-xs-12 col-sm-6 col-lg-3 swiper-slide">
+                            <div class="MainBox allneed-tab" >
+                                <div class="imageBox">
+                                   <a> <img
+                                    src="{{item.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" alt=""
+                                      onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'"
+                                      class="img-responsive"></a> 
+                                </div>
+                                <div class="BoxName allneed-section">
+                                  <p class="loc">
+                                    <img src="/assets/images/location.png" class="location" alt="">
+                                   <span class="location-dis">{{item.ADP_STATE_NAME}}</span> 
+                                  </p>
+                                   <h2>{{item.NEED_NAME}}</h2>
+                                   <div class="sameHeight">
+                                      <h3 style="display: -webkit-box;
+                                      -webkit-line-clamp: 3;
+                                      -webkit-box-orient: vertical;
+                                      overflow: hidden;">{{item.NEED_SHORT_DESCRIPTION}}
+                                      </h3>
+                                      
+                                   </div>
+                                   <div class="row donate">
+                                       
+                                    <div class="col-md-10 col-md-offset-1 fordesktop" *ngIf="item.NEEDTYPE == 'Gift Catalogue' && item.NEEDTYPE != 'Individual Needs'">
+                                        <span class="forRupee inQty needind">₹</span>
+                                        <input   name="" id="" (keypress)="keyPressonetime1($event,i,item)" readonly (change)="notmonthlyamountchange1(item.selectedquantity,i,item)"
+                                        type="number" class="input form-control input rs typeNumberOnly addCommaSep inQtyInput needindqty" [(ngModel)]="item.NEED_AMOUNT">
+                                        <span class="SelectQuantity tab">Qty {{item.selectedquantity}}</span>
+                                          <select [(ngModel)]="item.selectedquantity"  class='form-control common-form' (change)="ChangingValuenotmonthly1($event.target.value,i,item)">
+                                              <option [selected]='1' value='1'>1</option>
+                                              <option value='2'>2</option>
+                                              <option value='3'>3</option>
+                                              <option value='4'>4</option>
+                                              <option value='5'>5</option>
+                                              <option value='6'>6</option>
+                                              <option value='7'>7</option>
+                                              <option value='8'>8</option>
+                                              <option value='9'>9</option>
+                                              <option value='10'>10</option>
+                                                    </select>
+                                      </div>
+                                    
+                                      <div class="col-md-12 allneed-to toShowAddRemove">
+                                          <div *ngIf="item.NEEDTYPE == 'Recurrin Gifts'" class="col-md-8  col-md-offset-2 fordesktop recurring"> 
+                                      
+                                        
+                                          <span class="forRupee">₹</span>
+                                          <input *ngIf="item.NEED_AMOUNT != '0'" class="input col-md-6" name="" id="" (change)="notmonthlyamountchange1(item.selectedquantity,i,item)"
+                                          type="number" class="form-control input rs typeNumberOnly addCommaSep recurrin-gift" readonly [(ngModel)]="item.NEED_AMOUNT">
+                                           <div  class="col-md-6 col-sm-5 tab-onlyqty">
+                                          <select  class='form-control common-form' [(ngModel)]="item.selectedfrequency"
+                                          (change)="ChangingValue1(item.selectedfrequency,i,item)" >
+                                           
+                                    <option *ngFor="let dt of item.PAY_FREQUENCY" [ngValue]="dt">{{
+                                      dt.FREQUENCY }}</option>
+                                          </select>
+                                       </div>
+                                      
+                                        </div>
+                                        
+                                        <div class="percentageSection" *ngIf="item.NEEDTYPE == 'Individual Needs' && item.DONATION_PERCENTAGE != 100">
+                                         <div class="goal_amount">
+                                         <span>
+                                          Goal
+                                         </span>
+                                         <p>₹{{item.TOTAL_NEED_AMOUNT | number}}</p>
+                                         </div>
+                                         <div class="raised_amount">
+                                         <span> Required</span>
+                                         <p>₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT | number}}</p>
+                                         </div>
+                                         <div class="clearfix"></div>
+                                         <div class="progressBar_line">
+                                              <p class="inner_percent" [style.width.%]="item.DONATION_PERCENTAGE"></p>
+                                         </div>
+                                         <span *ngIf="item.DONATION_PERCENTAGE != '100'" class="percentInputWrapper" class="myContribution">My Contribution</span>
+                                         <span *ngIf="item.DONATION_PERCENTAGE != '100'" class="percentInputWrapper" class="percentInputWrapper">
+                                          <span class="forRupees">₹</span>
+                                          <input *ngIf="item.NEEDTYPE == 'Individual Needs'" class="input" name="" id="" (keypress)="keyPress1($event,i,item)" [(ngModel)]="item.val" (change)="indivitualchange1($event,item.val,i,item)" 
+                                          type="number" class="form-control input rs typeNumberOnly addCommaSep percentInput contributiondef" [disabled]="!item.removeFromCheckout"><button *ngIf="!item.removeFromCheckout" class="progressAdd"  (click)="donateNow(item)"><img src="../../../assets/images/giveThemAStartAdd-actmin.png"></button>
+                                          <button *ngIf="item.removeFromCheckout" class="progressAdd"  (click)="donateNow(item)"><img src="../../../assets/images/giveThemAStartAdd-act.png"></button>
+                                          <span class="forAmountAlert" *ngIf="item.val < item.MINIMUM_AMOUNT_PAYABLE && item.editable">Enter from ₹{{item.MINIMUM_AMOUNT_PAYABLE}} to ₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT}}</span>
+                                         </span> 
+                                       
+                                        <div class="clearfix"></div>
+                                    </div>      
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div *ngIf="item.NEEDTYPE != 'Individual Needs'"> 
+                              <div *ngIf="item.removeFromCheckout && item.NEEDTYPE != 'Individual Needs'" class="col-md-12 bottomCartAdd">
+                                  <button name="" (click)="donateNow(item)" class="btn "  ><span><img src="../../../assets/images/iconadd.png"></span></button>
+                               </div>
+                               <div *ngIf="!item.removeFromCheckout" class="col-md-12 bottomCartAdd">
+                                <button name="" class="btn removed" (click)="donateNow(item)"><span><img src="../../../assets/images/add1-.png"></span></button>
+                             </div>
+                            </div> 
+    </div>
+</div>
+
+</div>
+<div class="swiper-button-prev1" [hidden]="configDesktop.navigation === false"></div>
+<div class="swiper-button-next1" [hidden]="configDesktop.navigation === false"></div>
+</div>
+       
+</div>
+             </div>
+           
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+
+  <!--- for mobile tab-->
+  <div class="mobileversion-tab hidden-lg hidden-sm hidden-md">
+      <div class="row">
+        <div  class="col-xs-12">
+            <h3 class="givethem">Give Them A Start</h3>
+            <div class="col-xs-4 mblversiontabs">
+                <ul class="nav nav-tabs tabs-left">
+                    <li [class.active]="selectedIndex === i" *ngFor="let data of getCurrentSectors;let i = index">
+                        <a [class.active]="selectedIndex === i"  (click)="tabClick(data,i,'mobile','2')" id="nav-home-tab" data-toggle="tab" href="#{{data}}" role="tab" aria-controls="nav-home" >{{data}}</a>
+                       </li>
+                </ul>
+            </div>
+            <div class="col-xs-8 mblonlydis">
+                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                    <div class="tab-pane fade active in" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    <div class="content-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="auto">
+                                      <div  class="swiper-container swiper-init" [swiper]="config" [(index)]="index">
+                                        <div class="swiper-wrapper">
+                                            <div  *ngFor = "let item of resultArray;let i = index" class="col-xs-12 col-sm-6 col-lg-3 swiper-slide">
+                             <div class="MainBox allneed-tab " >
+                                <div class="imageBox">
+                                   <a> <img
+                                    src="{{item.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" alt="img_not_found"
+                                      class="img-responsive"></a> 
+                                </div>
+                                <div class="BoxName allneed-section">
+                                  <p class="loc">
+                                    <img src="/assets/images/location.png" class="location" alt="">
+                                   <span class="location-dis">{{item.ADP_STATE_NAME}}</span> 
+                                  </p>
+                                   <h2>{{item.NEED_NAME}}</h2>
+                                   <div class="sameHeight">
+                                      <h3 style="display: -webkit-box;
+                                      -webkit-line-clamp: 3;
+                                      -webkit-box-orient: vertical;
+                                      overflow: hidden;">{{item.NEED_SHORT_DESCRIPTION}}
+                                      </h3>
+                                      <p class="discription">
+                                      </p>
+                                   </div>
+                                   <div class="row donate">
+                                       
+                                    <div class="col-md-10 col-md-offset-1 fordesktop" *ngIf="item.NEEDTYPE == 'Gift Catalogue' && item.NEEDTYPE != 'Individual Needs'">
+                                        <span class="SelectQuantity tab">Qty {{item.selectedquantity}}</span>
+                                        <span class="forRupee inQty">₹</span>
+                                        <input   name="" id="" (keypress)="keyPressonetime1($event,i,item)" readonly (change)="notmonthlyamountchange1(item.selectedquantity,i,item)"
+                                        type="number" class="input form-control input rs typeNumberOnly addCommaSep inQtyInput" [(ngModel)]="item.NEED_AMOUNT">
+                                       
+                                          <select [(ngModel)]="item.selectedquantity"  class='form-control common-form' (change)="ChangingValuenotmonthly1($event.target.value,i,item)">
+                                              <option [selected]='1' value='1'>1</option>
+                                              <option value='2'>2</option>
+                                              <option value='3'>3</option>
+                                              <option value='4'>4</option>
+                                              <option value='5'>5</option>
+                                              <option value='6'>6</option>
+                                              <option value='7'>7</option>
+                                              <option value='8'>8</option>
+                                              <option value='9'>9</option>
+                                              <option value='10'>10</option>
+                                                    </select>
+                                      </div>
+                                    
+                                      <div class="col-md-12 allneed-to">
+                                          <div *ngIf="item.NEEDTYPE == 'Recurrin Gifts'" > 
+                                       <div class="col-md-8  col-md-offset-2 fordesktop recurring">
+                                          <span class="forRupee">₹</span>
+                                          <input *ngIf="item.NEED_AMOUNT != '0'" class="input col-md-6" name="" id="" (change)="notmonthlyamountchange1(item.selectedquantity,i,item)"
+                                          type="number" class="form-control input rs typeNumberOnly addCommaSep" readonly [(ngModel)]="item.NEED_AMOUNT">
+                                           <div  class="col-md-6 col-sm-5 tab-onlyqty">
+                                          <select  class='form-control' [(ngModel)]="item.selectedfrequency"
+                                          (change)="ChangingValue1(item.selectedfrequency,i,item)" >
+                                           
+                                    <option *ngFor="let dt of item.PAY_FREQUENCY" [ngValue]="dt">{{
+                                      dt.FREQUENCY }}</option>
+                                          </select>
+                                       </div>
+                                      </div>
+                                        </div>
+                                        
+                                        <div class="percentageSection" *ngIf="item.NEEDTYPE == 'Individual Needs' && item.DONATION_PERCENTAGE != 100">
+                                         <div class="goal_amount">
+                                         <span>
+                                          Goal
+                                         </span>
+                                         <p>₹{{item.TOTAL_NEED_AMOUNT | number}}</p>
+                                         </div>
+                                         <div class="raised_amount">
+                                         <span> Required</span>
+                                         <p>₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT | number}}</p>
+                                         </div>
+                                         <div class="clearfix"></div>
+                                         <div class="progressBar_line">
+                                              <p class="inner_percent" [style.width.%]="item.DONATION_PERCENTAGE"></p>
+                                         </div>
+                                         <span *ngIf="item.DONATION_PERCENTAGE != '100'" class="percentInputWrapper" class="myContribution">My Contribution</span>
+                                         <span *ngIf="item.DONATION_PERCENTAGE != '100'" class="percentInputWrapper" class="percentInputWrapper">
+                                          <span class="forRupees">₹</span>
+                                          <input *ngIf="item.NEEDTYPE == 'Individual Needs'" class="input" name="" id="" (keypress)="keyPress1($event,i,item)" [(ngModel)]="item.val" (change)="indivitualchange1($event,item.val,i,item)" 
+                                          type="number" class="form-control input rs typeNumberOnly addCommaSep percentInput" [disabled]="!item.removeFromCheckout"><button *ngIf="!item.removeFromCheckout" class="progressAdd"  (click)="donateNow(item)"><img src="../../../assets/images/giveThemAStartAdd-actmin.png"></button>
+                                          <button *ngIf="item.removeFromCheckout" class="progressAdd"  (click)="donateNow(item)"><img src="../../../assets/images/giveThemAStartAdd-act.png"></button>
+                                          <span class="forAmountAlert" *ngIf="item.val < item.MINIMUM_AMOUNT_PAYABLE && item.editable">Enter from ₹{{item.MINIMUM_AMOUNT_PAYABLE}} to ₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT}}</span>
+                                         </span> 
+                                       
+                                        <div class="clearfix"></div>
+                                    </div>
+                                      </div>
+                                   </div>
+                                </div>
+                               
+                             </div>
+                             <div *ngIf="item.NEEDTYPE != 'Individual Needs'">
+                                <div *ngIf="item.removeFromCheckout" class="col-md-12">
+                                    <button name="" (click)="donateNow(item)" class="btn bottomPlus"  ><span>+</span></button>
+                                 </div>
+                                 <div *ngIf="!item.removeFromCheckout" class="col-md-12">
+                                  <button name="" class="btn bottomPlus remove" (click)="donateNow(item)"><span>-</span></button>
+                               </div>
+                              </div>
+                        </div>
+                    </div>
+                   
+                   </div>
+                    <div class="swiper-button-prev2" [hidden]="config.navigation === false"></div>
+                    <div class="swiper-button-next2" [hidden]="config.navigation === false"></div>
+                </div>
+                           
+                    </div>
+                  
+                 </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+          
+      </div>
+  </div>
+
+  <!-- mobile tab end-->
+  <div class="container demo">
+    <!-- Modal -->
+    <div class="modal right fade modal-fadeout" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+       <div class="modal-dialog" role="document">
+          <div class="modal-content rightpopup">
+             <div class="modal-header">
+                <button type="button"  data-backdrop="false" class="close" data-dismiss="modal" aria-label="Close" (click)="closeCartModal()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">You are a True Warrior</h4>
+             </div>
+             <div class="modal-body rightpop-content">
+                <div class="row warrierpopup">
+                   <div class="col-md-12 text-center">
+                   
+                   </div>
+                </div>
+                <div class="row" *ngFor = "let data of checkoutArray;let i = index">
+                   <div class="col-md-5 col-xs-4">
+                      <p class="donation-flow">{{data.NEED_NAME}}</p>
+                   </div>
+                   <div class="col-md-7 col-xs-7 rightpopup-amount">
+                      <div *ngIf="data.NEEDTYPE == 'Gift Catalogue' && !data.selected">   
+                        <span class="SelectQuantities">Qty {{data.selectedquantity}}</span>
+                        <span class="forRupeess">₹</span>
+                          <select [(ngModel)]="data.selectedquantity" (change)="ChangingValuecheckout($event.target.value,i,data)"  class='form-control chooseQuantity'  
+                               >
+                        <option [selected]='1' value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                        <option value='6'>6</option>
+                        <option value='7'>7</option>
+                        <option value='8'>8</option>
+                        <option value='9'>9</option>
+                        <option value='10'>10</option>
+                       
+                              </select>
+                          </div>
+                          <div *ngIf="data.NEEDTYPE == 'Recurrin Gifts' && !data.selected">
+                            <span class="SelectQuantities">{{data.selectedfrequencyval}}</span>
+                          <select [(ngModel)]="data.selectedfrequency"  class='form-control chooseQuantity' 
+                          (change)="ChangingValuecheckoutfre(data.selectedfrequency,i,data)" >
+                    <option *ngFor="let dt of data.PAY_FREQUENCY" [ngValue]="dt">{{
+                      dt.FREQUENCY }}</option>
+                          </select>
+                      </div>
+                      <span class="forRupeess">₹</span>
+                      <input *ngIf="!data.selected" [(ngModel)]="data.NEED_AMOUNT"  readonly type="text" class="donate-input inCartInput">
+                      <input *ngIf="data.selected" readonly type="number" (change)="totalamountcalculation()" [(ngModel)]="data.NEED_AMOUNT" class="donate-input inCartInput">
+                   </div>
+                   <span (click)="deleteitem(i,data)" class="remove-item"><img src="../../../assets/images/remove.png" class="removecart-item"></span>
+                </div>
+                <div class="row">
+                   <div class="col-md-12">
+                      <p><input readonly type="text" class="donate-input" placeholder="Grand Total"><span class="total">&#8377;{{total}}</span></p>
+                   </div>
+                </div>
+                <div class="content-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="auto">
+                    <div  class="swiper-container swiper-init cart-swiper" [swiper]="configswip" [(index)]="indexCart">
+                      <div class="swiper-wrapper">
+                          <div  *ngFor = "let item of UrgentNeeds;let i = index" class="cartItem swiper-slide">
+                            <div>
+                            <!-- <div [style.display]="item.selected == true?'none': 'block'"  class="col-md-12"> -->
+                                <div  class="col-md-4 col-xs-4 forNonPadding">
+                                    <img src="{{item.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" class="donateimgview">
+                                    <img src="../../../assets//images/donate2.png" class="donateicon">
+                                 </div>
+                                 <div  class="col-md-5 col-xs-5 urgentNeedName">
+                                     <h5>{{item.NEED_NAME}}</h5>
+                                    <p style="display: -webkit-box;
+                                    -webkit-line-clamp: 3;
+                                    -webkit-box-orient: vertical;
+                                    overflow: hidden;" class="donateneed">
+                                        {{ item.NEED_SHORT_DESCRIPTION}}.
+                                    </p>
+                                    <div *ngIf="item.NEEDTYPE == 'Individual Needs' && item.DONATION_PERCENTAGE != 100">
+                                        <span> Required</span>
+                                        <p>₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT | number}}</p>
+                                    </div>
+                                 </div> 
+                                 <div class="col-md-3 col-xs-3 urgetContainer">
+                                    <span class="urgentRupees">₹</span>
+                                    <input  name=""  id="" (keypress)="keyPressurget($event,i,item)" (change)="urgentchange($event,item.val,i,item)"
+                                    type="number" class="form-control urgentInput" [(ngModel)]="item.val" [disabled]="!item.removeFromCheckout">
+                                    <span class="urgentAlert" *ngIf="item.val < item.MINIMUM_AMOUNT_PAYABLE && item.editable">Enter from ₹{{item.MINIMUM_AMOUNT_PAYABLE}} to ₹{{item.TOTAL_NEED_AMOUNT - item.DONATION_AMOUNT}}</span>
+                                    <button *ngIf="!item.removeFromCheckout" (click)="donateNow(item)" class="btn urgentbtn" name="" >Remove<span class="urgentAdd"><img src="../../../assets/images/acco-min.png"></span></button>
+                                    <button *ngIf="item.removeFromCheckout" (click)="donateNow(item)" class="btn urgentbtn" name="" >Donate<span class="urgentAdd"><img src="../../../assets/images/acco-plus.png"></span></button>
+
+                                 </div> 
+                                </div>
+      </div>
+  </div>
+ 
+ </div>
+ <div class="swiper-button-prev4 prv" [hidden]="configswip.navigation === false"></div>
+ <div class="swiper-button-next4 nxt" [hidden]="configswip.navigation === false"></div>
+</div>
+           
+             </div>
+
+             <div class="modal-footer rightpopfoot">
+             <div class="donate-more">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                   <p class="slide-donate" (click)="DonateMore()">Donate More</p>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                   <button name="" [disabled]="total <= 0" class="BtnBox pay" (click)="pay()">PAY NOW
+                 </button>
+                   <!-- <button name="" id="openModalButton" [hidden]="true" class="BtnBox" data-toggle="modal" data-target="#myModal" value="">PAY NOW</button> -->
+                </div>
+             </div>
+             </div>
+          </div>
+          <!-- modal-content -->
+       </div>
+       <!-- modal-dialog -->
+    </div>
+    <!-- modal -->
+  </div>
+  <!-- container -->
+  <!-- Stickyfooter -->
+  <!-- <div class="checkout">
+        <button name="" class="BtnBox" data-toggle="modal" data-target="#myModal2" value="" (click)="forCarousel()">{{total}}</button>
+  </div> -->
+  <div class="checkout">
+    <div class="row">
+        <div class="container checkout-main">
+            <div class="alert-close" (click)="stickyclose()"><img src="../../../assets/images/remove.png"></div>
+        <div class="col-md-3 col-md-offset-2 col-xs-12 col-sm-3">
+            <h3 class="checkout-h3">Donation Saved in Heart</h3>
+               
+         </div>
+         <div class="col-md-1 col-sm-1 hidden-xs">
+            <img src="../../../assets/images/arrow2-right.png" class="donate-checkout">
+         </div>
+        <div class="col-md-1 col-sm-3 col-xs-5">
+            <h3 class="checkout-text">Checkout</h3>
+            
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+            <button name="" class="BtnBox-donate" value="" (click)="forCarousel()">&#8377;{{total}}</button>
+        </div>
+        <!-- <div class="col-md-3 col-sm-3 col-xs-6">
+            <button name="" class="BtnBox-donate" data-toggle="modal" data-target="#myModal2" value="" (click)="forCarousel()">&#8377;{{total}}</button>
+        </div> -->
+    </div>
+    </div>
+    
+</div>
+
+  <div class="container">
+    <div class="modal fade modal-fadeout" id="myModal" tabindex="-1" role="dialog" >
+       <div class="modal-dialog">
+          <div class="modal-content signup">
+             <div class="modal-header">
+                <!-- <h4 class="modal-title signupform">Sign Up</h4> -->
+                <h4 class="signin">Sign In</h4>
+                <span class="createInSign">Or</span>
+                <a href="javascript:void(0)"
+                (click)="Changesignup()" class="createInSign">
+                Create An Account</a>
+                <h4 class="modal-title forgotpassword">Forgot Password</h4>
+                <button type="button"  data-backdrop="" class="close" data-dismiss="modal" aria-label="Close" (click)="closeCartModal()">&times;</button>
+             </div> 
+             <div class="modal-body signup">
+                <div class="row">
+                   <div class="form-group text-center signupform">
+                      <p class="registerText">Already have an account? &nbsp;<a href="javascript:void(0)"
+                         (click)="ChangeModel()" id="triggerSignin" class="signinTrigger">
+                         Sign In.</a>
+                      </p>
+                      <p>Or</p>
+                      <p class="account-create">Create An Account</p>
+                   </div>
+                   <div class="col-xs-12 ConnectWithUs formWapper">
+                    <form #SIGNUPFORM="ngForm" name="signupform" class="signupform" (ngSubmit)="SignUpSuccess(SIGNUPFORM)" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="contact-detail">Name and contact details</h3>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- <h3 class="contact-detailallneed">All fields are mandatory </h3> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <label class="filedname selectedLabel" for="sign_up_title">Title</label>
+                                    <select class="form-control" [(ngModel)]="SIGN_UP_TITLE" #S_TITLE="ngModel"
+                                    name="sign_up_title" id="sign_up_title" required>
+                                    <option value="" selected disabled>Select</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                </select>
+                                <div class="errorMsg"
+                                    *ngIf="(S_TITLE.touched && !S_TITLE.valid) || (SIGNUPFORM.submitted && !S_TITLE.valid)">
+                                    <span *ngIf="S_TITLE.errors.required">Title is required.</span>
+                                </div>
+                                </div>
+                                <!-- <div class="col-xs-12 col-sm-8">
+                                   
+                                </div> -->
+                            </div>
+                           </div>
+                           <div class="row">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="First Name" [(ngModel)]="SIGN_UP_FIRSTNAME"
+                                        #S_FIRSTNAME="ngModel" id="sign_up_firstName" name="sign_up_firstName" pattern="[a-zA-Z&amp; ]*" required/>
+                                        <label for="sign_up_firstName"  class="filedname" >First Name</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_FIRSTNAME.touched && !S_FIRSTNAME.valid) || (SIGNUPFORM.submitted && !S_FIRSTNAME.valid)">
+                                        <span *ngIf="S_FIRSTNAME.errors.required">First name is required.</span>
+                                        <span *ngIf="S_FIRSTNAME.errors.pattern">Please enter valid characters.</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_LASTNAME"
+                                        #S_LASTNAME="ngModel" id="sign_up_lastName" name="sign_up_lastName" pattern="[a-zA-Z&amp; ]*" required/>
+                                        <label for="sign_up_lastName"  class="filedname" >Last Name</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_LASTNAME.touched && !S_LASTNAME.valid) || (SIGNUPFORM.submitted && !S_LASTNAME.valid)">
+                                        <span *ngIf="S_LASTNAME.errors.required">Last name is required.</span>
+                                        <span *ngIf="S_LASTNAME.errors.pattern">Please enter valid characters.</span>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                            
+                           <div class="row">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control NumberOnly"  type="tel" placeholder="Last Name" [(ngModel)]="SIGN_UP_MOBILE"
+                                        #S_MOBILE_NO="ngModel" id="sign_up_mobile" name="sign_up_mobile"
+                                        minlength="10" maxlength="10" pattern="^([5-9]{1})([0-9]{9})$" required/>
+                                        <label for="sign_up_mobile"  class="filedname" >Mobile No.</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_MOBILE_NO.touched && !S_MOBILE_NO.valid) || (SIGNUPFORM.submitted && !S_MOBILE_NO.valid)">
+                                        <span *ngIf="S_MOBILE_NO.errors.required">Contact number is required.</span>
+                                        <span *ngIf="S_MOBILE_NO.errors.pattern">Please enter a valid number.</span>
+                                        <span *ngIf="S_MOBILE_NO.errors.minlength">Enter a valid {{ S_MOBILE_NO.errors.minlength.requiredLength }}-digit mobile number.</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="email" placeholder="Last Name" [(ngModel)]="SIGN_UP_EMAILID"
+                                        #S_EMAIL_ID="ngModel" id="sign_up_emailid" name="sign_up_emailid"
+                                        pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required/>
+                                        <label for="sign_up_emailid"  class="filedname" >Email ID</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_EMAIL_ID.touched && !S_EMAIL_ID.valid) || (SIGNUPFORM.submitted && !S_EMAIL_ID.valid)">
+                                        <span *ngIf="S_EMAIL_ID.errors.required">Email ID is required.</span>
+                                        <span *ngIf="S_EMAIL_ID.errors.pattern">Please enter a valid Email ID.</span>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                           <div class="row">
+                               <h3 class="contact-detail-sign">Address</h3>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_ADDRESS_LINE_1"
+                                        #S_ADDRESS_A="ngModel" name="SIGN_UP_line1" maxlength="150" required/>
+                                        <label class="filedname" for="SIGN_UP_line1">Address Line 1</label>
+                                    </span>
+                                    <div class="errorMsg" 
+                                        *ngIf="(S_ADDRESS_A.touched && !S_ADDRESS_A.valid) || (SIGNUPFORM.submitted && !S_ADDRESS_A.valid)">
+                                        <span *ngIf="S_ADDRESS_A.errors.required">Address line 1 is required.</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_ADDRESS_LINE_2"
+                                        #S_ADDRESS_B="ngModel" name="SIGN_UP_line2"  maxlength="150" />
+                                        <label class="filedname" for="SIGN_UP_line2">Address Line 2</label>
+                                      </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_ADDRESS_B.touched && !S_ADDRESS_B.valid) || (SIGNUPFORM.submitted && !S_ADDRESS_B.valid)">
+                                        <span *ngIf="S_ADDRESS_B.errors.required">Address line 2 is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                           <div class="row">
+   
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_ADDRESS_LINE_3"
+                                        #S_ADDRESS_C="ngModel" name="SIGN_UP_line3"  maxlength="150" />
+                                        <label class="filedname" for="SIGN_UP_line3">Address Line 3</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                    *ngIf="(S_ADDRESS_C.touched && !S_ADDRESS_C.valid) || (SIGNUPFORM.submitted && !S_ADDRESS_C.valid)">
+                                        <span *ngIf="S_ADDRESS_C.errors.required">Address line 3 is required.</span>
+                                    </div>   
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control NumberOnly"  type="tel" placeholder="Last Name" [(ngModel)]="SIGN_UP_POSTALCODE"
+                                        #S_POSTOL_CODE="ngModel" id="" name="sign_up_postal"
+                                        minlength="6" maxlength="6"
+                                        pattern="^[1-9][0-9]{5}$" required/>
+                                        <label class="filedname" for="sign_up_postal">Pin Code</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_POSTOL_CODE.touched && !S_POSTOL_CODE.valid) || (SIGNUPFORM.submitted && !S_POSTOL_CODE.valid)">
+                                        <span *ngIf="S_POSTOL_CODE.errors.required">Pin Code is required.</span>
+                                        <span *ngIf="S_POSTOL_CODE.errors.pattern">Please enter valid Pin Code.</span>
+                                        <span *ngIf="S_POSTOL_CODE.errors.minlength">Please enter a valid {{ S_POSTOL_CODE.errors.minlength.requiredLength }}-digit Pin Code. </span>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                           <div class="row">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_CITY"
+                                        #S_CITY="ngModel" id="sign_up_city" name="sign_up_city"
+                                        pattern="[a-zA-Z&amp; ]*" required/>
+                                        <label class="filedname" for="sign_up_city">City</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_CITY.touched && !S_CITY.valid) || (SIGNUPFORM.submitted && !S_CITY.valid)">
+                                        <span *ngIf="S_CITY.errors.required">City is required.</span>
+                                        <span *ngIf="S_CITY.errors.pattern">Please enter valid characters.</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_STATE"
+                                        #S_STATE="ngModel" id="sign_up_state" name="sign_up_state"
+                                        pattern="[a-zA-Z&amp; ]*" required/>
+                                        <label class="filedname" for="sign_up_state">State</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_STATE.touched && !S_STATE.valid) || (SIGNUPFORM.submitted && !S_STATE.valid)">
+                                        <span *ngIf="S_STATE.errors.required">State is required.</span>
+                                        <span *ngIf="S_STATE.errors.pattern">Please enter valid characters.</span>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                       <div class="row">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="text" placeholder="Last Name" [(ngModel)]="SIGN_UP_COUNTRY"
+                                        #S_COUNTRY="ngModel" id="sign_up_country" name="sign_up_country"
+                                        pattern="[a-zA-Z&amp; ]*" required/>
+                                        <label class="filedname" for="sign_up_country">Country</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_COUNTRY.touched && !S_COUNTRY.valid) || (SIGNUPFORM.submitted && !S_COUNTRY.valid)">
+                                        <span *ngIf="S_COUNTRY.errors.required">Country is required.</span>
+                                        <span *ngIf="S_COUNTRY.errors.pattern">Please enter valid characters.</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                   <label class="filedname selectedLabel"
+                                        for="sign_up_nationality">Nationality</label>
+                                        <select class="form-control" [(ngModel)]="SIGN_UP_NATIONALITY"
+                                        #S_NATIONALITY="ngModel" name="sign_up_nationality" id="sign_up_nationality"
+                                        required>
+                                        <option value="" selected disabled>Select</option>
+                                        <option value="1">Indian</option>
+                                        <option value="2">Non-Indian</option>
+                                    </select>
+                                    <div class="errorMsg"
+                                        *ngIf="(S_NATIONALITY.touched && !S_NATIONALITY.valid) || (SIGNUPFORM.submitted && !S_NATIONALITY.valid)">
+                                        <span *ngIf="S_NATIONALITY.errors.required">Nationality is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+   
+                           <div class="row">
+                               <h3 class="contact-detail-sign">Credentials</h3>
+                               <div class="form-group">
+                                   <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="password" placeholder="Last Name" [(ngModel)]="SIGN_UP_PASSWORD"
+                                        #S_PASSWORD="ngModel" id="sign_up_PasswordCtrl" name="sign_up_PasswordCtrl"
+                                        (blur)="ConfirmPassword(SIGN_UP_CONFIRM_PASSWORD, $event)"
+                                           pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+()-_+=])(?=\S+$).{8,}$"
+                                           required/>
+                                        <label class="filedname">Password</label>
+                                    </span>
+                                    <div class="errorMsg"
+                                       *ngIf="(S_PASSWORD.touched && !S_PASSWORD.valid) || (SIGNUPFORM.submitted && !S_PASSWORD.valid)">
+                                        <span *ngIf="S_PASSWORD.errors.required">Password is required.</span>
+                                        <span *ngIf="S_PASSWORD.errors.pattern">Password must be 8-20 character sand must include at least 1 number, 1 capital letter and 1 special character.</span>
+                                       </div>
+                                   </div>
+                                   <div class="col-xs-12 col-sm-6">
+                                    <span class="has-float-label">
+                                        <input class="form-control"  type="password" placeholder="Last Name" [(ngModel)]="SIGN_UP_CONFIRM_PASSWORD"
+                                            #S_CONFIRM_PASSWORD="ngModel" id="sign_up_ConfirmPasswordCtrl" name="sign_up_ConfirmPasswordCtrl"
+                                            (blur)="ConfirmPassword(SIGN_UP_PASSWORD, $event)"
+                                            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+()-_+=])(?=\S+$).{8,}$"
+                                            required/>
+                                            <label class="filedname">Confirm Password</label>
+                                        </span>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_CONFIRM_PASSWORD.touched && !S_CONFIRM_PASSWORD.valid) || (SIGNUPFORM.submitted && !S_CONFIRM_PASSWORD.valid)">
+                                            <span *ngIf="S_CONFIRM_PASSWORD.errors.required">Re-enter your
+                                                Password.</span>
+                                        </div>
+                                  <div class="errorMsg" *ngIf="!CHANGEPASSWORD">
+                                      <span>Passwords do not match. Please re-enter.</span>
+                                  </div>
+                                   </div>
+                               </div>
+                              </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-md-4 col-md-offset-4 text-center">
+                            <button type="submit" value="Submit" class="BtnBox">SIGN UP</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                   <form #LOGINFORM="ngForm" name="signinform" class="signin" (ngSubmit)="GetLoginSuccess(LOGINFORM)" novalidate>
+                    <div class="form-group">
+                       <!--  <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div> -->
+                        <div class="col-xs-12 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
+                            <span class="has-float-label">
+                                <input class="form-control"  type="email" placeholder="Last Name" [(ngModel)]="LOGIN_EMAILID"
+                                #L_EMAILID="ngModel" id="txtEmail" name="txtEmail"
+                                pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required/>
+                                <label for="txtEmail"  class="filedname" >Email ID</label>
+                              </span>
+                           <!--  <input [(ngModel)]="LOGIN_EMAILID" #L_EMAILID="ngModel" id="txtEmail"
+                                name="txtEmail" type="text" class="form-control"
+                                placeholder="Enter your registered Email"
+                                pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required /> -->
+                            <div class="errorMsg"
+                                *ngIf="(L_EMAILID.touched && !L_EMAILID.valid) || (LOGINFORM.submitted && !L_EMAILID.valid)">
+                                <span *ngIf="L_EMAILID.errors.required">Email ID is required.</span>
+                                <span *ngIf="L_EMAILID.errors.pattern">Please enter a valid Email ID.</span>
+                            </div>
+                        </div>
+                    </div>
+  
+                    <div class="form-group">
+                      <!--   <div class="col-xs-12 col-sm-5 col-md-5 filedname">Password<sup>*</sup> </div> -->
+                        <div class="col-xs-12 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
+                            <span class="has-float-label">
+                                <input class="form-control"  type="password" placeholder="Password" [(ngModel)]="LOGIN_PASSWORD"
+                                #LOGINPASSWORD="ngModel" id="PasswordCtrl" name="PasswordCtrl"
+                                 required/>
+                                <label for="PasswordCtrl"  class="filedname" >Password</label>
+                              </span>
+                           <!--  <input [(ngModel)]="LOGIN_PASSWORD" #LOGINPASSWORD="ngModel" id="PasswordCtrl"
+                                name="PasswordCtrl" type="password" class="form-control" placeholder="Password"
+                                required /> -->
+                            <div class="errorMsg"
+                                *ngIf="(LOGINPASSWORD.touched && !LOGINPASSWORD.valid) || (LOGINFORM.submitted && !LOGINPASSWORD.valid)">
+                                <span *ngIf="LOGINPASSWORD.errors.required">Password is required.</span>
+                                <!--<span *ngIf="TXTCONTECTNO.errors.minlength">Contact No. should be minimum {{ TXTCONTECTNO.errors.minlength.requiredLength
+                            }} characters.</span> -->
+                            </div>
+                            <div class="errorMsg" *ngIf="LOGINPASSWORD_WORNG">
+                                <span>You have entered an invalid username or password.</span>
+                            </div>
+                        </div>
+                        
+                    </div>
+  
+  
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2 text-center">
+                        <div class="text-center">
+                            <p class="registerText forgotPwd"><a href="javascript:void(0)" (click)="forgotPassChangeScreen()">
+                                    Forgot Password</a></p>
+                        </div>
+                        <input type="submit" value="Submit" class="BtnBox">
+                    </div>
+                   
+                    <div class="clearfix"></div>
+                </form>
+                <form #FORGOTPASSFORM="ngForm" class="forgotpassword" (ngSubmit)="GetForgotPassSuccess(FORGOTPASSFORM)" novalidate>
+                  <div class="form-group">
+                      <!-- <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div> -->
+                      <div class="col-xs-12 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
+                        <span class="has-float-label">
+                            <input class="form-control"  type="email" placeholder="Last Name" [(ngModel)]="FORGOT_PASS_EMAILID"
+                            #FP_EMAILID="ngModel" id="FP_Email" name="FP_Email"
+                            pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required/>
+                            <label for="FP_Email"  class="filedname" >Email ID</label>
+                          </span>
+                          <!-- <input [(ngModel)]="FORGOT_PASS_EMAILID" #FP_EMAILID="ngModel" id="FP_Email"
+                              name="FP_Email" type="text" class="form-control"
+                              placeholder="Enter your registered Email"
+                              pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required /> -->
+                          <div class="errorMsg"
+                              *ngIf="(FP_EMAILID.touched && !FP_EMAILID.valid) || (FORGOTPASSFORM.submitted && !FP_EMAILID.valid)">
+                              <span *ngIf="FP_EMAILID.errors.required">Email ID is required.</span>
+                              <span *ngIf="FP_EMAILID.errors.pattern">Please enter a valid Email ID.</span>
+                          </div>
+                          <div class="errorMsg" *ngIf="ForgotPassError">
+                              <span>Please enter a valid Email ID.</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                      <input type="submit" value="Submit" class="BtnBox">
+                  </div>
+              </form>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>

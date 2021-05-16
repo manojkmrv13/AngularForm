@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li class="active">Search</li>
+      </ul>
+      <h1 class="pull-left">Search</h1>
+    </div>
+  </div>
+
+  <div class="row sections">
+    <div class="container">
+        <div class="row" *ngIf="SearchData?.length < 1">
+          <div class="col-xs-12">
+            <h4> No Records Found</h4>
+          </div>
+        </div>
+      <div class="row" *ngIf="SearchData?.length > 0">
+        <div class="col-xs-12" *ngFor="let need of SearchData">
+          <div class="imgBoxItem pull-left"><a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"><img src="{{need.NEED_THUMBNAIL_IMAGE_2_FILEPATH}}" class="img-responsive" /></a></div>
+          <h4><a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}">{{need.NEED_NAME}}</a></h4>
+          <p [innerHTML]="need.NEED_SHORT_DESCRIPTION"></p>
+          <hr/>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+
+</div>

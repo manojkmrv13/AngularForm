@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li class="active">Pledge your Support</li>
+      </ul>
+      <h1>Pledge your Support</h1>
+    </div>
+  </div>
+  <br /><br />
+  <div class="row" *ngFor="let need of pledgeSupportTopData">
+    <div class="container">
+      <div class="row PledgeWapper">
+        <div class="col-xs-12 col-sm-12 col-md-7">
+          <h2>{{need.PLEDGE_TITLE}}</h2>
+          <p class="t1">{{need.DESCRIPTION}}</p>
+          <a href="#" class="BtnBox">Pledge Now</a>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-5">
+          <img src="{{need.SUPPORTING_DOCUMENT_NAME_3_FILEPATH}}"
+            onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" class="img-responsive">
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div class="PledgeWapper RecentActivity row">
+    <div class="container">
+      <h2 class="heading">More to pledge</h2>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" *ngFor="let need of pledgeSupportData">
+          <div class="MainBox">
+            <div class="imageBox"> <img src="{{need.SUPPORTING_DOCUMENT_NAME_1_FILEPATH}}"
+                onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" class="img-responsive">
+            </div>
+            <div class="BoxName">
+              <!-- <div class="icon"><img src="/assets/images/Icon-Education.png"></div>
+            <h2><a href="#">Education</a></h2>
+            <div class="clearfix"></div>
+            <hr> -->
+              <h3>{{need.PLEDGE_TITLE}}</h3>
+              <p>{{need.SHORT_DESCRIPTION}}</p>
+              <a href="#" class="BtnBox">Pledge Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

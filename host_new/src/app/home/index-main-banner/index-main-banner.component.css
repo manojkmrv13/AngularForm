@@ -1,0 +1,56 @@
+.indexSlider { position:relative; border-bottom: 3px solid #f37021; }
+.indexSlider .slideContainer { position: relative; width: 100%; display: block;}
+.indexSlider .bannBg { position: absolute; height: 100%; width: 100%; top: 0; left: 0; }
+.indexSlider .container { position:relative; }
+.indexSlider .slide1 {   background-position: top right !important; }
+.indexSlider .slide1:before { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 100%; background :url(/assets/images/Loader.gif) no-repeat center center; z-index: -1;; }
+.indexSlider .slide2 {  background-size:auto 100% ; }
+.indexSlider { position:relative; }
+.indexSlider .banImg { position: absolute; height: 100%; width: 100%; overflow: hidden; }
+/* .indexSlider .banImg img { width: 100%; }*/
+.indexSlider .bannImg { width:100%; }
+.indexSlider .textBox { position:absolute; width:40%; height:100%; bottom:100px;transition: all 1200ms 200ms ease-in; }
+     .indexSlider .textBox > div { padding:0 15px; bottom:0px; position: absolute; }
+
+.indexSlider .slideIteam { position:relative; font-weight:600; }
+.indexSlider .slideIteam .bannerText { height:auto; } 
+.indexSlider h2 { font-size:50px; /*color:#f37021;*/ color: #f37021; font-family: 'Lato',sans-serif; font-weight:900;  }
+.indexSlider p { font-size:16px; color:#ffffff; font-family: 'Lato',sans-serif; font-weight: 300; font-style: normal; }
+.indexSlider p a { color:#f37021;}
+.indexSlider .donateNow { padding:10px 20px; color:#ffffff; background:#f37021; border:none; border-radius:20px; margin:15px 0; }
+.indexSlider .slick-dots li button:before {  display: none; }
+.indexSlider .slick-current .textBox { bottom:140px;  opacity: 1; }
+
+.indexSliderSlider .bannerImg { width:100%; }
+.leftRs { position: absolute; margin: auto; top: 0; bottom: 0; width: 34px; height: 55px; background :url(/assets/images/index-banner-arrow-left.png) no-repeat left;
+border:none; border-radius: 999px; left: 0; z-index: 10; opacity: 0.6; background-size: contain; }
+
+.rightRs {
+   position: absolute;  margin: auto;  top: 0;  bottom: 0;  width: 34px;  height: 55px;  background :url(/assets/images/index-banner-arrow-right.png) no-repeat right;  border:none;  border-radius: 999px;  right: 0;  z-index: 10;  opacity: 0.6;  background-size: contain;}
+.leftRs:hover, .rightRs:hover { opacity: 1; }
+.CarouselPoint li { width: 40px; height: 5px; border-radius: 0; padding: 0; }
+.CarouselPoint li.active { width: 40px; height: 5px; background: #f37021;  }
+.slick-dots li button:before { display: none; }
+@media (max-width: 1600px) {
+    .indexSlider .slide1 {  background-size:auto 100%;}
+}
+@media (max-width: 991px) {    
+    .indexSlider h2 { font-size:30px; }
+    .indexSlider .textBox { width: 50%; padding-left: 20px; }
+    .leftRs, .rightRs { height: 40px; }
+    .sociaIconlLinls { top: 8%; }
+    .indexSlider .textBox { bottom: 20px; }
+    .indexSlider .slick-current .textBox { bottom:40px; }
+}
+
+@media (max-width: 767px) {
+    .indexSlider .donateNow  { padding:4px 10px;  }
+    .indexSlider .textBox { width:100%; min-height: 350px; position: relative; padding-left: 0; }
+    .indexSlider .slick-dots { bottom:0px !important; }
+    .indexSlider .slick-dots li { height:6px; width:20px !important; }
+    .leftRs, .rightRs { height: 30px; }    
+}
+@media (max-width: 480px) {   
+    .indexSlider { margin-top: 65px;} 
+    .indexSlider .textBox {  min-height: 250px; position: relative; padding-left: 0; }
+}

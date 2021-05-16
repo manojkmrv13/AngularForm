@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <div class="row PageName" style="padding: 0 0 0 0">
+      
+    </div>
+  </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="container GetInvoledWapper">
+      <div class="row" *ngFor="let fundraise of FUNDRAISE_DETAIL">
+        <div class="col-xs-12 text-center formWapper">
+              <br/><br/>
+          <h3>You have been invited by <span style="display: none; " id="INVITEDEMAILID">{{fundraise.DONOR_EMAILID}}</span><span style="font-size:1.2em; color:#f37021" >{{fundraise.DONOR_USERNAME}} </span>to raise fund of  <span style="font-size:1.2em; color:#f37021">{{fundraise.FUNDRAISE_AMOUNT}} </span>  for good cause.</h3>
+          <h5 *ngIf="DONORID == 0">Please Login or Sign Up to view details</h5>
+          <div class="form-group text-center" *ngIf="DONORID == 0">
+              <div class="col-xs-12 text-center">
+                  <h4>New User <button name="" class="btn btn-primary"  (click)="OpenModel('signupBtn')">Sign Up</button></h4>
+                </div>
+                <div class="col-xs-12 text-center">
+                  <h4>I already have an account, <button class="btn btn-primary"  (click)="OpenModel('signIn')">Login</button></h4>
+                  <br/><br/><br/><br/>
+                </div>
+          </div><br/><br/>
+          <div class="form-group text-center" *ngIf="DONORID > 0" >
+             <h4><button class="btn btn-primary" style="font-size:1em" (click)='fundraiseDonate()' >Start Fundraise</button></h4> 
+          </div>
+          <br/><br/><br/><br/><br/><br/>
+        </div>
+      </div>
+
+
+      <!-- <div class="GetInvoledWapper col-xs-12 col-md-8 col-md-push-2">
+        <h2>Sign Up
+          <br>
+          <span>{{DONOR_USERNAME}} <br/> {{DONOR_MOBILE}} <br/>{{DONOR_EMAILID}}<br/>{{FUNDRAISE_NAME}}</span>
+        </h2>
+        <hr>        
+        <div class="col-xs-12 text-center">
+          <input name="" type="button" value="Sign up with Facebook" class="BtnFB">
+          <input name="" type="button" value="Sign up with LinkedIn" class="BtnLIn">
+          <input name="" type="button" value="Sign up with Gmail" class="BtnGmail">
+        </div>
+        <div class="clearfix"></div>
+        <div class="OrLine">
+          <span>Or</span>
+        </div>
+        <div class="formWapper SignUpForm">
+          <div class="col-xs-12 col-sm-3 col-md-3 filedname">Name</div>
+          <div class="col-xs-12 col-sm-9 col-md-9">
+            <input name="" type="text" class="form-control" placeholder="Enter your full name">
+            <span class="error">Error Mess</span>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3 filedname">Email</div>
+          <div class="col-xs-12 col-sm-9 col-md-9">
+            <input name="" type="text" class="form-control" placeholder="Enter your Email">
+            <span class="error">Error Mess</span>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3 filedname">Password</div>
+          <div class="col-xs-12 col-sm-9 col-md-9">
+            <input name="" type="text" class="form-control" placeholder="Enter a Password">
+            <span class="error">Error Mess</span>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3 filedname">Mobile No</div>
+          <div class="col-xs-12 col-sm-9 col-md-9">
+            <input name="" type="text" class="form-control" placeholder="Enter Your Mobile No">
+            <span class="error">Error Mess</span>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <button name="" class="BtnBox" (click)='fundraiseDonate()'>Sign Up</button>
+          </div>
+          <div class="col-xs-12 text-center signintext">I already have an account,
+            <a href="#">Sign In.</a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

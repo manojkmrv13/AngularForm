@@ -1,0 +1,133 @@
+<div class="container-fluid header">
+    <div class="row menuSection">
+        <div class="col-md-12 container mobile-header">
+            <div class="logo">
+              <a routerLink="">
+                  <img src="../assets/images/logo-mobile.png" class="pull-right hidden-lg" />
+      <ul class="nav navbar-nav">
+                  <li class="active"><a href="#"><img src="../../assets/images/hosh-hope-to-shine.png" class="logo-top  visible-lg"></a></li> 
+                  <li class="rightdiv  visible-lg"></li>
+                  <li><a href="#"><img src="../../assets/images/world-vision.png" class="visible-lg"></a></li>
+                </ul> 
+              </a>
+              <div class="clr"></div>
+          </div>
+            <div class="top-left"><nav>
+              <div class="container-fluid">
+              </div>
+            </nav></div>
+            <div class="top-right">
+                <ul class="nav navbar-nav navbar-right">
+                   <li  >
+                     <a class="addcart-cont" >
+                        <img (click)="openCart()" src="../../../assets/images/mbl-heart.png" class="mbl-heart">
+                        <span class="badge">{{HomePageBanner.getCartCount}}</span>
+                      </a>
+                    </li>
+                   <!-- <li *ngIf="HomePageBanner.getUsername == '' || HomePageBanner.getUsername == null" class="visible-xs"><a href="#" data-toggle="modal" data-target="#myModal"><img src="../../../assets/images/mbl-login.png" class="loginbtnimg"></a></li> -->
+                   <li  *ngIf="HomePageBanner.getUsername == '' || HomePageBanner.getUsername == null" class="visible-xs"><a href="javascript:void(0)" ><img (click)="opnSignin()" src="../../../assets/images/mbl-login.png" class="loginbtnimg"></a></li>
+
+                  <!--  <li class="visible-xs" *ngIf="HomePageBanner.getUsername !='' && HomePageBanner.getUsername != null" ><button type="button" class="login-btnlog">{{HomePageBanner.getUsername}}</button></li> -->
+
+                   <li #insideElement class="visible-xs username forlogout"  *ngIf="HomePageBanner.getUsername !='' && HomePageBanner.getUsername != null" ><button type="button" (click)="forMobLogout()" class="login-btnlog">{{HomePageBanner.getUsername}}</button></li>
+                        <span class="logout" #insideElement>
+                           <button type="button" (click)="logout()" class="btn">Logout</button>
+                        </span>
+                </ul>
+             </div>
+            <div class="menuBox">
+                <ul class="menu">
+                    <li class="mLink ddi" data-target="Donate" *ngFor="let item of DONATE">
+                        <a href="javascript:void(0)">{{item.MenuName}} </a>
+                        <div class="subMenu megaMenu">
+                            <div class="row Mcontant">
+                                <div class="containerM container">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-5">
+                                            <ul>
+                                                <li *ngFor="let childItem of item.child_menu">
+                                                    <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-md-7 menuNeed sameHeightWrap">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <h3 style="margin-top: 0;">Trending Needs</h3>
+                                                </div>
+                                                <div class="col-xs-6" *ngFor="let need of megaMenuNeedList">
+                                                    <div class="thBox">
+                                                            <div class="megamenuThImg">
+                                                        <a
+                                                            routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}">
+                                                            
+                                                            <img src="{{need.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}"
+                                                                class="img-responsive" alt="{{need.NEED_ALT_IMAGE_TEXT}}" />
+                                                           
+                                                            </a>
+                                                        </div>
+                                                        <h4><a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"
+                                                                style="color:#ffffff;" title="NEED_LINK_DESCRIPTION">{{need.NEED_NAME}}</a></h4>
+                                                        <p class="sameHeight discription sm" [innerHTML]="(need.NEED_DESCRIPTION.length>120)?
+                                                            (need.NEED_DESCRIPTION | slice:0:120)+'
+                                                            ...':(need.NEED_DESCRIPTION)">
+  
+                                                        </p>
+                                                        <p class="gt">
+                                                            <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"
+                                                                class="OT" style="color:#ffffff;">Know More</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mLink ddi" data-target="fundraising" *ngFor="let item of FUNDRAISE">
+                        <a href="javascript:void(0)">{{item.MenuName}} </a>
+                        <!-- <a href="javascript:void(0)">Fundraise</a> -->
+                        <div class="subMenu">
+                            <div class="Mcontant">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <ul>
+                                            <li *ngFor="let childItem of item.child_menu">
+                                                <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="cart visible-lg" *ngIf="DonorID">
+                        <div class="cartItems" *ngIf="cartItem > 0">{{cartItem}}</div>
+                        <a routerLink="/payment" style="padding:1px 0;">
+                            <div class="cartItems" *ngIf="cartItem > 0">{{cartItem}}</div>
+                            <fa-icon [icon]="faShoppingCart" [styles]="{'font-size': '22px'}"></fa-icon>
+                        </a>
+                    </li>
+                    <li class="noBorder serchBtn visible-lg visible-md">
+                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        <div class="wvSerchBox">
+                            <form #SEARCHFORM="ngForm" (ngSubmit)="SearchBox(SEARCHFORM)">
+                                <input class="serchInput" type="text" [(ngModel)]="SearchKey" name="searchKey"
+                                    required />
+                                <button type="submit" class="s_btn SearchData">GO</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="noBorder hidden-xs hidden-sm hidden-md">
+                      <button type="button" class="login-btn"><a><img src="../../assets/images/login.png"  class="loginbtnimg"  />Login</a> </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  
+  

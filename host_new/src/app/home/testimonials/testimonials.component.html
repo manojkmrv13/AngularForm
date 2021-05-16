@@ -1,0 +1,21 @@
+<div class="container"><hr/></div> 
+<div class="container-fluid" *ngIf="Testimonials?.length > 0">
+<div class="row sections Testimonials">
+  <div class="container">
+      <div class="col-xs-12 text-center">
+            <h2>Partners Speak</h2>
+        </div>
+        <div class="col-xs-12 T_SliderTH">
+          <div class="thBox" *ngFor="let T_Item of Testimonials"><img src="{{T_Item.CREATED_BY_PROFILE_IMAGE_FILEPATH }}" onerror="this.onerror=''; this.src='/assets/images/testimonial-th.png';" class="th_img" /></div>
+            
+        </div>
+        <div class="col-xs-12 T_SliderContant">
+          <div *ngFor="let T_Item of Testimonials">
+              <!-- <p><span class="quotes start"></span>{{T_Item.STORY}}<span class="quotes end"></span></p>                 -->
+              <p><span class="quot"><span>"</span>&nbsp; &nbsp; &nbsp;</span><span [innerHTML]="T_Item.STORY"></span><span class="quot"><span>"</span></span></p>
+                <p class="nameText"><span class="OT">{{T_Item.CREATED_BY_USERNAME}} </span></p> 
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,164 @@
+<div class="container-fluid" id="footerSection">
+  <div class="row sections ReceiveUpdates">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <h3 class="OT subscribeText" style="margin:7px 0;">Subscribe to our newsletter</h3>
+          <!-- <p>We will never share your e-mail address unless you allow us to do so. View our privacy policy. Easy
+            unsubscribe
+            links are provided in every email.</p> -->
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <div>
+            <!-- <div class="form-group topic">
+              <select class="selectCtrl formCtrl" id="topic">
+                <option value="Select Topic" >Select Topic</option>
+                <option value="Topic 1">Topic 1</option>
+                <option value="Topic 2">Topic 2</option>
+              </select>
+            </div> -->
+            <form #subscribForm="ngForm" (ngSubmit)="SubmitSubscribForm(subscribForm)">
+              <div class="form-group email">
+                <div class="inputWrap">
+                  <input [(ngModel)]="subscribEmail" #S_EMAILID="ngModel" id="SubEmail" name="SubEmail" type="text"
+                    class="inputCtrl" placeholder="Enter your Email"
+                    pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required
+                    autocomplete="off" />
+                  <div class="errorMsg"
+                    *ngIf="(S_EMAILID.touched && !S_EMAILID.valid) || (subscribForm.submitted && !S_EMAILID.valid)">
+                    <span *ngIf="S_EMAILID.errors.required">Email ID is required.</span>
+                    <span *ngIf="S_EMAILID.errors.pattern">Please enter valid Email ID.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group btnWrap">
+                <button type="submit" class="signUp">SIGN UP</button>
+              </div>
+            </form>
+
+
+            <!-- <div class="form-group email">
+              <form #subscribForm="ngForm" (ngSubmit)="SubscribForm(subscribForm)" ></form>
+              <div class="inputWrap">
+                <input type="email" placeholder="Email ID" class="inputCtrl emailId formCtrl" id="topic_emailId"
+                  autocomplete="off">
+              </div>
+            </div>
+            <div class="form-group btnWrap">
+              <button class="signUp" (click)="PostNewsletters()">SIGN UP</button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row sections footerWrapper">
+    <div class="container">
+      <div class="row">
+        <div class="colBox" *ngFor="let item of DONATE">
+          <h4 class="OT">{{item.MenuName}}</h4>
+          <ul>
+            <li *ngFor="let childItem of item.child_menu">
+              <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="colBox" *ngFor="let item of ABOUTUS">
+          <h4 class="OT">{{item.MenuName}}</h4>
+          <ul>
+            <li *ngFor="let childItem of item.child_menu">
+              <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="colBox" *ngFor="let item of FUNDRAISE">
+          <h4 class="OT">Fundraise</h4>
+          <ul>
+            <li *ngFor="let childItem of item.child_menu">
+              <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+            </li>
+          </ul>
+          <h4 class="OT">
+            <a routerLink="/how-it-works">How it works</a>
+          </h4>
+          <h4 class="OT">
+            <a routerLink="/impacted-lives">Impacted Lives</a>
+          </h4>
+        </div>
+
+        <div class="colBox">
+          <h4 class="OT">Contact Us</h4>
+          <p>World Vision India - National Office 16, VOC Main Road, Kodambakkam, <br />Chennai - 600 024</p>
+          <h5>
+            <i class="fa fa-mobile " aria-hidden="true"> </i><a href="tel:+91 44 24807070">+91 44 24807070</a> </h5>
+          <h5>
+            <i class="fa fa-phone " aria-hidden="true"> </i> <a href="tel:+91 44 24807242">+91 44 24807242</a></h5>
+          <h5><a href="mailto:admin@hopetoshine.in">admin@hopetoshine.in</a></h5>
+        </div>
+        <div class="colBox">
+          <h4 class="OT">Connect with us</h4>
+          <h5><a href="https://www.facebook.com/WorldVisionIndia" target="_blank">
+              <fa-icon [icon]="faFacebookF" [styles]="{'color': '#f37021'}"></fa-icon> Facebook
+            </a></h5>
+          <h5><a href="https://twitter.com/#!/wvindia" target="_blank">
+              <fa-icon [icon]="faTwitter" [styles]="{'color': '#f37021'}"></fa-icon> Twitter
+            </a> </h5>
+          <h5><a href="https://www.youtube.com/user/worldvisionindiaweb" target="_blank">
+              <fa-icon [icon]="faYoutube" [styles]="{'color': '#f37021'}"></fa-icon> YouTube
+            </a></h5>
+          <h5><a href="https://www.instagram.com/worldvisionindia/" target="_blank">
+              <fa-icon [icon]="faInstagram" [styles]="{'color': '#f37021'}"></fa-icon> Instagram
+            </a></h5>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row footerBottom">
+    <div class="container">
+      <p class="link">
+        <!-- <a href="">Contact us</a> | -->
+        <a routerLink="/sitemap">Sitemap</a>
+      </p>
+      <p class="hoShtext">Copyright © 2019 World Vision India. All rights reserved</p>
+    </div>
+  </div>
+</div>
+<div class="footerDonateBox">
+  <div class="iconWrap">
+    <div class="iconBix">
+      <a routerLink="/donate">
+        <div class="icon" style="background: #f37021"><img src="/assets/images/donateIcon.png" alt="donate"></div>
+        <div class="textBox">DONATE</div>
+      </a>
+    </div>
+  </div>
+  <div class="iconWrap">
+    <div class="iconBix">
+      <!-- <a href="https://api.whatsapp.com/send?phone=919840894154&text=Click%20the%20above%20Send%20Button%20to%20receive%20updates%20through%20Whats%20App" -->
+      
+      <a href="https://api.whatsapp.com/send?phone=919840894154&text=Yes%20I%20would%20like%20to%20receive%20updates%20from%20HoSh"
+        target="_blank">
+        <div class="icon" style="background: #f37021"><img src="/assets/images/whatsApp.png" alt="whatsapp"></div>
+        <div class="textBox">WHATS APP</div>
+      </a>
+    </div>
+  </div>
+  <div class="iconWrap scrollToTop">
+    <div class="iconBix">
+      <div class="icon" style="background: #f37021"><i class="fa fa-arrow-circle-up fa-2"
+          style="font-size: 23px; color: #ffffff; margin: 5px;" aria-hidden="true"></i></div>
+      <div class="textBox">SCROLL TO TOP</div>
+    </div>
+  </div>
+  <!-- <div class="iconWrap">
+    <div class="iconBix">
+      <div class="icon" style="background: #f37021"><img src="/assets/images/chatIcon.png" /></div>
+      <div class="textBox">Chat</div>
+    </div>
+  </div> -->
+</div>

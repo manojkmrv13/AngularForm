@@ -1,0 +1,9 @@
+.footerDonateBox { position: fixed; right: 0; bottom: 0; z-index: 10; }
+.footerDonateBox .iconWrap { position: relative; width: 35px; height: 35px; }
+.footerDonateBox .iconBix {  position: absolute; right: -130px; width: 165px;  cursor: pointer; transition: all 200ms ease-in-out;  }
+.footerDonateBox .iconBix .icon { width: 35px; height: 35px; background: dimgray; float: left; padding: 2px 0 0 2px; }
+.footerDonateBox .iconBix .textBox { height: 35px;  background: white; width: 130px; line-height: 35px;  color: #f37021; overflow: hidden; padding:0 10px; font-weight: 500; float: right;  }
+.footerDonateBox .iconBix:hover { right: 0; }
+.footerDonateBox .iconBix a { color:#f37021; text-decoration: none; }
+
+

@@ -1,0 +1,192 @@
+
+<h2>Registration Forms</h2>
+<div class="container">
+	<form [formGroup]="profileForm" (ngSubmit)="saveDetails(profileForm)">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+	  <label for="inputFirstname4">First name</label>
+      <input type="text" class="form-control" (keyup)="onalphaKey($event)" placeholder="First name" formControlName="Fname">
+	  <div *ngIf="Fname.invalid && (Fname.dirty || Fname.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="Fname.errors.required">
+			First Name is required.
+		  </div>
+		  <div *ngIf="Fname.errors.minlength">
+			First Name must be at least 4 characters long.
+		  </div>
+		</div>
+		<div *ngIf="Fname.valid && (Lname.dirty || Lname.touched)" class="alert alert-success">
+		    First Name is Valid
+		</div>
+    </div>
+    <div class="form-group col-md-6">
+	  <label for="inputLaststname4">Last name</label>
+      <input type="text" class="form-control" (keyup)="onalphaKey($event)" placeholder="Last name" formControlName="Lname">
+	  <div *ngIf="Lname.invalid && (Lname.dirty || Lname.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="Lname.errors.required">
+			Last Name is required.
+		  </div>
+		  <div *ngIf="Lname.errors.minlength">
+			Last Name must be at least 4 characters long.
+		  </div>
+		</div>
+		<div *ngIf="Lname.valid && (Lname.dirty || Lname.touched)" class="alert alert-success">
+		    Last Name is Valid
+		</div>	  
+    </div>
+	<div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email" formControlName="Email">
+	  <div *ngIf="Email.invalid && (Email.dirty || Email.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="Email.errors.required">
+			Email is required.
+		  </div>
+		 <div *ngIf="Email.errors.pattern">
+			Enter valid email address.
+		  </div>
+		</div>
+		<div *ngIf="Email.valid && (Email.dirty || Email.touched)" class="alert alert-success">
+		    Email is Valid
+		</div>
+    </div>
+	<div class="form-group col-md-6">
+      <label for="inputMobile">Mobile</label>
+      <input type="text" class="form-control" (keyup)="onnumberKey($event)" id="inputMobile" placeholder="Mobile" formControlName="Mobile">
+	  <div *ngIf="Mobile.invalid && (Mobile.dirty || Mobile.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="Mobile.errors.required">
+			Mobile is required.
+		  </div>
+		 <div *ngIf="Mobile.errors.pattern">
+			Enter valid Mobile.
+		  </div>
+		</div>
+		<div *ngIf="Mobile.valid && (Mobile.dirty || Mobile.touched)" class="alert alert-success">
+		    Mobile is Valid
+		</div>
+    </div>
+	<div class="form-group col-md-6">
+	<label for="inputDOB">Date Of Birth</label>
+    <div class="input-group">
+      <input class="form-control" type="date" id="inputDOB" name="dob" placeholder="yyyy-mm-dd"
+             [formControlName]="'dob'" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <!-- <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button> -->
+      </div>
+	  
+    </div>
+	
+	<div *ngIf="dob.invalid && (dob.dirty || dob.touched)" class="alert alert-danger">
+	 <div *ngIf="dob.errors.age">
+                <sup>*</sup>Age should be more than 18 years
+              </div>
+			  
+	</div>
+	<div *ngIf="dob.valid && (dob.dirty || dob.touched)" class="alert alert-success">
+		    Date of Birth is Valid
+		</div>
+  </div>
+<div class="form-group col-md-6">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="Address" formControlName="Address">
+	<div *ngIf="Address.invalid && (Address.dirty || Address.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="Address.errors.required">
+			Address is required.
+		  </div>
+		  <div *ngIf="Address.errors.minlength">
+			Address must be at least 4 characters long.
+		  </div>
+		  <div *ngIf="Address.errors.maxlength">
+			Address must be less than 150 characters long.
+		  </div>
+		</div>
+		<div *ngIf="Address.valid && (Address.dirty || Address.touched)" class="alert alert-success">
+		    Address is Valid
+		</div>
+  </div>
+  <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity" name="City" formControlName="City">
+	<div *ngIf="City.invalid && (City.dirty || City.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="City.errors.required">
+			City is required.
+		  </div>
+		  <div *ngIf="City.errors.minlength">
+			City must be at least 4 characters long.
+		  </div>
+		  
+		</div>
+		<div *ngIf="City.valid && (City.dirty || City.touched)" class="alert alert-success">
+		    City is Valid
+		</div>
+    </div>
+	<div class="form-group col-md-6">
+      <label for="inputState">State</label>
+      <input type="text" class="form-control" id="inputState" name="State" formControlName="State">
+	<div *ngIf="State.invalid && (State.dirty || State.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="State.errors.required">
+			State is required.
+		  </div>
+		  <div *ngIf="State.errors.minlength">
+			State must be at least 4 characters long.
+		  </div>
+		  
+		</div>
+		<div *ngIf="State.valid && (State.dirty || State.touched)" class="alert alert-success">
+		    State is Valid
+		</div>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword6">Password</label>
+		<input type="password" id="inputPassword6" name="Password" class="form-control" formControlName="Password" aria-describedby="passwordHelpInline">
+		<div *ngIf="Password.invalid && (Password.dirty || Password.touched)"
+			class="alert alert-danger">
+
+		  <div *ngIf="Password.errors.required">
+			Password is required.
+		  </div>
+		  <div *ngIf="Password.errors.minlength">
+			Password must be at least 8 characters long.
+		  </div>
+		  <div *ngIf="Password.errors.maxlength">
+			Password must be not more than 20 characters long.
+		  </div>
+		  
+		</div>
+		<div *ngIf="Password.valid && (Password.dirty || Password.touched)" class="alert alert-success">
+		    Password is Valid
+		</div>
+		</div>
+	<div class="form-group col-md-6">
+      <label for="inputConfirmpassword4" >Confirm Password</label>
+      <input type="Cpassword" pattern={{Password.value}} class="form-control" id="inputConfirmpassword4" name="Cpassword" formControlName="Cpassword" placeholder="Confirm Password">
+	  <div *ngIf="Cpassword.invalid && (Cpassword.dirty || Cpassword.touched)"
+			class="alert alert-danger">
+
+		  
+			confirm Password must be equal to password.
+		  
+		  
+		</div>
+		<!-- <div *ngIf="profileForm.errors.mismatch">does not match</div> -->
+		<div *ngIf="Cpassword.valid && (Cpassword.dirty || Cpassword.touched)" class="alert alert-success">
+		    confirm Password matches
+		</div>
+		
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">Submit form</button>
+</form>
+</div>

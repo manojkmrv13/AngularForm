@@ -1,0 +1,29 @@
+
+.capitalize { text-transform: capitalize; }
+.ConnectWithUsThankU h1 {
+    font-size: 30px;
+    color: #f37021;
+    padding: 0;
+}
+
+
+.fundraiseMessage { background: #fed35f; padding: 7px; display: block; width: 100%; box-sizing: border-box; display: table; }
+.fundraiseMessage img { display: table-cell; padding-right: 10px;}
+.fundraiseMessage p{  display: table-cell; vertical-align: middle; font-size: 17px; line-height: 1.2em; }
+agm-map{width:100%; height:650px;}
+.MapViewer{position: relative;margin-bottom: 0px;height:650px;}
+.gMap{width:100%; height:650px;}
+.MapViewer{position: relative;margin-bottom: 0px;height:650px;}
+.mapNeedWrp{ width: 100%; max-width:360px;height: auto;position: absolute;right: 60px; top: 20px; z-index: 3; background: #FFFFFF;opacity: 1;}
+.mapNeedWrp.show{opacity: 1;}
+.closeBtnMarker{ position: absolute; right: -11px; top: -11px;z-index: 5;display: inline-block;cursor: pointer;}
+.gm-style div{color: #fff !important; font-weight: bold;}
+.shadow-text{text-shadow: -1px 0 #fff, 0 10px #fff, 10px 0 #fff, 0 -10px #fff;}
+.fundraiseAndCartBtnW { position: relative;}
+.fundraiseAndCartBtnBox { position: relative; z-index: 10;}
+@media (max-width: 480px){
+    .mapNeedWrp{ width: 300px; top:6px; right:0; left: 0; margin: auto; }
+}
+@media (max-width: 420px){
+    .mapNeedWrp{ width: 300px; max-width:94%; top:6px; right:0; left: 0; margin: auto; }
+}

@@ -1,0 +1,31 @@
+
+.Testimonials .T_SliderTH { padding-top:20px; }
+
+.Testimonials .T_SliderTH .slick-arrow { height:40px; width:40px; position:absolute; top:calc(50% - 0px); z-index:10;  }
+
+.Testimonials .T_SliderTH .slick-arrow.slick-prev:before, .Testimonials .T_SliderTH .slick-arrow.slick-next:before { opacity:0; }
+.Testimonials .T_SliderTH .thBox { text-align:center; }
+.Testimonials .T_SliderTH .thBox .th_img { display:inline-block !important; }
+.Testimonials .T_SliderTH .slick-slide { padding:20px 0; opacity:0.6;}
+.Testimonials .T_SliderTH .slick-current  { padding:20px 0; opacity:1; }
+.Testimonials .T_SliderTH .slick-current .th_img  { transform:scale(1.3,1.3) }
+.Testimonials .T_SliderContant { padding-top:30px; padding-bottom:0; text-align:center; }
+.Testimonials .T_SliderContant p{  font-size:28px; font-weight: 300; } 
+.Testimonials .T_SliderContant p .quotes { quotes: '\201c' '\201d'; width:35px; height:25px; position:relative; display:inline-block; font-size:1em;    }
+.Testimonials .T_SliderContant p .quotes.start:before{ content: open-quote; font-size:3em; line-height:1em; position:absolute; top:6px; height:100%; width:100%; left:0;     line-height: 0.6em; font-weight:600; color:#f37021;   }
+.Testimonials .T_SliderContant p .quotes.end:after{content: close-quote;  font-size:3em; line-height:1em; position:absolute; top:6px; height:100%; width:100%; right:0;     line-height: 0.6em; font-weight:600; color:#f37021; }
+.Testimonials .T_SliderContant p.nameText{  font-size:22px; margin:20px; } 
+.Testimonials .T_SliderContant p .seeAll { font-size:22px; margin:20px; color:#f37021; }
+.Testimonials .T_SliderTH .slick-arrow.slick-prev { background:url(/assets/images/T_th_prev.png) no-repeat center center ; left:calc(50% - 150px)!important; }
+.Testimonials .T_SliderTH .slick-arrow.slick-next { background:url(/assets/images/T_th_next.png) no-repeat center center ; right:calc(50% - 150px)!important; }
+.Testimonials .slick-list.draggable { padding:  0 10px !important; }
+.Testimonials .T_SliderContant p .quot {  position: relative; }
+.Testimonials .T_SliderContant p .quot span { position: absolute; font-family: 'Lato',sans-serif; font-weight: 900; font-size: 1.7em; color: #f37021 ; top: -15px;  }
+@media (max-width:991px){
+    .Testimonials .T_SliderContant p { font-size: 18px;}
+}
+@media (max-width:767px){
+    .Testimonials .T_SliderContant p { font-size: 14px;}
+    
+
+}

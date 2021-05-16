@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row section">
+    <div class="container">
+      <div class="col-xs-12 text-center">
+        <h2 style="padding-top:2%;">Start Fundraising</h2>
+      </div>
+      <div class="col-xs-12">
+        <div class="row FundraisingWrap">
+          <!-- <ngu-carousel [inputs]="startFundraisingConfig" #startFundraisingCarousel (onMove)="onmoveFn($event)" [dataSource]="needSector">
+                <ngu-tile *nguCarouselDef="let sector; let j = index" class="bannerStyle">
+                    
+                </ngu-tile>
+                <button NguCarouselPrev class='leftRs' ></button>
+                <button NguCarouselNext class='rightRs'></button>                
+            </ngu-carousel>  -->
+
+            <div class="StartFundraisingIndexSlider">
+              <div *ngFor="let sector of needSector">
+                <a class="FundraisingBox" routerLink="/fundraising/cat-{{sector.SECTOR | slugify }}" title="{{sector.ALT_IMAGE_TEXT}}" style="cursor:pointer">
+                  <div class="imgBox">
+                    <img src="{{sector.IMAGEFILEPATH}}" alt="{{sector.ALT_IMAGE_TEXT}}" class="img" />
+                  </div>
+  
+                  <div class="text">
+                    <p><a routerLink="/fundraising/cat-{{sector.SECTOR | slugify}}" title="{{sector.ALT_IMAGE_TEXT}}" class="getStarted">Get Started</a></p>
+                    <h4>{{sector.SECTOR}}</h4>
+                  </div>
+                </a>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1009 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a href="#">Home</a>
+        </li>
+        <li *ngIf="NotShowOnFundraise;else fundraising">
+          <a routerLink="/donate">Donate</a>
+        </li>
+        <ng-template #fundraising>
+        <li  >
+          <a routerLink="/fundraising">fundraising</a>
+        </li>
+      </ng-template>
+        <li class="active capitalize" *ngIf="ActiveTypeName !== 'All Needs'">{{ActiveTypeName}}</li>
+      </ul>
+      <h1>{{ActiveTypeName}}</h1>
+      <div class="filterBTN"></div>
+    </div>
+  </div>
+
+  <!-- <ul *ngFor="let datas of data">
+    <li>{{datas.tile}}</li>
+    <li>{{datas.description}}</li>
+  </ul> -->
+  <div class="row filterContainer">
+    <div class="container">
+      <div class="fundraiseMessage" *ngIf="NotShowOnFundraise == false">
+        <img src="/assets/images/fundraiseMessage-icon.png" alt="fundraise message">
+        <p><strong>Choose a cause</strong> that matters to you from the following needs & Invite your friends, families
+          & colleagues to join the cause.</p>
+      </div>
+      <div class="col-xs-12">
+        <div class="filterWapper row">
+          <div class="col-xs-12 filterBox needTypeBox">
+            <div class="he">Select need type:</div>
+            <ul class="checkboxWrap" *ngIf="ndt">
+              <li *ngFor="let nt of ndt">
+                <div class="checkbox">
+                  <input name="{{nt.NEEDTYPE}}" class="clsNeedType" type="checkbox" id="{{nt.NEEDTYPEID}}"
+                    value="{{nt.NEEDTYPEID}}" (change)="GetSelectedNeedType($event.target.value, $event)" />
+                </div>
+                <label for="{{nt.NEEDTYPEID}}">{{nt.NEEDTYPE}}</label>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-xs-12 filterBox">
+            <div class="he">Select category:</div>
+            <ul class="checkboxWrap" *ngIf="ndss">
+              <li *ngFor="let nss of ndss">
+                <div class="checkbox">
+                  <input name="{{nss.SECTOR}}" class="clsNeedSector" value="{{nss.SECTORID}}"
+                    id="Categories{{nss.SECTORID}}" type="checkbox"
+                    (change)="GetSelectedSector($event.target.value, $event,nss.SECTOR)" />
+                </div>
+                <label for="Categories{{nss.SECTORID}}">{{nss.SECTOR}}</label>
+              </li>
+            </ul>
+          </div>
+          <div class="AdvanceFilter col-xs-12">
+            <div class="row">
+              <div class="col-xs-12 filterBox">
+                <div class="he">Filter by:</div>
+                <ul class="checkboxWrap">
+                  <li>
+                    <div class="radioBtnBox">
+                      <input name="a" id="trending" type="radio" value="Trending" (click)="GetAdditionalFilter($event)"
+                        (change)="RadioButtonControl()">
+                    </div>
+                    <label for="group1">Trending</label>
+                  </li>
+                  <li>
+                    <div class="radioBtnBox">
+                      <input name="a" type="radio" id="most-active" value="Most Active" (click)="GetAdditionalFilter($event)"
+                        (change)="RadioButtonControl()">
+                    </div>
+                    <label>Most Active</label>
+                  </li>
+                  <li>
+                    <div class="radioBtnBox">
+                      <input name="a" type="radio" id="urgent" value="Urgent" (click)="GetAdditionalFilter($event)"
+                        (change)="RadioButtonControl()">
+                    </div>
+                    <label>Urgent</label>
+                  </li>
+                  <li>
+                    <div class="radioBtnBox">
+                      <input name="a" type="radio" id="most-funded" value="Most Funded" (click)="GetAdditionalFilter($event)"
+                        (change)="RadioButtonControl()">
+                    </div>
+                    <label>Most Funded</label>
+                  </li>
+                  <li>
+                    <div class="radioBtnBox">
+                      <input name="a" type="radio" id="ending-soon" class="BtnBox center-block" value="Ending Soon"
+                        (click)="GetAdditionalFilter($event)" (change)="RadioButtonControl()">
+                    </div>
+                    <label>Ending Soon</label>
+                  </li>
+                  <li>
+                    <label>Region:</label>
+                    <div class="selectWrap">
+                      <div class="selectVal"></div>
+                      <select class="selectCtrl" [(ngModel)]="Region" (change)="filterByRegion($event)">
+                        <option value="Select">Select</option>
+                        <option value="East">East</option>
+                        <option value="West">West</option>
+                        <option value="North">North </option>
+                        <option value="South">South</option>
+                      </select>
+                    </div>
+                  </li>
+                  <li>
+                    <label>Location:</label>
+                    <div class="selectWrap">
+                      <div class="selectVal"></div>
+                      <select class="selectCtrl width" [(ngModel)]="locations" (change)="filterByState($event)">
+                        <option value="Select">Select</option>
+                        <option *ngFor="let state of Location_STATE_NAME" value="{{state.STATEID}}">{{state.STATE_NAME}}
+                        </option>
+                      </select>
+                    </div>
+                  </li>
+                  <li>
+                    <label>Need Id: </label>
+                    <input type="tel" name="DesignationIDFliter" id="DesignationIDFliter" [(ngModel)]="DesignationId"
+                      class="typeNumber" maxlength="5">
+                  </li>
+                </ul>
+              </div>
+              <div class="col-xs-12 filterBox">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 rangeSlider">
+                      <label>Donation amount:</label>
+                      <nouislider id="DonationAmount" [connect]="true" [min]="0" [max]="500000" [step]="1"
+                        [tooltips]="[ true, true ]" [(ngModel)]="DonationAmount" (change)="GetNeedRangeAmount($event)">
+                      </nouislider>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6">
+                    <div class="col-xs-12 rangeSlider">
+                      <label>Percentage completed:</label>
+                      <nouislider [connect]="true" [min]="0" [max]="100" [step]="1" [tooltips]="[ true, true ]"
+                        [(ngModel)]="PercentageCompleted" (change)="CompletedNeedInPercentage($event)"></nouislider>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btnGroup pull-right">
+            <input name="" type="button" class="BtnBox plus center-block" value="More">
+            <input name="" type="button" class="BtnBox minus text-left" value="Less">
+            <input name="" type="button" class="BtnBox center-block" value="Clear filter" (click)="GetClearFliterAPI()">
+            <input name="" type="button" class="BtnBox showresult center-block" value="Show results" (click)="Search()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row bg-main">
+    <div class="container donate">
+      <ul class="nav nav-tabs pull-left">
+        <li class="active">
+          <a data-toggle="tab" href="#listtab" (click)="ActiveViewTab('List')" class="ListTab">List View</a>
+        </li>
+        <li>
+          <a data-toggle="tab" href="#maptab" (click)="ActiveViewTab('Map')" class="MapTab">Map View</a>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+      <div class="fundraiseAndCartBtnW">
+        <div class="fundraiseAndCartBtnBox" id="sticker">
+          <div class="pull-right margineBtn visible-xs visible-sm" *ngIf="NoOFCarts > 0 && DONORID">
+            <button name="" type="button" class="BtnBox text-center" value=""
+              (click)="this.router.navigate(['/payment']);">Cart
+              <fa-icon [icon]="faShoppingCart" ></fa-icon>
+              <span class="cartItems" *ngIf="CartNeedDataList.length > 0">{{ NoOFCarts }}</span>
+            </button>
+          </div>
+          <div class="pull-right margineBtn" *ngIf="setNoOFNeeds > 0">
+            <button name="" type="button" class="BtnBox text-center" value="" (click)="postFundraising()">Start
+              Fundraising
+              <span class="cartItems">{{ setNoOFNeeds }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tab-content">
+      <div id="listtab" class="tab-pane fade in active" *ngIf="ActiveListTab == true">
+        <div class="container">
+          <div class="row listviewWapper sameHeightWrap">
+            <!-- Need Box Start -->
+            <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let need of nds; let i = index;">
+              <div class="MainBox">
+                <div *ngIf="DONORID && NotShowOnFundraise">
+                  <div class="Icons checkbox cartImg"
+                    *ngIf="need.NEEDTYPEID == 1 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">
+                    <input type="checkbox" id="cartNeedId{{need.NEEDID}}" value="{{need.NEEDID}}"
+                      name="cartNeedId{{need.NEEDID}}" class="cartCheckbox" (change)='AddNeedInCart($event)'>
+                  </div>
+                </div>
+
+                <div class="imageBox" *ngIf="need.NEEDTYPEID == 1 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">
+                  <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}">
+                    <img [defaultImage]="defaultImage" [offset]="offset"
+                      [lazyLoad]="need.NEED_THUMBNAIL_IMAGE_6_FILEPATH" alt="{{need.NEED_ALT_IMAGE_TEXT}}" class="img-responsive"></a>
+                  <div *ngIf="need.GROUP_NEED_ID != 0">
+                    <div class="flag">
+                      <p>Part of
+                        <br /> {{need.GROUP_NEED_TYPE}}</p>
+                    </div>
+                    <div class="partOfNeedName"><a
+                        routerLink="/donate/details/{{need.GROUP_NEED_ID}}/{{need.GROUP_NEED_NAME | slugify }}"
+                        style="color:#ffffff;" title="{{need.NEED_LINK_DESCRIPTION}}" >{{need.GROUP_NEED_NAME}} </a></div>
+                  </div>
+                </div>
+
+                <div class="imgSliderWrapper" *ngIf="need.NEEDTYPEID == 2 || need.NEEDTYPEID == 5">
+                  <img src="/assets/images/image_not_available.jpg" class="img-responsive viewImgSample" />
+                  <div class="noOFNeeds">
+                    <h2> {{ need.NEEDS_CHILD.length }}
+                      <span *ngIf="need.NEEDS_CHILD.length == 1">Need</span><span
+                        *ngIf="need.NEEDS_CHILD.length > 1">Needs</span>
+                    </h2>
+                  </div>
+                  <div class="imgSlider">
+                    <div class="imgWrapper" *ngFor="let childNeed of need.NEEDS_CHILD">
+                      <div>
+                        <div class="imageBox">
+                          <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'"
+                            routerLink="/donate/details/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">
+                            <img src="{{childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" class="img-responsive"
+                              onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}"></a>
+                          <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'"
+                            routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">
+                            <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                            <img src="{{childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" class="img-responsive"
+                              onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}">
+                          </a>
+                        </div>
+                        <div class="needName">
+                          <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'" title="{{childNeed.NEED_LINK_DESCRIPTION}}"
+                            routerLink="/donate/details/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}">{{childNeed.NEED_NAME}}</a>
+                          <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'" title="{{childNeed.NEED_LINK_DESCRIPTION}}"
+                            routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}">{{childNeed.NEED_NAME}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="BoxName">
+                  <div class="icon">
+                    <img src="{{need.SECTOR_ICON_FILEPATH}}" alt="{{need.SECTOR_ALT_ICON_TEXT}}">
+                    <!-- <img src="/assets/images/categories_icon_01_Education.png" *ngIf="need.SECTORID == 2"> 
+                      <img src="/assets/images/categories_icon_02_EconomicDevelopment.png" *ngIf="need.SECTORID == 1">
+                      <img src="/assets/images/categories_icon_03_SpecialChildren.png" *ngIf="need.SECTORID == 3">
+                      <img src="/assets/images/categories_icon_04_WaterAndSanitation.png" *ngIf="need.SECTORID == 4">
+                      <img src="/assets/images/categories_icon_05_HealthAndNutrition.png" *ngIf="need.SECTORID == 5">
+                      <img src="/assets/images/categories_icon_01_Education.png" *ngIf="need.SECTORID == 6"> -->
+                  </div>
+                  <h2>
+                    <a routerLink="/donate/cat-{{need.SECTOR | slugify}}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.SECTOR}}</a>
+                    <!-- {{need.SECTOR}}   -->
+                    <br>
+                    <span>
+                      <a routerLink="/donate/{{need.NEEDTYPE | slugify }}" title="{{need.NEEDTYPE_LINK_DESCRIPTION}}">{{need.NEEDTYPE}}</a>
+                    </span>
+                  </h2>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <div class="sameHeight">
+                    <h3>
+                      <a
+                        routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}">{{need.NEED_NAME}}</a>
+                    </h3>
+
+                    <p class="discription"
+                      [innerHTML]="(need.NEED_SHORT_DESCRIPTION.length>150)? (need.NEED_SHORT_DESCRIPTION | slice:0:150)+'..':(need.NEED_SHORT_DESCRIPTION)">
+                    </p>
+                  </div>
+                  <div class="row"
+                    *ngIf='need.NEEDTYPEID == 2 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4 || need.NEEDTYPEID == 5'>
+                    <div class="col-xs-3 col-sm-3 col-md-3  f-Bold">&nbsp;
+                      <p>&nbsp;</p>
+                    </div>
+                  </div>
+
+
+                  <div class="row" *ngIf='need.NEEDTYPEID == 1'>
+                    <div class="col-xs-4 col-sm-3 f-Bold">
+                      <span *ngIf="need.NEEDTYPEID !== 2">
+                        {{need.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <span *ngIf="need.NEEDTYPEID == 2">
+                        {{need.DONATION_AMOUNT_FOR_LARGE_NEED | currency : 'INR' :
+                        'symbol-narrow' : '1.0-0'}}</span>
+                      <p>Raised</p>
+                    </div>
+                    <div class="col-xs-4 col-sm-5 text-center f-Bold">
+                      <div class="percentage">
+                        <p class="count" *ngIf="need.NEEDTYPEID !== 2">
+                          {{CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)}}
+                          <span>%</span>
+                        </p>
+                        <div class="bgarea" *ngIf="need.NEEDTYPEID !== 2"
+                          [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)"></div>
+
+                        <p class="count" *ngIf="need.NEEDTYPEID == 2">
+                          {{CalculatePercentage(need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED,need.DONATION_AMOUNT_FOR_LARGE_NEED)}}
+                          <span>%</span>
+                        </p>
+                        <div class="bgarea" *ngIf="need.NEEDTYPEID == 2"
+                          [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED,need.DONATION_AMOUNT_FOR_LARGE_NEED)">
+                        </div>
+                      </div>
+                      <p>Completed</p>
+                    </div>
+                    <div class="col-xs-4 f-Bold">
+                      <span *ngIf="need.NEEDTYPEID !== 2">
+                        {{ need.TOTAL_NEED_AMOUNT - need.DONATION_AMOUNT | currency :
+                        'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <span *ngIf="need.NEEDTYPEID == 2">
+                        {{ (need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED -
+                        need.DONATION_AMOUNT_FOR_LARGE_NEED) | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <br />
+                      <p>Required</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" GoalLeft-Wapper"
+                  *ngIf='need.NEEDTYPEID == 3 || need.NEEDTYPEID == 5 || need.NEEDTYPEID == 4'>
+                  <div class="col-xs-6 col-sm-6 col-md-6 border">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal4.png">
+                    </div>
+                    <p>
+                      {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                      <span class="name" *ngIf="need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">Gift Amount</span>
+                      <span class="name" *ngIf="need.NEEDTYPEID == 5">Campaigner</span>
+                    </p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal2.png">
+                    </div>
+                    <p>{{need.TOTAL_DONORS}}
+                      <span class="name" *ngIf="need.TOTAL_DONORS < 2">Supporter</span>
+                      <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                    </p>
+                  </div>
+                </div>
+
+
+                <div class="GoalLeft-Wapper" *ngIf='need.NEEDTYPEID == 1 || need.NEEDTYPEID == 2'>
+                  <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal.png">
+                    </div>
+                    <p>
+                      <span *ngIf="need.NEEDTYPEID !== 2">
+                         {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' :
+                        '4.0-0' }} </span>
+                      <span *ngIf="need.NEEDTYPEID == 2">
+                        {{ need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED | currency : 'INR' :
+                        'symbol-narrow' : '4.0-0' }} </span>
+                      <span class="name">Goal</span>
+                    </p>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-lg-4  border">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal2.png">
+                    </div>
+                    <p>{{need.TOTAL_DONORS}}
+                      <span class="name" *ngIf="need.TOTAL_DONORS < 2">Supporter</span>
+                      <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                    </p>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-lg-4 ">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal3.png">
+                    </div>
+                    <p>
+                      <span class="name">
+                        <strong *ngIf="need.NEEDTYPEID !== 2">{{CalculateDays(need.END_DATE)}}</strong>
+                        <strong *ngIf="need.NEEDTYPEID == 2">{{need.DAYS_LEFT_FOR_LARGE_NEED}}</strong>
+                        <br />Days Left</span>
+                    </p>
+                  </div>
+                </div>
+                <div [ngClass]="NotShowOnFundraise == false? 'DonateAmountBg bg' : 'DonateAmountBg bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 1'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-8 noPadding" *ngIf='need.TOTAL_NEED_AMOUNT > need.DONATION_AMOUNT'>
+                      <div class="name"> My <br>Contribution </div>
+                      <input name="need{{need.NEEDID}}" class="donateClasss" id="donateA{{need.NEEDID}}" type="tel"
+                        class="form-control input rs typeNumberOnly"
+                        (blur)="donationAmount(need.TOTAL_NEED_AMOUNT - need.DONATION_AMOUNT, need.MINIMUM_AMOUNT_PAYABLE, $event)">
+                    </div>
+                    <div class="col-xs-4 noPadding text-right" *ngIf='need.TOTAL_NEED_AMOUNT > need.DONATION_AMOUNT'>
+                      <button name="" class="BtnBox" value="{{need.NEEDID}}" (click)="donateNow(need.NEEDID)">Donate
+                        Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  [ngClass]="NotShowOnFundraise == false? 'EducationLargeNeeds bg' : 'EducationLargeNeeds bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 2'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-7 col-sm-7 col-lg-7 noPadding">
+                    </div>
+                    <div class="col-xs-12 noPadding text-right" *ngIf='need.TOTAL_NEED_AMOUNT > need.DONATION_AMOUNT'>
+                      <button name="" class="BtnBox"
+                        routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}">View
+                        Needs</button>
+                    </div>
+                    <div class="col-xs-12 noPadding text-right">
+                      <button class="BtnBox trasparent" id="partnerNow{{need.NEEDID}}" (click)="CWithUs(ConnectWithUs)"
+                        (click)="GetID(need.NEEDID)"> Partner Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div [ngClass]="NotShowOnFundraise == false? 'EducationGifts bg' : 'EducationGifts bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 3'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-8 noPadding">
+                      <div class="name">Quantity </div>
+                      <div class="selectWrap">
+                        <div class="selectVal"></div>
+                        <select name="giftquantity{{need.NEEDID}}" id="donateQuentatity{{need.NEEDID}}"
+                          class="selectCtrl" (change)="giftAmountCalc(need.TOTAL_NEED_AMOUNT, need.NEEDID, $event)">
+                          <option [value]='' [selected]='select'>Select </option>
+                          <option *ngFor="let number of need.NEED_QUANTITY_VALUES" [selected]="number == need.QUANTITY"
+                            value="{{number}}">{{number}}</option>
+                        </select>
+                      </div>
+
+                      <div class="clearfix"></div>
+                      <div class="col-xs-12 noPadding">
+                        <div class="name"> My Contribution</div>
+                        <input class="showVal" type="hidden" name="need{{need.NEEDID}}" value=""
+                          id="UpdatedA{{need.NEEDID}}">
+                        <input class="showVal" type="hidden" name="need{{need.NEEDID}}" value=""
+                          id="actualA{{need.NEEDID}}">
+                        <input class="input" type="tel" name="needDA{{need.NEEDID}}" id="donateA{{need.NEEDID}}"
+                          value="" class="form-control input rs typeNumberOnly addCommaSep"
+                          (blur)="donationAmountForGift(need.MINIMUM_AMOUNT_PAYABLE, $event)">
+                      </div>
+                    </div>
+                    <div class="col-xs-4 noPadding text-right">
+                      <button name="" class="BtnBox " value="Donate Now" (click)="donateNow(need.NEEDID)">Donate
+                        Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  [ngClass]="NotShowOnFundraise == false? 'SpecialChildrenGIFT bg' : 'SpecialChildrenGIFT bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 4'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-8 noPadding">
+                      <div class="name">Frequency </div>
+                      <div class="selectWrap">
+                        <div class="selectVal"></div>
+                        <select name="payFrequency{{need.NEEDID}}" id="payFrequency{{need.NEEDID}}" class="selectCtrl"
+                          (change)="customeSelectControl(need.TOTAL_NEED_AMOUNT, need.NEEDID, $event)">
+                          <option [value]='0' [selected]='select'>Select</option>
+                          <option *ngFor="let dt of need.PAY_FREQUENCY" [value]="dt.FREQUENCY_AMOUNT"
+                            [selected]="dt == need.CART_PAYMENT_FREQUENCY">{{
+                            dt.FREQUENCY }}</option>
+                        </select>
+                      </div>
+                      <p></p>
+                      <div class="clearfix"></div>
+                      <div class="col-xs-12 noPadding">
+                        <div class="name"> My Contribution </div>
+                        <input class="showVal" type="hidden" readonly name="need{{need.NEEDID}}" value=""
+                          id="actualA{{need.NEEDID}}">
+                        <input readonly class="input" name="needDA{{need.NEEDID}}" id="donateA{{need.NEEDID}}"
+                          type="tel" class="form-control input rs typeNumberOnly addCommaSep"
+                          (blur)="donationAmountForGift(need.MINIMUM_AMOUNT_PAYABLE, $event)">
+                      </div>
+                    </div>
+                    <div class="col-xs-4 noPadding text-right">
+                      <button name="" class="BtnBox" value="{{need.NEEDID}}" (click)="donateNow(need.NEEDID)">Donate
+                        Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  [ngClass]="NotShowOnFundraise == false? 'EconomicDevelopmentRilif bg' : 'EconomicDevelopmentRilif bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 5'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-12 text-right">
+                      <button routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify}}"
+                        class="BtnBox">View
+                        Details</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="pull-right myfundraising" *ngIf='need.NEEDTYPEID !== 4'>
+                  <div class="checkbox">
+                    <input type="checkbox" class="AddFundraising" id="need{{need.NEEDID}}" value="{{need.NEEDID}}"
+                      name="need{{need.NEEDID}}" (change)="AddNeedFundraising($event)">
+                  </div>
+                  <label for="need{{need.NEEDID}}">Add to my fundraiser</label>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-xs-12 text-right">
+                  <ul class="shareicon">
+                    <li style="display: inline-block; float:none;">
+                      <div id="howfun_{{need.NEEDID}}" style="display: inline-block; float: none; margin-right: 10px" class="need-share-button-default"
+                        data-share-icon-style="box" data-share-networks="Facebook,Twitter,GooglePlus,Linkedin"
+                        data-share-share-button-class="custom-button">
+                        <span class="custom-button"><img src="/assets/images/icon-share.png" class="icon" style="margin: 0 !important" /></span>
+                      </div>
+                      Share
+                    </li>
+                  </ul>
+                </div>
+              </div> -->
+            
+            </div>
+            <!-- Need Box End -->
+            <div class="clearfix"></div>
+            <div class="col-xs-12 text-center">
+              <div id="dataLoader" class="loadingBox">
+                <div class="group">
+                  <span class="circle"></span>
+                  <span class="circle"></span>
+                  <span class="circle"></span>
+                  <span class="text">Loading...</span>
+                </div>
+              </div>
+              <div id="no_recordsfound" class="loadingBox resultNotFound" style="display: none;"
+                *ngIf="nds?.length < 1">
+                <div class="group">
+                  <img src="/assets/images/records.png" alt="records"> &nbsp;<span> Currently, there are no needs in the selected
+                    category. Please select another need type to donate.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="maptab" class="tab-pane fade">
+        <div id="map-canvas" class="MapViewer">
+          <div class="mapNeedWrp listviewWapper rkmap" *ngIf="markerNeedWrp">
+            <a htef="javascript:void(0)" class="closeBtnMarker" (click)="mapClicked(event)"><img
+                src="../../assets/images/closeBtn2.png" alt="Close"></a>
+            <!-- Need Box Start -->
+            <div class="col-xs-12 col-sm-12 col-md-12" style="padding:0px;"
+              *ngFor="let need of markerNeed; let i = index;">
+              <div class="MainBox" *ngIf="ActiveListTab == false" style="margin: 0;">
+                <div *ngIf="DONORID">
+                  <div class="Icons checkbox cartImg"
+                    *ngIf="need.NEEDTYPEID == 1 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">
+                    <input type="checkbox" id="cartNeedId{{need.NEEDID}}" value="{{need.NEEDID}}"
+                      name="cartNeedId{{need.NEEDID}}" class="cartCheckbox" (change)='AddNeedInCart($event)'>
+                  </div>
+                </div>
+
+                <div class="imageBox" *ngIf="need.NEEDTYPEID == 1 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">
+                  <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"><img
+                      [defaultImage]="defaultImage" [offset]="offset" [lazyLoad]="need.NEED_THUMBNAIL_IMAGE_6_FILEPATH"
+                      class="img-responsive"></a>
+                  <div *ngIf="need.GROUP_NEED_ID != 0">
+                    <div class="flag">
+                      <p>Part of
+                        <br /> {{need.GROUP_NEED_TYPE}}</p>
+                    </div>
+                    <div class="partOfNeedName"><a
+                        routerLink="/donate/details/{{need.GROUP_NEED_ID}}/{{need.GROUP_NEED_NAME | slugify }}"
+                        style="color:#ffffff;">{{need.GROUP_NEED_NAME}} </a></div>
+                  </div>
+                </div>
+
+                <div class="imgSliderWrapper" *ngIf="need.NEEDTYPEID == 2 || need.NEEDTYPEID == 5">
+                  <img src="/assets/images/image_not_available.jpg" class="img-responsive viewImgSample" />
+                  <div class="noOFNeeds">
+                    <h2> {{ need.NEEDS_CHILD.length }}
+                      <span *ngIf="need.NEEDS_CHILD.length == 1">Need</span><span
+                        *ngIf="need.NEEDS_CHILD.length > 1">Needs</span>
+                    </h2>
+                  </div>
+                  <div class="imgSlider">
+                    <div class="imgWrapper" *ngFor="let childNeed of need.NEEDS_CHILD">
+                      <div>
+                        <div class="imageBox">
+                          <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'"
+                            routerLink="/donate/details/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">
+                            <img src="{{childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" class="img-responsive"
+                              onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}"></a>
+                          <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'" title="{{childNeed.NEED_LINK_DESCRIPTION}}"
+                            routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}">
+                            <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                            <img src="{{childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" class="img-responsive"
+                              onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}">
+                          </a>
+                        </div>
+                        <div class="needName">
+                          <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'" title="{{childNeed.NEED_LINK_DESCRIPTION}}"
+                            routerLink="/donate/details/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}">{{childNeed.NEED_NAME}}</a>
+                          <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'" title="{{childNeed.NEED_LINK_DESCRIPTION}}"
+                            routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}">{{childNeed.NEED_NAME}}</a>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="BoxName">
+                  <div class="icon">
+                    <img src="{{need.SECTOR_ICON_FILEPATH}}" alt="{{need.SECTOR_ALT_ICON_TEXT}}">
+
+                  </div>
+                  <h2>
+                    <a routerLink="/donate/cat-{{need.SECTOR | slugify}}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.SECTOR}}</a>
+                    <br>
+                    <span>
+                      <a routerLink="/donate/{{need.NEEDTYPE | slugify }}" title="{{need.NEEDTYPE_LINK_DESCRIPTION}}">{{need.NEEDTYPE}}</a>
+                    </span>
+                  </h2>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <div class="sameHeight">
+                    <h3>
+                      <a
+                        routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}">{{need.NEED_NAME}}</a>
+                    </h3>
+
+                    <p class="discription" [innerHTML]="(need.NEED_SHORT_DESCRIPTION.length>150)? (need.NEED_SHORT_DESCRIPTION |
+                      slice:0:150)+'..':(need.NEED_SHORT_DESCRIPTION)"></p>
+                  </div>
+                  <div class="row"
+                    *ngIf='need.NEEDTYPEID == 2 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4 || need.NEEDTYPEID == 5'>
+                    <div class="col-xs-3 col-sm-3 col-md-3  f-Bold">&nbsp;
+                      <p>&nbsp;</p>
+                    </div>
+                  </div>
+
+
+                  <div class="row" *ngIf='need.NEEDTYPEID == 1'>
+                    <div class="col-xs-4 col-sm-3 f-Bold">
+                      <span *ngIf="need.NEEDTYPEID !== 2">
+                        {{need.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <span *ngIf="need.NEEDTYPEID == 2">
+                        {{need.DONATION_AMOUNT_FOR_LARGE_NEED | currency : 'INR' :
+                        'symbol-narrow' : '1.0-0'}}</span>
+                      <p>Raised</p>
+                    </div>
+                    <div class="col-xs-4 col-sm-5 text-center f-Bold">
+                      <div class="percentage">
+                        <p class="count" *ngIf="need.NEEDTYPEID !== 2">
+                          {{CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)}}
+                          <span>%</span>
+                        </p>
+                        <div class="bgarea" *ngIf="need.NEEDTYPEID !== 2"
+                          [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)"></div>
+
+                        <p class="count" *ngIf="need.NEEDTYPEID == 2">
+                          {{CalculatePercentage(need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED,need.DONATION_AMOUNT_FOR_LARGE_NEED)}}
+                          <span>%</span>
+                        </p>
+                        <div class="bgarea" *ngIf="need.NEEDTYPEID == 2"
+                          [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED,need.DONATION_AMOUNT_FOR_LARGE_NEED)">
+                        </div>
+                      </div>
+                      <p>Completed</p>
+                    </div>
+                    <div class="col-xs-4 f-Bold">
+                      <span *ngIf="need.NEEDTYPEID !== 2">
+                        {{ need.TOTAL_NEED_AMOUNT - need.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <span *ngIf="need.NEEDTYPEID == 2">
+                        {{ (need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED - need.DONATION_AMOUNT_FOR_LARGE_NEED) | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                      <br />
+                      <p>Required</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" GoalLeft-Wapper"
+                  *ngIf='need.NEEDTYPEID == 3 || need.NEEDTYPEID == 5 || need.NEEDTYPEID == 4'>
+                  <div class="col-xs-6 col-sm-6 col-md-6 border">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal4.png">
+                    </div>
+                    <p>
+                      {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                      <span class="name" *ngIf="need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">Gift Amount</span>
+                      <span class="name" *ngIf="need.NEEDTYPEID == 5">Campaigner</span>
+                    </p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal2.png">
+                    </div>
+                    <p>{{need.TOTAL_DONORS}}
+                      <span class="name" *ngIf="need.TOTAL_DONORS < 2">Supporter</span>
+                      <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                    </p>
+                  </div>
+                </div>
+
+
+                <div class="GoalLeft-Wapper" *ngIf='need.NEEDTYPEID == 1 || need.NEEDTYPEID == 2'>
+                  <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal.png">
+                    </div>
+                    <p>
+                      <span *ngIf="need.NEEDTYPEID !== 2">
+                        {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '4.0-0' }} </span>
+                      <span *ngIf="need.NEEDTYPEID == 2">
+                        {{ need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED | currency : 'INR' : 'symbol-narrow' : '4.0-0' }}
+                      </span>
+                      <span class="name">Goal</span>
+                    </p>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-lg-4  border">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal2.png">
+                    </div>
+                    <p>{{need.TOTAL_DONORS}}
+                      <span class="name" *ngIf="need.TOTAL_DONORS < 2">Supporter</span>
+                      <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                    </p>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-lg-4 ">
+                    <div class="icon">
+                      <img src="/assets/images/icon-goal3.png">
+                    </div>
+                    <p>
+                      <span class="name">
+                        <strong *ngIf="need.NEEDTYPEID !== 2">{{CalculateDays(need.END_DATE)}}</strong>
+                        <strong *ngIf="need.NEEDTYPEID == 2">{{need.DAYS_LEFT_FOR_LARGE_NEED}}</strong>
+                        <br />Days Left</span>
+                    </p>
+                  </div>
+                </div>
+                <div [ngClass]="NotShowOnFundraise == false? 'DonateAmountBg bg' : 'DonateAmountBg bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 1'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-8 noPadding" *ngIf='need.TOTAL_NEED_AMOUNT > need.DONATION_AMOUNT'>
+                      <div class="name"> My <br>Contribution </div>
+                      <input name="need{{need.NEEDID}}" class="donateClasss" id="donateA{{need.NEEDID}}" type="tel"
+                        class="form-control input rs typeNumberOnly"
+                        (blur)="donationAmount(need.TOTAL_NEED_AMOUNT - need.DONATION_AMOUNT, need.MINIMUM_AMOUNT_PAYABLE, $event)">
+                    </div>
+                    <div class="col-xs-4 noPadding text-right" *ngIf='need.TOTAL_NEED_AMOUNT > need.DONATION_AMOUNT'>
+                      <button name="" class="BtnBox" value="{{need.NEEDID}}" (click)="donateNow(need.NEEDID)">Donate
+                        Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  [ngClass]="NotShowOnFundraise == false? 'EducationLargeNeeds bg' : 'EducationLargeNeeds bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 2'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-7 col-sm-7 col-lg-7 noPadding">
+                    </div>
+                    <div class="col-xs-12 noPadding text-right" *ngIf='need.TOTAL_NEED_AMOUNT > need.DONATION_AMOUNT'>
+                      <button name="" class="BtnBox"
+                        routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}">View
+                        Needs</button>
+                    </div>
+                    <div class="col-xs-12 noPadding text-right">
+                      <button class="BtnBox trasparent" id="partnerNow{{need.NEEDID}}" (click)="CWithUs(ConnectWithUs)"
+                        (click)="GetID(need.NEEDID)"> Partner Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div [ngClass]="NotShowOnFundraise == false? 'EducationGifts bg' : 'EducationGifts bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 3'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-8 noPadding">
+                      <div class="name">Quantity </div>
+                      <div class="selectWrap">
+                        <div class="selectVal"></div>
+                        <select name="giftquantity{{need.NEEDID}}" id="donateQuentatity{{need.NEEDID}}"
+                          class="selectCtrl" (change)="giftAmountCalc(need.TOTAL_NEED_AMOUNT, need.NEEDID, $event)">
+                          <option [value]='' [selected]='select'>Select </option>
+                          <option *ngFor="let number of need.NEED_QUANTITY_VALUES" [selected]="number == need.QUANTITY"
+                            value="{{number}}">{{number}}</option>
+                        </select>
+                      </div>
+                      <div class="clearfix"></div>
+                      <div class="col-xs-12 noPadding">
+                        <div class="name"> My Contribution</div>
+                        <input class="showVal" type="hidden" name="need{{need.NEEDID}}" value=""
+                          id="UpdatedA{{need.NEEDID}}">
+                        <input class="showVal" type="hidden" name="need{{need.NEEDID}}" value=""
+                          id="actualA{{need.NEEDID}}">
+                        <input class="input" type="tel" name="needDA{{need.NEEDID}}" id="donateA{{need.NEEDID}}"
+                          value="" class="form-control input rs typeNumberOnly addCommaSep"
+                          (blur)="donationAmountForGift(need.MINIMUM_AMOUNT_PAYABLE, $event)">
+                      </div>
+                    </div>
+                    <div class="col-xs-4 noPadding text-right">
+                      <button name="" class="BtnBox " value="Donate Now" (click)="donateNow(need.NEEDID)">Donate
+                        Now</button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  [ngClass]="NotShowOnFundraise == false? 'SpecialChildrenGIFT bg' : 'SpecialChildrenGIFT bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 4'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-8 noPadding">
+                      <div class="name">Frequency </div>
+                      <div class="selectWrap">
+                        <div class="selectVal"></div>
+                        <select name="payFrequency{{need.NEEDID}}" id="payFrequency{{need.NEEDID}}" class="selectCtrl"
+                          (change)="customeSelectControl(need.TOTAL_NEED_AMOUNT, need.NEEDID, $event)">
+                          <option [value]='0' [selected]='select'>Select</option>
+                          <option *ngFor="let dt of need.PAY_FREQUENCY" [value]="dt.FREQUENCY_AMOUNT"
+                            [selected]="dt == need.CART_PAYMENT_FREQUENCY">{{
+                            dt.FREQUENCY }}</option>
+                        </select>
+                      </div>
+                      <p></p>
+                      <div class="clearfix"></div>
+                      <div class="col-xs-12 noPadding">
+                        <div class="name"> My Contribution </div>
+                        <input class="showVal" type="hidden" readonly name="need{{need.NEEDID}}" value=""
+                          id="actualA{{need.NEEDID}}">
+                        <input readonly class="input" name="needDA{{need.NEEDID}}" id="donateA{{need.NEEDID}}"
+                          type="tel" class="form-control input rs typeNumberOnly addCommaSep"
+                          (blur)="donationAmountForGift(need.MINIMUM_AMOUNT_PAYABLE, $event)">
+                      </div>
+                    </div>
+                    <div class="col-xs-4 noPadding text-right">
+                      <button name="" class="BtnBox" value="{{need.NEEDID}}" (click)="donateNow(need.NEEDID)">Donate
+                        Now</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  [ngClass]="NotShowOnFundraise == false? 'EconomicDevelopmentRilif bg' : 'EconomicDevelopmentRilif bg needBgColor'"
+                  *ngIf='need.NEEDTYPEID == 5'>
+                  <div *ngIf="NotShowOnFundraise">
+                    <div class="col-xs-12 text-right">
+                      <button routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify}}"
+                        class="BtnBox">View
+                        Details</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Need Box End -->
+          </div>
+          <div class="legends">
+            <div class="container">
+              <ul>
+                <li *ngFor="let legend of legends"><img src="{{legend.sectorIcon}}" /> {{legend.sector}}</li>
+              </ul>
+            </div>
+          </div>
+          <div id="mapDiv">
+            <div id="google-maps" class="gMap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #ConnectWithUs let-c="close" let-d="dismiss" class="rk">
+  <div class="modal-header">
+    <h2 class="modal-title ConnectWithUsThankU">Be our Corporate Partner </h2>
+    <button type="button" class="close closeBtn" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="SaveCWithUsOnSuccess == false">
+    <div class="row">
+      <div class=" col-xs-12 ConnectWithUs formWapper">
+        <form #CWithUs="ngForm" (ngSubmit)="SaveCWithUs(CWithUs)" novalidate>
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">Organisation Name<sup>*</sup></div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <input [(ngModel)]="CWUS_NAME" #TXTNAME="ngModel" id="txtName" name="txtName" type="text"
+              class="form-control" placeholder="Enter Organisation Name" pattern="[a-zA-Z&amp;0-9-.,'_() ]*" required />
+            <div class="errorMsg" *ngIf="(TXTNAME.touched && !TXTNAME.valid) || (CWithUs.submitted && !TXTNAME.valid)">
+              <span *ngIf="TXTNAME.errors.required">Organisation Name is required.</span>
+              <span *ngIf="TXTNAME.errors.pattern">Please enter valid characters.</span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">Contact Person<sup>*</sup></div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <input [(ngModel)]="CWUS_CPNAME" #TXTCPNAME="ngModel" id="txtCPN" name="txtCPN" type="text"
+              class="form-control" placeholder="Enter a Contact Person Name" minlength="3"
+              pattern="[a-zA-Z&amp;0-9-.'_() ]*" required />
+            <div class="errorMsg"
+              *ngIf="(TXTCPNAME.touched && !TXTCPNAME.valid) || (CWithUs.submitted && !TXTCPNAME.valid)">
+              <span *ngIf="TXTCPNAME.errors.required">Contact Person Name is required.</span>
+              <span *ngIf="TXTCPNAME.errors.pattern">Please enter valid Contact Person Name.</span>
+              <span *ngIf="TXTCPNAME.errors.minlength">Contact Person Name should be minimum {{
+                      TXTCPNAME.errors.minlength.requiredLength
+                      }} characters.</span>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">Company Logo</div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <div class="uploadfile ">
+              <div class="browse-btn">
+                <input [(ngModel)]="CWUS_FILE" #TXTFILE="ngModel" type="file" id="files" name="files" class="inputfile"
+                  (change)="SectorImageChange($event)" accept=".jpg, .jpeg, .png, .bmp, .gif" />
+              </div>
+              <div class="nameuploadfile">Upload Company Logo</div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="errorMsg" *ngIf="(TXTFILE.touched && !TXTFILE.valid) || (CWithUs.submitted && !TXTFILE.valid)">
+              <span *ngIf="TXTFILE.errors.required">Company Logo is required.</span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">Contact No.<sup>*</sup> </div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <input [(ngModel)]="CWUS_CONTECTNO" #TXTCONTECTNO="ngModel" id="txtContactNo" name="txtContactNo"
+              type="text" class="form-control" placeholder="Enter a Contact No." minlength="10" maxlength="10"
+              pattern="^([5-9]{1})([0-9]{9})$" required />
+            <div class="errorMsg"
+              *ngIf="(TXTCONTECTNO.touched && !TXTCONTECTNO.valid) || (CWithUs.submitted && !TXTCONTECTNO.valid)">
+              <span *ngIf="TXTCONTECTNO.errors.required">Contact No is required.</span>
+              <span *ngIf="TXTCONTECTNO.errors.pattern">Please enter valid Contact No.</span>
+              <span *ngIf="TXTCONTECTNO.errors.minlength">Contact No. should be minimum {{
+                      TXTCONTECTNO.errors.minlength.requiredLength
+                      }} characters.</span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <input [(ngModel)]="CWUS_EMAIL" #TXTEMAIL="ngModel" id="txtEmail" name="txtEmail" type="text"
+              class="form-control" placeholder="Enter your Email"
+              pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required />
+            <div class="errorMsg"
+              *ngIf="(TXTEMAIL.touched && !TXTEMAIL.valid) || (CWithUs.submitted && !TXTEMAIL.valid)">
+              <span *ngIf="TXTEMAIL.errors.required">Email ID is required.</span>
+              <span *ngIf="TXTEMAIL.errors.pattern">Please enter valid Email ID.</span>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">State</div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <select [(ngModel)]="CWUS_State" #TXTSTATE="ngModel" id="txtState" name="txtState" class="form-control"
+              (change)="GetCity(CWUS_State)">
+              <option value="">Select</option>
+              <option *ngFor="let state of States" value="{{state.STATEID}}">{{state.STATE_NAME}}</option>
+            </select>
+            <div class="errorMsg" *ngIf="(TXTSTATE.touched && !TXTSTATE.valid) || (CWithUs.submitted && !TXTSTATE.valid)">
+              <span *ngIf="TXTSTATE.errors.required">Please Select State.</span>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">City</div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <input [(ngModel)]="CWUS_CITY" #TXTCITY="ngModel" id="txtCity" name="txtCity" type="text"
+              class="form-control" placeholder="Enter City Name" pattern="[a-zA-Z&amp;0-9-.'_() ]*" />
+            <div class="errorMsg" *ngIf="(TXTCITY.touched && !TXTCITY.valid) || (CWithUs.submitted && !TXTCITY.valid)">
+              <span *ngIf="TXTCITY.errors.required">Contact Person Name is required.</span>
+              <span *ngIf="TXTCITY.errors.pattern">Please enter valid Contact Person Name.</span>
+            </div>
+          </div>
+
+
+          <div class="col-xs-12 col-sm-5 col-md-5 filedname">Leave a Message<sup>*</sup></div>
+          <div class="col-xs-12 col-sm-7 col-md-7">
+            <textarea [(ngModel)]="CWUS_MESSAGE" #TXTMESSAGE="ngModel" id="txtMessage" name="txtMessage" rows="5"
+              class="form-control textarea" minlength="20" maxlength="2000"
+              pattern="[a-zA-Z0-9-.,'_;[\]\&amp;(){}<>/ ]*" type="text" required></textarea>
+            <div class="errorMsg"
+              *ngIf="(TXTMESSAGE.touched && !TXTMESSAGE.valid) || (CWithUs.submitted && !TXTMESSAGE.valid)">
+              <span *ngIf="TXTMESSAGE.errors.required">Description is required.</span>
+              <span *ngIf="TXTMESSAGE.errors.pattern">Please enter valid characters.</span>
+              <span *ngIf="TXTMESSAGE.errors.minlength">Description should be minimum {{
+                      TXTMESSAGE.errors.minlength.requiredLength
+                      }} characters.</span>
+              <span *ngIf="TXTMESSAGE.errors.maxlength">Description can be maximum {{
+                      TXTMESSAGE.errors.minlength.requiredLength
+                      }} characters.</span>
+            </div>
+
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <input type="submit" value="Submit" class="BtnBox">
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

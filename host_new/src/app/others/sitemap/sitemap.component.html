@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li  class="active">Sitemap</li>
+      </ul>
+      <h1 class="pull-left">Sitemap</h1>
+    </div>
+  </div>
+  <div class="row SitemapWapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-2"> <a routerLink="" class="he">Home</a> <a routerLink="/how-it-works" class="he">How it Works</a> <a routerLink="/impacted-lives" class="he">Impacted Lives</a> <a routerLink="/mygifts" class="he">Rebuild And Restore</a>  </div>
+        <div class="col-xs-12 col-sm-6 col-md-2" *ngFor="let item of DONATE"> <a href="javascript:void(0)" class="he">{{item.MenuName}}</a>
+          <ul class="sublink">
+            <li *ngFor="let childItem of item.child_menu">
+              <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+          </li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-2"  *ngFor="let item of ABOUTUS">  <a href="javascript:void(0)" class="he">{{item.MenuName}}</a>
+          <ul class="sublink">
+            <li *ngFor="let childItem of item.child_menu">
+              <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+          </li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-2"*ngFor="let item of FUNDRAISE"> <a href="javascript:void(0)" class="he">{{item.MenuName}}</a>
+          <ul class="sublink">
+            <li *ngFor="let childItem of item.child_menu">
+              <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+          </li>
+          </ul>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-6 col-md-2">  <a href="javascript:void(0)" class="he">Get Information</a>
+          <ul class="sublink">
+            <li> <a href="#" > Terms & conditions</a></li>
+            <li> <a href="#" >Disclaimers</a></li>
+            <li> <a href="#" >FAQs</a></li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

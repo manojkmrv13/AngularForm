@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li class="active">What is HoSh?</li>
+      </ul>
+      <h1 class="pull-left">What is <span>HoSh?</span></h1>
+    </div>
+  </div>
+  <br /><br />
+
+  <div class="row WhatisHoSh">
+    <div class="container subText">
+      <p>HoSh (Hope to Shine) is World Vision India’s <a class="hosh-live" href="/" target="_blank">crowdfunding platform</a> to raise funds for children and families
+        living in need and poverty.</p>
+      <p>As a <a class="hosh-live" href="/" target="_blank">crowdfunding platform,</a> HoSh enables many donors to contribute to one need according to their ability. </p>
+      <p>HoSh has a unique reporting mechanism where you, as a donor, will know how your gift has benefited the person.
+      </p>
+      <p>And what’s more? The ‘Start My Fundraiser’ helps you to choose a particular need, design your own campaign and
+        raise funds for that need through your friends and by sharing on your social network.</p>
+      <hr>
+      <h2>Facts & Figures</h2>
+      <div class="row" *ngFor="let item of factsFigureData">
+          <div class="col-xs-12 col-sm-6 col-md-4">
+              <div class="progBar">
+                <div class="orangeBg" [style.width.%]="1">
+                  <div class="countBar">{{item.NEW_NEEDS}}</div>
+                </div>
+              </div>
+              <div class="t1">New needs </div>
+            </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="progBar">
+            <div class="orangeBg" [style.width.%]="1">
+              <div class="countBar">{{item.NEEDS_MET}}</div>
+            </div>
+          </div>
+          <div class="t1">Needs met </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="progBar">
+            <div class="orangeBg" [style.width.%]="1">
+              <div class="countBar">{{item.NEEDS_IN_PROGRESS}}</div>
+            </div>
+          </div>
+          <div class="t1">Needs in progress </div>
+        </div>        
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>

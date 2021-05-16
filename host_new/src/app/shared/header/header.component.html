@@ -1,0 +1,589 @@
+<div class="container-fluid header">
+    <div class="row menuSection">
+        <div class="container-fluid">
+            <div class="logo">
+                <a routerLink="">
+                    <img src="../assets/images/hosh-hope-to-shine.png" alt="hope to shine logo" class="pull-left visible-lg" />
+                    <img src="../assets/images/logo-mobile.png" alt="hope to shine logo" class="pull-right hidden-lg" />
+                </a>
+                <div class="clr"></div>
+            </div>
+
+            <div class="collapseMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="loginIconMobile hidden-lg hidden-md">
+                <i *ngIf="DonorID" class="fa fa-user-circle-o fa-2x" style="color:#f37021" aria-hidden="true"></i>
+                <i *ngIf="!DonorID" class="fa fa-user-o fa-2x" aria-hidden="true"></i>
+                <div class="btnWrap">
+                    <div *ngIf="!DonorID">
+                        <button class="btn" (click)="open(LOGINFORM)">Login</button>
+                        <button class="btn" (click)="open(SIGNUP_FORM)">Sign Up</button>
+                    </div>
+                    <div *ngIf="DonorID">
+                        <ul *ngFor="let item of ACCOUNT">
+                            <li *ngFor="let childItem of item.child_menu">
+                                <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                            </li>
+                            <li><a href="{{ChildSponsership+'&type=TaxReceipt'}}" target="_blank">My Receipts</a></li>
+                            <li><a href="{{ChildSponsership}}" target="_blank"> Child Sponsorship</a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <button class="btn" (click)="logOut()">Log out</button>
+                    </div>
+                </div>
+            </div>
+            <div class="menuBox">
+                <ul class="menu">
+                    <li class="mLink ddi" data-target="Donate" *ngFor="let item of DONATE">
+                        <a href="javascript:void(0)">{{item.MenuName}} </a>
+                        <div class="subMenu megaMenu">
+                            <div class="row Mcontant">
+                                <div class="containerM container">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-5">
+                                            <ul>
+                                                <li *ngFor="let childItem of item.child_menu">
+                                                    <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-md-7 menuNeed sameHeightWrap">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <h3 style="margin-top: 0;">Trending Needs</h3>
+                                                </div>
+                                                <div class="col-xs-6" *ngFor="let need of megaMenuNeedList">
+                                                    <div class="thBox">
+                                                            <div class="megamenuThImg">
+                                                        <a
+                                                            routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}">
+                                                            
+                                                            <img src="{{need.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}"
+                                                                class="img-responsive" alt="{{need.NEED_ALT_IMAGE_TEXT}}" />
+                                                           
+                                                            </a>
+                                                        </div>
+                                                        <h4><a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"
+                                                                style="color:#ffffff;" title="NEED_LINK_DESCRIPTION">{{need.NEED_NAME}}</a></h4>
+                                                        <p class="sameHeight discription sm" [innerHTML]="(need.NEED_DESCRIPTION.length>120)?
+                                                            (need.NEED_DESCRIPTION | slice:0:120)+'
+                                                            ...':(need.NEED_DESCRIPTION)">
+
+                                                        </p>
+                                                        <p class="gt">
+                                                            <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}"
+                                                                class="OT" style="color:#ffffff;">Know More</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mLink ddi" data-target="fundraising" *ngFor="let item of FUNDRAISE">
+                        <a href="javascript:void(0)">{{item.MenuName}} </a>
+                        <!-- <a href="javascript:void(0)">Fundraise</a> -->
+                        <div class="subMenu">
+                            <div class="Mcontant">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <ul>
+                                            <li *ngFor="let childItem of item.child_menu">
+                                                <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mLink">
+                        <a routerLink="/impacted-lives">Impacted Lives</a>
+                    </li>
+                    <li class="mLink">
+                        <a routerLink="/mygifts">Rebuild and Restore</a>
+                    </li>
+                    <li class="mLink">
+                        <a routerLink="/how-it-works" class="kakaka">How it Works</a>
+                    </li>
+                    <li class="mLink space ddi" data-target="AboutUs" *ngFor="let item of ABOUTUS">
+                        <a href="javascript:void(0)">{{item.MenuName}} </a>
+                        <!-- <a href="javascript:void(0)">About us</a> -->
+                        <div class="subMenu">
+                            <div class="Mcontant">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <ul>
+                                            <li *ngFor="let childItem of item.child_menu">
+                                                <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mLink ddi hidden-xs hidden-sm" *ngFor="let item of ACCOUNT">
+                        <a href="javascript:void(0)" *ngIf="!DonorID">Login</a>
+                        <a href="javascript:void(0)" *ngIf="DonorID">{{UserName}}</a>
+                        <div class="subMenu">
+                            <div class="Mcontant">
+                                <div class="row" *ngIf="DonorID">
+                                    <div class="col-xs-12">
+                                        <ul>
+                                            <li *ngFor="let childItem of item.child_menu">
+                                                <a routerLink="{{childItem.URL}}">{{childItem.MenuName}}</a>
+                                            </li>
+                                            <li><a href="{{ChildSponsership+'&type=TaxReceipt'}}" target="_blank">My
+                                                    Receipts</a></li>
+                                            <li><a href="{{ChildSponsership}}" target="_blank"> Child Sponsorship</a>
+                                            </li>
+                                        </ul>
+                                        <div class="form-group"><button class="btn" (click)="logOut()">Log out</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12" *ngIf="!DonorID">
+                                    <h4>My Account</h4>
+                                    <!-- <p>Access Account and Manage need - delete</p> -->
+                                    <div class="form-group">
+                                        <button class="btn" id="signIn" (click)="open(SIGNUP_FORM)">Sign Up</button>
+                                        <button class="btn" id="signupBtn" (click)="open(LOGINFORM)">Login</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="cart visible-lg" *ngIf="DonorID">
+                        <div class="cartItems" *ngIf="cartItem > 0">{{cartItem}}</div>
+                        <a routerLink="/payment" style="padding:1px 0;">
+                            <div class="cartItems" *ngIf="cartItem > 0">{{cartItem}}</div>
+                            <fa-icon [icon]="faShoppingCart" [styles]="{'font-size': '22px'}"></fa-icon>
+                        </a>
+                    </li>
+                    <li class="noBorder serchBtn visible-lg visible-md">
+                        <img src="../assets/images/search-icon.png" alt="search" class="pull-left search headerSearch" />
+                        <div class="wvSerchBox">
+                            <form #SEARCHFORM="ngForm" (ngSubmit)="SearchBox(SEARCHFORM)">
+                                <input class="serchInput" type="text" [(ngModel)]="SearchKey" name="searchKey"
+                                    required />
+                                <!-- <img src="../assets/images/search-icon.png" class="searchData" (click)="SearchData(SearchKey)"> -->
+                                <button type="submit" class="s_btn SearchData">GO</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="noBorder hidden-xs hidden-sm hidden-md">
+                        <img src="../assets/images/world-vision.png" alt="world vision logo" class="pull-left" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="container">
+        <ng-template #LOGINFORM let-c="close" let-d="dismiss" class="rk">
+            <div class="modal-header">
+                <h2 class="modal-title ">Sign In</h2>
+                <button type="button" id="modalClose" class="close closeBtn" aria-label="Close"
+                    (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="LoginForm">
+                <div class="row">
+                    <div class="col-xs-12 ConnectWithUsThankU" *ngIf="submitSuccessfully">
+                        <h2>Your details captured successfully! We will get back to you soon.</h2>
+                    </div>
+                    <div class="col-xs-12 ConnectWithUs formWapper LoginScreen">
+                        <form #LOGINFORM="ngForm" (ngSubmit)="GetLoginSuccess(LOGINFORM)" novalidate>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div>
+                                <div class="col-xs-12 col-sm-7 col-md-7">
+                                    <input [(ngModel)]="LOGIN_EMAILID" #L_EMAILID="ngModel" id="txtEmail"
+                                        name="txtEmail" type="text" class="form-control"
+                                        placeholder="Enter your registered Email"
+                                        pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required />
+                                    <div class="errorMsg"
+                                        *ngIf="(L_EMAILID.touched && !L_EMAILID.valid) || (LOGINFORM.submitted && !L_EMAILID.valid)">
+                                        <span *ngIf="L_EMAILID.errors.required">Email ID is required.</span>
+                                        <span *ngIf="L_EMAILID.errors.pattern">Please enter a valid Email ID.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Password<sup>*</sup> </div>
+                                <div class="col-xs-12 col-sm-7 col-md-7">
+                                    <input [(ngModel)]="LOGIN_PASSWORD" #LOGINPASSWORD="ngModel" id="PasswordCtrl"
+                                        name="PasswordCtrl" type="password" class="form-control" placeholder="Password"
+                                        required />
+                                    <div class="errorMsg"
+                                        *ngIf="(LOGINPASSWORD.touched && !LOGINPASSWORD.valid) || (LOGINFORM.submitted && !LOGINPASSWORD.valid)">
+                                        <span *ngIf="LOGINPASSWORD.errors.required">Password is required.</span>
+                                        <!--<span *ngIf="TXTCONTECTNO.errors.minlength">Contact No. should be minimum {{ TXTCONTECTNO.errors.minlength.requiredLength
+                                    }} characters.</span> -->
+                                    </div>
+                                    <div class="errorMsg" *ngIf="LOGINPASSWORD_WORNG">
+                                        <span>You have entered an invalid username or password.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <input type="submit" value="Submit" class="BtnBox">
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                        <div class="form-group text-center">
+                            <p class="registerText">Click here to<a href="javascript:void(0)"
+                                    (click)="ChangeModel('signIn','modalClose')">
+                                    Register</a></p>
+                        </div>
+                        <div class="form-group text-center">
+                            <p class="registerText"><a href="javascript:void(0)" (click)="forgotPassChangeScreen()">
+                                    Forgot Password</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" *ngIf="ForgotPassSuccessfully">
+                <div class="row">
+                    <div class="col-xs-12 formWapper ForgotPassScreen">
+                        <form #FORGOTPASSFORM="ngForm" (ngSubmit)="GetForgotPassSuccess(FORGOTPASSFORM)" novalidate>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div>
+                                <div class="col-xs-12 col-sm-7 col-md-7">
+                                    <input [(ngModel)]="FORGOT_PASS_EMAILID" #FP_EMAILID="ngModel" id="FP_Email"
+                                        name="FP_Email" type="text" class="form-control"
+                                        placeholder="Enter your registered Email"
+                                        pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required />
+                                    <div class="errorMsg"
+                                        *ngIf="(FP_EMAILID.touched && !FP_EMAILID.valid) || (FORGOTPASSFORM.submitted && !FP_EMAILID.valid)">
+                                        <span *ngIf="FP_EMAILID.errors.required">Email ID is required.</span>
+                                        <span *ngIf="FP_EMAILID.errors.pattern">Please enter a valid Email ID.</span>
+                                    </div>
+                                    <div class="errorMsg" *ngIf="ForgotPassError">
+                                        <span>Please enter a valid Email ID.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <input type="submit" value="Submit" class="BtnBox">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </ng-template>
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="container">
+        <ng-template #SIGNUP_FORM let-c="close" let-d="dismiss" class="rk">
+            <div class="modal-header">
+                <h2 class="modal-title">Sign Up</h2>
+                <button type="button" id="modalCloseSignUp" class="close closeBtn" aria-label="Close"
+                    (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 ConnectWithUsThankU" *ngIf="submitSuccessfully">
+                        <h2>Your details has been captured successfully!</h2>
+                    </div>
+                    <div class="col-xs-12 ConnectWithUs formWapper">
+                        <form #SIGNUPFORM="ngForm" (ngSubmit)="SignUpSuccess(SIGNUPFORM)" novalidate>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_title">Title<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <select class="form-control" [(ngModel)]="SIGN_UP_TITLE" #S_TITLE="ngModel"
+                                            name="sign_up_title" id="sign_up_title" required>
+                                            <option value="" selected>Select</option>
+                                            <option value="Mr.">Mr.</option>
+                                            <option value="Ms.">Ms.</option>
+                                            <option value="Mrs.">Mrs.</option>
+                                        </select>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_TITLE.touched && !S_TITLE.valid) || (SIGNUPFORM.submitted && !S_TITLE.valid)">
+                                            <span *ngIf="S_TITLE.errors.required">Title is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_firstName">First Name<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control" type="text" [(ngModel)]="SIGN_UP_FIRSTNAME"
+                                            #S_FIRSTNAME="ngModel" id="sign_up_firstName" name="sign_up_firstName"
+                                            pattern="[a-zA-Z&amp; ]*" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_FIRSTNAME.touched && !S_FIRSTNAME.valid) || (SIGNUPFORM.submitted && !S_FIRSTNAME.valid)">
+                                            <span *ngIf="S_FIRSTNAME.errors.required">First name is required.</span>
+                                            <span *ngIf="S_FIRSTNAME.errors.pattern">Please enter valid
+                                                characters.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_lastName">Last Name<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <!-- pattern="[a-zA-Z&amp;0-9-.,'_() ]*" -->
+                                        <input class="form-control" type="text" [(ngModel)]="SIGN_UP_LASTNAME"
+                                            #S_LASTNAME="ngModel" id="sign_up_lastName" name="sign_up_lastName"
+                                            pattern="[a-zA-Z&amp; ]*" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_LASTNAME.touched && !S_LASTNAME.valid) || (SIGNUPFORM.submitted && !S_LASTNAME.valid)">
+                                            <span *ngIf="S_LASTNAME.errors.required">Last name is required.</span>
+                                            <span *ngIf="S_LASTNAME.errors.pattern">Please enter valid
+                                                characters.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_mobile">Mobile No.<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control NumberOnly" type="tel" [(ngModel)]="SIGN_UP_MOBILE"
+                                            #S_MOBILE_NO="ngModel" name="sign_up_mobile" id="sign_up_mobile"
+                                            minlength="10" maxlength="10" pattern="^([5-9]{1})([0-9]{9})$" required>
+                                        <!--pattern="^([5-9]{1})([0-9]{9})$"-->
+                                        <div class="errorMsg"
+                                            *ngIf="(S_MOBILE_NO.touched && !S_MOBILE_NO.valid) || (SIGNUPFORM.submitted && !S_MOBILE_NO.valid)">
+                                            <span *ngIf="S_MOBILE_NO.errors.required">Contact number is required.</span>
+                                            <span *ngIf="S_MOBILE_NO.errors.pattern">Please enter a valid number.</span>
+                                            <span *ngIf="S_MOBILE_NO.errors.minlength">Enter a valid {{
+                                                S_MOBILE_NO.errors.minlength.requiredLength }}-digit mobile number.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_emailid">Email ID<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control" type="email" [(ngModel)]="SIGN_UP_EMAILID"
+                                            #S_EMAIL_ID="ngModel" id="sign_up_emailid" name="sign_up_emailid"
+                                            pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_EMAIL_ID.touched && !S_EMAIL_ID.valid) || (SIGNUPFORM.submitted && !S_EMAIL_ID.valid)">
+                                            <span *ngIf="S_EMAIL_ID.errors.required">Email ID is required.</span>
+                                            <span *ngIf="S_EMAIL_ID.errors.pattern">Please enter a valid Email
+                                                ID.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname">Password<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input [(ngModel)]="SIGN_UP_PASSWORD" #S_PASSWORD="ngModel"
+                                            id="sign_up_PasswordCtrl" name="sign_up_PasswordCtrl" type="password"
+                                            class="form-control"
+                                            (blur)="ConfirmPassword(SIGN_UP_CONFIRM_PASSWORD, $event)"
+                                            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+()-_+=])(?=\S+$).{8,}$"
+                                            required />
+                                        <div class="errorMsg"
+                                            *ngIf="(S_PASSWORD.touched && !S_PASSWORD.valid) || (SIGNUPFORM.submitted && !S_PASSWORD.valid)">
+                                            <span *ngIf="S_PASSWORD.errors.required">Password is required.</span>
+                                            <span *ngIf="S_PASSWORD.errors.pattern">Password must be 8-20 characters
+                                                and must include at least 1 number, 1 capital letter and 1 special
+                                                character.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname">Confirm Password<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input [(ngModel)]="SIGN_UP_CONFIRM_PASSWORD" #S_CONFIRM_PASSWORD="ngModel"
+                                            id="sign_up_ConfirmPasswordCtrl" name="sign_up_ConfirmPasswordCtrl"
+                                            type="password" class="form-control"
+                                            (blur)="ConfirmPassword(SIGN_UP_PASSWORD, $event)"
+                                            pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*+()-_+=])(?=\S+$).{8,}$"
+                                            required />
+                                        <div class="errorMsg"
+                                            *ngIf="(S_CONFIRM_PASSWORD.touched && !S_CONFIRM_PASSWORD.valid) || (SIGNUPFORM.submitted && !S_CONFIRM_PASSWORD.valid)">
+                                            <span *ngIf="S_CONFIRM_PASSWORD.errors.required">Re-enter your
+                                                Password.</span>
+                                        </div>
+                                        <div class="errorMsg" *ngIf="!CHANGEPASSWORD">
+                                            <span>Passwords do not match. Please re-enter.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname">Address<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control" type="text" placeholder="Address Line 1"
+                                            [(ngModel)]="SIGN_UP_ADDRESS_LINE_1" #S_ADDRESS_A="ngModel"
+                                            name="SIGN_UP_line1" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_ADDRESS_A.touched && !S_ADDRESS_A.valid) || (SIGNUPFORM.submitted && !S_ADDRESS_A.valid)">
+                                            <span *ngIf="S_ADDRESS_A.errors.required">Please enter a valid
+                                                address.</span>
+                                        </div>
+                                        <input class="form-control" type="text" placeholder="Address Line 2"
+                                            [(ngModel)]="SIGN_UP_ADDRESS_LINE_2" #S_ADDRESS_B="ngModel"
+                                            name="SIGN_UP_line2">
+                                        <div class="errorMsg"
+                                            *ngIf="(S_ADDRESS_B.touched && !S_ADDRESS_B.valid) || (SIGNUPFORM.submitted && !S_ADDRESS_B.valid)">
+                                            <span *ngIf="S_ADDRESS_B.errors.required">Please enter a valid
+                                                address.</span>
+                                        </div>
+                                        <input class="form-control" type="text" placeholder="Address Line 3"
+                                            [(ngModel)]="SIGN_UP_ADDRESS_LINE_3" #S_ADDRESS_C="ngModel"
+                                            name="SIGN_UP_line3">
+                                        <div class="errorMsg"
+                                            *ngIf="(S_ADDRESS_C.touched && !S_ADDRESS_C.valid) || (SIGNUPFORM.submitted && !S_ADDRESS_C.valid)">
+                                            <span *ngIf="S_ADDRESS_C.errors.required">Please enter a valid
+                                                address.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_postal">Pin Code<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control NumberOnly" type="text"
+                                            [(ngModel)]="SIGN_UP_POSTALCODE" #S_POSTOL_CODE="ngModel"
+                                            name="sign_up_postal" id="" minlength="6" maxlength="6"
+                                            pattern="^[1-9][0-9]{5}$" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_POSTOL_CODE.touched && !S_POSTOL_CODE.valid) || (SIGNUPFORM.submitted && !S_POSTOL_CODE.valid)">
+                                            <span *ngIf="S_POSTOL_CODE.errors.required">Pin Code is required.</span>
+                                            <span *ngIf="S_POSTOL_CODE.errors.pattern">Please enter valid Pin
+                                                Code.</span>
+                                            <span *ngIf="S_POSTOL_CODE.errors.minlength">Please enter a valid 6-digit
+                                                Pin Code. </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_city">City<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control" type="text" [(ngModel)]="SIGN_UP_CITY"
+                                            #S_CITY="ngModel" id="sign_up_city" name="sign_up_city"
+                                            pattern="[a-zA-Z&amp; ]*" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_CITY.touched && !S_CITY.valid) || (SIGNUPFORM.submitted && !S_CITY.valid)">
+                                            <span *ngIf="S_CITY.errors.required">City is required.</span>
+                                            <span *ngIf="S_CITY.errors.pattern">Please enter valid characters.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_state">State<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control" type="text" [(ngModel)]="SIGN_UP_STATE"
+                                            #S_STATE="ngModel" id="sign_up_state" name="sign_up_state"
+                                            pattern="[a-zA-Z&amp; ]*" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_STATE.touched && !S_STATE.valid) || (SIGNUPFORM.submitted && !S_STATE.valid)">
+                                            <span *ngIf="S_STATE.errors.required">State is required.</span>
+                                            <span *ngIf="S_STATE.errors.pattern">Please enter valid characters.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname" for="sign_up_country">Country<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <input class="form-control" type="text" [(ngModel)]="SIGN_UP_COUNTRY"
+                                            #S_COUNTRY="ngModel" id="sign_up_country" name="sign_up_country"
+                                            pattern="[a-zA-Z&amp; ]*" required>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_COUNTRY.touched && !S_COUNTRY.valid) || (SIGNUPFORM.submitted && !S_COUNTRY.valid)">
+                                            <span *ngIf="S_COUNTRY.errors.required">Country is required.</span>
+                                            <span *ngIf="S_COUNTRY.errors.pattern">Please enter valid characters.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <label class="filedname"
+                                            for="sign_up_nationality">Nationality<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <select class="form-control" [(ngModel)]="SIGN_UP_NATIONALITY"
+                                            #S_NATIONALITY="ngModel" name="sign_up_nationality" id="sign_up_nationality"
+                                            required>
+                                            <option value="" selected>Select</option>
+                                            <option value="1">Indian</option>
+                                            <option value="2">Non-Indian</option>
+                                        </select>
+                                        <div class="errorMsg"
+                                            *ngIf="(S_NATIONALITY.touched && !S_NATIONALITY.valid) || (SIGNUPFORM.submitted && !S_NATIONALITY.valid)">
+                                            <span *ngIf="S_NATIONALITY.errors.required">Nationality is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <button type="submit" value="Submit" class="BtnBox">Register</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                    <div class="form-group text-center">
+                        <p class="registerText">Already registered. Click here for<a href="javascript:void(0)"
+                                (click)="ChangeModel('signupBtn','modalCloseSignUp')">
+                                Sign In</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </ng-template>
+    </div>
+</div>

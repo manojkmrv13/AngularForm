@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a routerLink="">Home</a>
+        </li>
+        <li><a routerLink="/impacted-lives">Impacted Lives</a></li>
+        <!-- <li class="active">Impacted Lives</li> -->
+        <li *ngIf="ActiveType !== 'All Needs'"><a routerLink="/impacted-lives/cat-{{SECTOR | slugify }}" title="{{SECTOR}}">{{SECTOR}}</a></li>
+      </ul>
+      <h1>Impacted Lives</h1>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="container filterWapper">
+      <div class="col-xs-12 filterBox">
+        <div class="he">Select category:</div>
+        <ul class="checkboxWrap">
+          <li *ngFor="let Sector of SectorCategories">
+            <div class="checkbox">
+              <input name="{{Sector.sector}}" class="clsNeedSector" id="Categories{{Sector.sectorId}}"
+                value="{{Sector.sectorId}}" type="checkbox" [checked]="Sector.activeSector"
+                (change)="GetSelectedSector(Sector.sectorId, $event)" />
+            </div>
+            <label for="Categories{{Sector.sectorId}}">{{Sector.sector}}</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row sections">
+    <div class="container">
+      <div class="listviewWapper">
+        <div class="row sameHeightWrap" *ngIf="ImpactedLivesData?.length > 0">
+          <div class="col-xs-12 col-sm-6 col-lg-4" *ngFor="let need of impactedLiveArr">
+            <div class="MainBox">
+              <div class="imageBox">
+                <a routerLink="/impacted-lives/{{need.IMPACTEDID}}/{{need.TITLE | slugify}}" title="{{need.IMPACTED_LINK_DESCRIPTION}}"> <img
+                    src="{{need.IMPACTED_LIVES_IMAGE_2_FILEPATH}}" alt="{{need.IMPACTED_ALT_IMAGE_TEXT}}"
+                    onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'"
+                    class="img-responsive"></a> </div>
+              <div class="BoxName">
+                <div class="icon"><img src="{{need.SECTOR_ICONFILEPATH}}" alt="{{need.SECTOR_ALT_IMAGE_TEXT}}"
+                    onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" width="32" height="31">
+                </div>
+                <h2>
+                  <a routerLink="/impacted-lives/cat-{{need.SECTOR | slugify}}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.SECTOR}}</a>
+                </h2>
+                <div class="clearfix"></div>
+                <hr>
+                <div class="sameHeight">
+                  <h3><a routerLink="/impacted-lives/{{need.IMPACTEDID}}/{{need.TITLE | slugify }}" title="{{need.IMPACTED_LINK_DESCRIPTION}}"
+                      href="#">{{need.TITLE}}</a></h3>
+                  <p class="discription"
+                    [innerHTML]="(need.SHORT_DESCRIPTION.length>150)? (need.SHORT_DESCRIPTION | slice:0:150)+'..':(need.SHORT_DESCRIPTION)">
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

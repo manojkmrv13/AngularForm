@@ -1,0 +1,32 @@
+<div class="conttainer-fluid" *ngIf="homePageBanners?.length > 0">
+    <div class="sociaIconlLinls">
+        <a class="icon" href="http://www.facebook.com/WorldVisionIndia" target="_blank">
+            <fa-icon [icon]="faFacebookF"></fa-icon>
+        </a>
+        <a class="icon" href="http://twitter.com/#!/wvindia" target="_blank">
+            <fa-icon [icon]="faTwitter"></fa-icon>
+        </a>
+        <a class="icon" href="https://www.youtube.com/user/worldvisionindiaweb" target="_blank">
+            <fa-icon [icon]="faYoutube"></fa-icon>
+        </a>
+    </div>
+    <div class="indexSlider">
+        <div class="indexSliderSlider">
+            <div *ngFor="let bannerItem of homePageBanners">
+                <div class="slideContainer">
+                    <div class="bannBg slide1" [ngStyle]="{'background-image': 'url(' + bannerItem.NEW_BANNER_IMAGE + ')'}" role="img" attr.aria-label="{{bannerItem.ALT_IMAGE_TEXT}}" ></div>
+                    <!-- <div class="bannBg slide1"  [defaultImage]="defaultImage" [offset]="offset" [lazyLoad]="bannerItem.NEW_BANNER_IMAGE"></div> -->
+                    <div class="container">
+                        <img src="../assets/images/bannerImg.png" class="bannImg visible-lg visible-md visible-sm">                         
+                        <div class="textBox">
+                            <div>
+                                <h2>{{bannerItem.HEADLINE}}</h2>
+                                <p class="bannTextDisc" title="{{bannerItem.NEED_LINK_DESCRIPTION}}">{{bannerItem.DESCRIPTION}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>

@@ -1,0 +1,10 @@
+/* .NewDataRow .editEntry{ display: block; } */
+.NewDataRow .saveEntry{ display: none; }
+.NewDataRow.active .saveEntry { display: block; }
+.NewDataRow.active .editEntry { display: none}
+ul.shareicon { display: block; float: right;  margin: 0;}
+ul.shareicon li { margin: 0; }
+
+
+
+

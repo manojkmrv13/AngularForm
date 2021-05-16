@@ -1,0 +1,99 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a routerLink="">Home</a>
+        </li>
+        <li>
+          <a routerLink="../donate">Donate</a>
+        </li>
+        <li class="active">My Details</li>
+      </ul>
+      <h1 class="pull-left">My Details</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <div class="paymentTabWapper">
+        <ul>
+          <li>
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-mycart.png">
+              </div>
+              My Cart</div>
+          </li>
+          <li class="active">
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-yourdetail.png">
+              </div>
+              My Details</div>
+          </li>
+          <li>
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-mode.png">
+              </div>
+              Payment Mode</div>
+          </li>
+          <li>
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-trasection.png">
+              </div>
+              Transaction Status</div>
+          </li>
+        </ul>
+      </div>
+      <div class="DonateFinalBox">
+        <div class="col-xs-12 col-sm-6 col-md-3  DetailText"> Name:
+          <strong>{{ BillingName }}</strong>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3  DetailText"> Mobile:
+          <strong>{{ BillingTel }}</strong>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6  DetailText"> Email:
+          <strong>{{ BillingEmail }}</strong>
+        </div>
+        <div *ngIf="BillingCountry" class="col-xs-12 col-sm-6 col-md-4  DetailText"> Country:
+          <strong>{{ BillingCountry }}</strong>
+        </div>
+        <div *ngIf="BillingState" class="col-xs-12 col-sm-6 col-md-4  DetailText"> State:
+          <strong>{{ BillingState }}</strong>
+        </div>
+        <div *ngIf="BillingCity" class="col-xs-12 col-sm-6 col-md-4  DetailText"> City:
+          <strong>{{ BillingCity }}</strong>
+        </div>
+        
+        <div class="col-xs-12 col-sm-6 col-md-6 DetailText "> Address:
+          <strong>{{ BillingAddress }}</strong>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3  DetailText"> Pincode:
+            <strong>{{ BillingZip }}</strong>
+          </div>
+          <div class="clr"></div>
+        <div class="col-xs-12 col-sm-6 col-md-6  DetailText" *ngIf="!motcode">Please help us understand how you knew us?  
+            <select [(ngModel)]="ngMoteCode" class="form-control" style="float: none; display: inline-block; width: 200px; margin: 0; padding: 0;" >
+              <option value="">Select</option>
+              <option *ngFor="let item of moteCodeList" value="{{item.motivationcode}}">{{item.motivationName}}</option>
+            </select>
+          </div>
+        
+        <!-- <a href="#" class="EditBtn">Edit</a> </div> -->
+        
+      </div>
+      <div class="DonateFinalBox TotalFundraisingAmount">
+        <div class="col-xs-12 text-right">
+          <div class="TotalAmountBox TotalDonationAmount ">
+            <h2>Total</h2>
+            <span class="amount">
+              {{ TotalDonationAmount | currency : 'INR' : 'symbol-narrow' : '1.0-0' }}</span>
+            <button name="" class="BtnBox" value="" (click)="ProceedToPayment(ngMoteCode)">Proceed to payment</button>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,29 @@
+<div class="container"><hr/></div>
+
+<div class="container-fluid" *ngIf="socialFeedsData?.length > 0">
+  <div class="row sections JoinConversation">
+    <div class="container">      
+      <div class="col-xs-12 text-center">
+        <h2>Join the Conversation</h2>
+      </div>
+      <div class="col-xs-12">
+        <div class="feedBox" *ngFor="let feed of socialFeedsData">
+          <img src="./assets/images/facebok_Feeds.jpg" class="img img-responsive">
+          <div class="contant">
+              <fa-icon [icon]="faFacebook" size="3x" *ngIf="feed.PLATFORM == 'facebook'"></fa-icon>
+              <fa-icon [icon]="faTwitter" size="3x" *ngIf="feed.PLATFORM == 'twitter'"></fa-icon>
+              <fa-icon [icon]="faInstagram" size="3x" *ngIf="feed.PLATFORM == 'instagram'"></fa-icon>
+              <p>{{ feed.FEED_TEXT | slice:0:150 }}...</p> 
+              <img src="./assets/images/twitter-logo.jpg" />
+          </div>
+          <div class="imgBox">
+            <fa-icon [icon]="faFacebook" size="3x" *ngIf="feed.PLATFORM == 'facebook'"></fa-icon>
+            <fa-icon [icon]="faTwitter" size="3x" *ngIf="feed.PLATFORM == 'twitter'"></fa-icon>
+            <fa-icon [icon]="faInstagram" size="3x" *ngIf="feed.PLATFORM == 'instagram'"></fa-icon>
+              <img [defaultImage]="defaultImage" [offset]="offset" [lazyLoad]="feed.FEED_IMAGE" class="img-responsive">
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+</div>

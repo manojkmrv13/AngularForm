@@ -1,0 +1,112 @@
+<!-- <div class="container-fluid" *ngIf="Achievements?.length > 0"> -->
+    <div class="container-fluid" >
+  <div class="row sections Achievements">
+    <div class="container">
+      <hr>
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-4 cloBox">
+            <h2 class="style2">Achievements</h2>
+            <!--<div class="AchievementsSlider col-xs-12">
+               <ngu-carousel [inputs]="achivementConfig" #achivementCarousel (onMove)="onmoveFn($event)" [dataSource]="Achievements">
+                <ngu-tile *nguCarouselDef="let sectors; let i = index" class="bannerStyle">
+                  <h4 class="OT">{{sectors.SECTOR}}</h4>
+                  <div class="group" *ngFor="let sectorItem of sectors.SECTOR_ITEMS">
+                    <img class="icon" [defaultImage]="defaultImage" [offset]="offset" [lazyLoad]="sectorItem.ACHIEVEMENT_ICONFILEPATH" [offset]="offset" />
+                    <p>
+                      <span class="num">{{sectorItem.ACHIEVEMENTTITLE}}</span>{{sectorItem.DESCRIPTION}} </p>
+                  </div>
+                </ngu-tile>
+                <button NguCarouselPrev class='leftRs'></button>
+                <button NguCarouselNext class='rightRs'></button>  
+              </ngu-carousel> 
+            </div>-->
+
+              <div class="AchievementsSlider">
+                <div *ngFor="let items of Achievements">
+                    <h4 class="OT">{{items.SECTOR}}</h4>
+                    <div class="group" *ngFor="let sectorItem of items.SECTOR_ITEMS">
+                      <img class="icon" [defaultImage]="defaultImage" [lazyLoad]="sectorItem.ACHIEVEMENT_ICONFILEPATH" [offset]="offset" />
+                      <p>
+                        <span class="num">{{sectorItem.ACHIEVEMENTTITLE}}</span>{{sectorItem.DESCRIPTION}} </p>
+                    </div>
+                </div>              
+            </div>
+            
+          </div>
+
+          <div class="col-xs-12 col-sm-12 col-md-4 FactsFigures">
+            <div class="cloBox">
+              <h2 class="style2">Facts & Figures</h2>
+              <br/>              
+              <div class="col-xs-12">
+                <div class="svgCircle">
+                  <div class="circleIcon cIcon1" data-value="70">{{NEW_NEEDS_SVG}}</div>
+                    <div class="circleIcon cIcon2" data-value="40">{{NEEDS_MET_SVG}}</div>
+                    <div class="circleIcon cIcon3" data-value="30">{{NEEDS_IN_PROGRESS_SVG}}</div>
+                    <img src="/assets/images/5x5.png" class="wrp_img" id="svgCircleHeight" />
+                    <svg class="circle circle1" data-value="70" xmlns="http://www.w3.org/2000/svg" >
+                        <circle class="bg firstCrrcl" fill="none" stroke="#f3f3f3"  />
+                        <circle class="prg" fill="none" stroke="#f37021" />
+                    </svg>
+                    <svg class="circle circle2" data-value="40" xmlns="http://www.w3.org/2000/svg" >
+                        <circle class="bg" fill="none" stroke="#f3f3f3"  />
+                        <circle class="prg" fill="none" stroke="#fb8944" />
+                    </svg>
+                    <svg class="circle circle3" data-value="30" xmlns="http://www.w3.org/2000/svg" >
+                        <circle class="bg" fill="none" stroke="#f3f3f3"  />
+                        <circle class="prg" fill="none" stroke="#fc9e65" />
+                    </svg>
+                </div>
+              </div>
+  
+              <div *ngFor="let item of factsFigureData">
+                <div class="FiguresBox" >
+                  <img src="../../assets/images/001.png" alt="needs new" class="icon">
+                  <p>
+                    <span class="num">{{item.NEW_NEEDS}}</span>
+                    <span class="percent"></span>New needs</p>
+                </div>
+                <div class="FiguresBox">
+                  <img src="../../assets/images/002.png" alt="needs met" class="icon">
+                  <p>
+                    <span class="num">{{item.NEEDS_MET}}</span>
+                    <span class="percent"></span>Needs met</p>
+                </div>
+                <div class="FiguresBox">
+                  <img src="../../assets/images/003.png" alt="needs in progress" class="icon">
+                  <p>
+                    <span class="num">{{item.NEEDS_IN_PROGRESS}}</span>
+                    <span class="percent"></span>Needs in progress </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-12 col-md-4 Accountablity">
+            <h2 class="style2">Accountablity</h2>
+            <br />
+            <div class="percentageBox">
+              <div class="num">80
+                <span>%</span>
+              </div>
+              <p>Program cost</p>
+            </div>
+            <div class="percentageBox">
+              <p class="text-right" style="padding-right: 25px">Monitoring and Evaluation </p>
+              <div class="num">09
+                <span>%</span>
+              </div>
+            </div>
+            <div class="percentageBox">
+              <div class="num">11
+                <span>%</span>
+              </div>
+              <p>Admin and Fund raising cost</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

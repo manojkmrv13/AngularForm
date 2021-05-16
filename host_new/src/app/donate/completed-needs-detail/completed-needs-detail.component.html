@@ -1,0 +1,1100 @@
+<div class="container-fluid">
+    <div class="row PageName PHeaderWrp">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li>
+                    <a routerLink="../../../">Home</a>
+                </li>
+                <li>
+                    <a routerLink="/donate">Donate</a>
+                </li>
+                <li>
+                    <a routerLink="/donate/completed-needs"> Completed Needs </a>
+                </li>               
+                <li>
+                    <a class="active">{{NEEDNAME}}</a>
+                </li>
+            </ul>
+            <h1>{{NEEDNAME}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="col-xs-12 text-center">
+                <!-- <img src="/assets/images/Thankyou_01.jpg" class="img-responsive center-block"> -->
+
+                <h2 class="modelTitle">You Made It Possible! <br />
+                    <p>Your support has helped us reach the goal towards <span>{{NEEDNAME}}</span>. Thank you.  </p>
+                </h2>
+
+                <div class="btnStartFundraising">
+                    <div class="btnB">
+                        <ul class="shareicon">
+                            <li>
+                                <!-- Start Social Share-->
+                                <div id="shareButtonC" class="need-share-button-default" data-share-icon-style="box"
+                                    data-share-networks="Facebook,Twitter,GooglePlus,Linkedin"
+                                    data-share-share-button-class="custom-button">
+                                    <span class="custom-button"><img src="/assets/images/icon-share.png" class="icon" /></span>
+                                </div>
+                                <!-- End Social Share-->
+                            </li>
+                        </ul>
+                        Share
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row PSliderWrp">
+        <div class="container">
+            <div class="SmartSchooLWapper DetailPageGallery" id="Update" data-anchor="Update">
+                <div *ngIf="LargeNeedLatestImage?.length > 0">
+                    <div class="LargeNeedlider" *ngIf="NEEDTYPEID == 2 || NEEDTYPEID == 5">
+                        <div *ngFor="let imgLNed of LargeNeedLatestImage">
+                            <div class="noPadding galleryImgBox" style="position:relative" *ngIf="imgLNed.DOCUMENT_TYPE == 'Need Video' || imgLNed.DOCUMENT_TYPE == 'Interim Report Video' || imgLNed.DOCUMENT_TYPE == 'Final Report Video'">
+                                <img [src]="getSantizeUrl(getScreen(imgLNed.DOCUMENT_URL))" class="img-responsive img ketan"
+                                    (click)="GetSmallDocuments(imgLNed.NEEDID,1)" alt="{{imgLNed.NEED_ALT_IMAGE_TEXT}}">
+                                <div class="playBtn" (click)="GetSmallDocuments(imgLNed.NEEDID,1)">
+                                    <img src="/assets/images/btn-more.png" class="img-responsive" alt="{{imgLNed.NEED_ALT_IMAGE_TEXT}}">
+                                </div>
+                                <div class="sliderText bg" [class.bg2]="bg2">
+                                    <p class="t1">{{ imgLNed.NEED_NAME }}</p>
+                                    <p class="t2">Update of</p>
+                                    <p class="t3">{{entryDate(imgLNed.ENTRYDATE)}}
+                                        <span>{{entryMonth(imgLNed.ENTRYDATE)}}</span>
+                                    </p>
+                                    <p class="t4">{{ imgLNed.DOCUMENT_TITLE }}</p>
+                                </div>
+                            </div>
+                            <div class="noPadding galleryImgBox" style="position:relative" *ngIf="imgLNed.DOCUMENT_TYPE == 'Need Image' || imgLNed.DOCUMENT_TYPE == 'Interim Report Image' || imgLNed.DOCUMENT_TYPE == 'Final Report Image'">
+                                <img src="{{imgLNed.DOCUMENT_URL_6_FILEPATH}}" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'"
+                                    class="img-responsive img ketan2" (click)="GetSmallDocuments(imgLNed.NEEDID,1)" alt="{{imgLNed.NEED_ALT_IMAGE_TEXT}}">
+                                <div class="playBtn" (click)="GetSmallDocuments(imgLNed.NEEDID,1)">
+                                    <img src="/assets/images/btn-more.png" class="img-responsive">
+                                </div>
+
+                                <div class="sliderText bg" [class.bg2]="bg2">
+                                    <p class="t1">{{ imgLNed.NEED_NAME }}</p>
+                                    <p class="t2">Update of</p>
+                                    <p class="t3">{{entryDate(imgLNed.ENTRYDATE)}}
+                                        <span>{{entryMonth(imgLNed.ENTRYDATE)}}</span>
+                                    </p>
+                                    <p class="t4">{{ imgLNed.DOCUMENT_TITLE }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="Smalldocument?.length > 0">
+                    <div class="IndividualNeeds" *ngIf="NEEDTYPEID == 1 || NEEDTYPEID == 3 || NEEDTYPEID == 4">
+                        <div *ngFor="let imgSNed of Smalldocument">
+                            <div class="noPadding galleryImgBox" style="position:relative" *ngIf="imgSNed.DOCUMENT_TYPE == 'Need Video' || imgSNed.DOCUMENT_TYPE == 'Interim Report Video' || imgSNed.DOCUMENT_TYPE == 'Final Report Video'">
+                                <a data-fancybox="sgallery" href="{{imgSNed.DOCUMENT_URL}}" title="{{imgSNed.NEED_LINK_DESCRIPTION}}">
+                                    <img [src]="getSantizeUrl(getScreen(imgSNed.DOCUMENT_URL))" alt="{{imgSNed.NEED_ALT_IMAGE_TEXT}}" class="img-responsive img">
+                                    <div class="playBtn" *ngIf="Smalldocument?.length > 1">
+                                        <img src="/assets/images/btn-more.png" class="img-responsive">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="noPadding galleryImgBox" style="position:relative" *ngIf="imgSNed.DOCUMENT_TYPE == 'Need Image' || imgSNed.DOCUMENT_TYPE == 'Interim Report Image' || imgSNed.DOCUMENT_TYPE == 'Final Report Image'">
+                                <a data-fancybox="sgallery" href="{{ imgSNed.DOCUMENT_URL_9_FILEPATH}}" title="{{imgSNed.NEED_LINK_DESCRIPTION}}">
+                                    <img src="{{ imgSNed.DOCUMENT_URL_6_FILEPATH}}" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'"
+                                        class="img-responsive img" alt="{{imgSNed.NEED_ALT_IMAGE_TEXT}}">
+                                    <div class="playBtn" *ngIf="Smalldocument?.length > 1">
+                                        <img src="/assets/images/btn-more.png" class="img-responsive">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="clr"></div>
+
+                <div class="clr"></div>
+                <div class="row EducationSmartSchoolWapper sections" *ngFor="let need of nds">
+                    <h2>{{need.NEED_NAME}}</h2>
+                    <h3 class="locationName">
+                        <fa-icon [icon]="faMapMarkerAlt" [styles]="{'color': '#f37021'}"></fa-icon> {{need.NEED_STATE_NAME}}
+                    </h3>
+                    <div class="subText">
+                        <p [innerHTML]="need.NEED_DESCRIPTION"></p>
+                    </div>                    
+                </div>
+                <div class="clr"></div>
+            </div>
+        </div>
+    </div>
+    <div class="PLisitingWrp col-xs-12">
+        <div class="row listingBar">
+            <div class="container">
+                <!-- <h2 *ngIf="NEEDTYPEID == 2 || NEEDTYPEID == 5">Lisiting</h2> -->
+                <hr>
+                <div class="ScrollBar row">
+                    <div *ngIf="NEEDTYPEID == 1 || NEEDTYPEID == 3 || NEEDTYPEID == 4">
+                        <div class="LisitingWrp col-xs-12" *ngFor="let lnl of nds">
+                            <div class="row  LNthumbnailWrp disabledThumb" *ngIf="NEEDTYPEID == 3">
+                                <div class="col-xs-6  NEED_AMOUNT">
+                                    <div class="text3">Gift Amount</div>
+                                    <strong>
+                                        {{ lnl.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</strong>
+                                </div>
+
+
+                            </div>
+                            <div class="row  LNthumbnailWrp  disabledThumb" *ngIf="NEEDTYPEID == 4">
+                                <div class="col-xs-6 col-sm-4  text-left">
+                                    <div class="text3">Goal</div>
+
+                                    <strong>{{ lnl.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</strong>
+                                </div>
+                                <div class="col-xs-6 col-sm-4  text-left">
+                                    <!-- <input class="pFrequency" type="text" value="{{lnl.PAYMENT_FREQUENCY}}"> -->
+                                    <div class="text3">Select</div>
+                                    <input class="actualA" type="hidden" name="need{{lnl.NEEDID}}" value="" id="actualA{{lnl.NEEDID}}">
+                                    <select id="frequency{{lnl.NEEDID}}" name="frequency{{lnl.NEEDID}}" class="form-control frequency"
+                                        (change)="customeSelectControl(lnl.NEED_AMOUNT, lnl.NEEDID, $event)">
+                                        <option *ngFor="let FREQUENCY of lnl.PAY_FREQUENCY" [selected]="FREQUENCY == 0"
+                                            [value]="FREQUENCY.FREQUENCY_AMOUNT">{{
+                                            FREQUENCY.FREQUENCY }}</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-xs-12 LNthumbnailWrp disabledThumb" *ngIf="NEEDTYPEID == 1">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-4  text-left LNthumbnail">
+                                        <div class="LNthumbnailImg">
+                                            <img src="{{lnl.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{lnl.NEED_ALT_IMAGE_TEXT}}" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';">
+                                        </div>
+                                        {{ lnl.NEED_NAME}}
+                                    </div>
+                                    <div class="col-xs-6 col-sm-4  text-left">
+                                        <div class="text3">Goal</div>
+
+                                        <strong>{{ lnl.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' :
+                                            '1.0-0'}}</strong>
+                                    </div>
+                                    <!-- <div class="col-xs-6 col-sm-4 text-left">{{ProgressPErcentage(lnl.DONATION_AMOUNT,
+                                        lnl.TOTAL_NEED_AMOUNT)}}%
+                                        raised
+                                    </div> -->
+
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div *ngIf="lNeedList?.length > 0">
+                        <div class="LisitingWrp col-xs-12" *ngFor="let lnl of lNeedList">
+                            <div class="row  LNthumbnailWrp " *ngIf="lnl.NEEDTYPEID == 3 || lnl.NEEDTYPEID == 5">
+
+                                <div class="col-xs-6 col-sm-6  text-left LNthumbnail">
+                                    <div class="LNthumbnailImg">
+                                        <img src="{{lnl.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{lnl.NEED_ALT_IMAGE_TEXT}}" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';">
+                                    </div>
+                                    {{ lnl.NEED_NAME}}
+                                </div>
+                                <div class="col-xs-6 col-sm-3  NEED_AMOUNT">
+                                    <div class="text3">Gift Amount</div>
+
+                                    <strong>
+                                        {{ lnl.NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</strong>
+                                </div>
+
+
+                            </div>
+                            <div class="row  LNthumbnailWrp " *ngIf="lnl.NEEDTYPEID == 1">
+                                <div class="col-xs-6  text-left LNthumbnail">
+                                    <div class="LNthumbnailImg">
+                                        <a routerLink="/donate/completed-needs/{{lnl.NEEDID}}/{{lnl.NEED_NAME | slugify }}" title="{{lnl.NEED_LINK_DESCRIPTION}}">
+                                            <img src="{{lnl.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{lnl.NEED_ALT_IMAGE_TEXT}}" class="" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg'"></a>
+                                    </div>
+                                    <a routerLink="/donate/completed-needs/{{lnl.NEEDID}}/{{lnl.NEED_NAME | slugify }}" title="{{lnl.NEED_LINK_DESCRIPTION}}">{{
+                                        lnl.NEED_NAME}}</a>
+                                </div>
+                                <div class="col-xs-3 text-left">
+                                    <div class="text3">Goal</div>
+
+                                    <strong>{{ lnl.NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</strong>
+                                </div>
+                                <!-- <div class="col-xs-3 text-left">{{ProgressPErcentage(lnl.DONATION_AMOUNT,
+                                    lnl.NEED_AMOUNT)}}%
+                                    raised
+                                </div> -->
+
+                            </div>
+                            <div class="row  LNthumbnailWrp " *ngIf="lnl.NEEDTYPEID == 4">
+                                <div class="col-xs-6 col-sm-4  text-left LNthumbnail">
+                                    <div class="LNthumbnailImg">
+                                        <a routerLink="/donate/completed-needs/{{lnl.NEEDID}}/{{lnl.NEED_NAME | slugify }}" title="{{lnl.NEED_LINK_DESCRIPTION}}">
+                                            <img src="{{lnl.NEED_THUMBNAIL_IMAGE_3_FILEPATH}}" alt="{{lnl.NEED_ALT_IMAGE_TEXT}}" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg'"></a>
+                                    </div>
+                                    <a routerLink="/donate/completed-needs/{{lnl.NEEDID}}/{{lnl.NEED_NAME | slugify }}" title="{{lnl.NEED_LINK_DESCRIPTION}}">{{
+                                        lnl.NEED_NAME}}</a>
+                                </div>
+                                <div class="col-xs-6 col-sm-2  text-left">
+                                    <div class="text3">Goal</div>
+
+                                    <strong>{{ lnl.NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</strong>
+                                </div>
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="selectWrap">
+                                        <div class="text3">Payment frequency</div>
+                                        <input class="actualA" type="hidden" name="need{{lnl.NEEDID}}" value="" id="actualA{{lnl.NEEDID}}">
+                                        <select id="frequency{{lnl.NEEDID}}" name="frequency{{lnl.NEEDID}}" class="form-control frequency"
+                                            style="float: none; display: inline-block" (change)="customeSelectControl(lnl.NEED_AMOUNT, lnl.NEEDID, $event)">
+                                            <option *ngFor="let FREQUENCY of lnl.PAY_FREQUENCY" [selected]="FREQUENCY == 0"
+                                                [value]="FREQUENCY.FREQUENCY_AMOUNT">{{
+                                                FREQUENCY.FREQUENCY }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row text-center btnGroupWrp" *ngFor="let need of nds">
+                    <ul class="text-center">
+                        <li>
+                            <button class="BtnBox black" (click)="CWithUs(ConnectWithUs)">Be our Corporate Partner
+                            </button>
+                            <!-- <p class="text">Partner with us to make a meaningful impact.</p> -->
+                        </li>
+                        <li *ngIf="need.ALLOW_SOCIAL_DONATION > 0">
+                            <button class="BtnBox black" (click)="CWithUs(SocialDonation)">Social Donation For Similar
+                                Fundraising</button>
+                            <!-- <p class="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+                        </li>
+                        <li>
+                            <div class="btnStartFundraising">
+                                <div class="btnB" style="padding-right: 20px;">Start Similar Fundraising</div>
+                                <input type="checkbox" class="StartFundraising" id="need{{need.NEEDID}}" value="{{need.NEEDID}}"
+                                    name="need{{need.NEEDID}}" (click)="postFundraising($event)">
+                            </div>
+                            <!-- <p class="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row EducationSmartSchool bg">
+        <div class="container">
+            <ul class="Educationtabs">
+                <li class="Update active" data-scroll="Update">Update</li>
+                <li class="comments" data-scroll="comments">Comments
+                    <i>{{NeedComments !== undefined ? NeedComments.length : 0}}</i>
+                </li>
+                <li class="comments" data-scroll="supporters">Supporters
+                    <i>{{DonorSupporter !== undefined ? DonorSupporter.length : 0}}</i>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row ProgressBar" *ngIf="NEEDTYPEID == 1 || NEEDTYPEID == 2">
+        <div class="container">
+            <div class="row sliderBar">
+                <div class="col-xs-12 col-sm-12 col-lg-8">
+                    <div class="t1">Progress </div>
+                    <div class="t2" *ngFor="let date of nds">
+                        <!-- <span>{{CalculateDays(date.END_DATE)}}</span> Days left -->
+                        <span>0</span> Days left
+                    </div>
+                    <div class="progBar" *ngFor="let da of nds">
+                        <div class="orangeBg" [style.width.%]="ProgressPErcentage(da.DONATION_AMOUNT, da.TOTAL_NEED_AMOUNT)">
+                            <div [class]="AddClass(ProgressPErcentage(da.DONATION_AMOUNT, da.NEED_AMOUNT))">{{ProgressPErcentage(da.DONATION_AMOUNT,
+                                da.TOTAL_NEED_AMOUNT)}}
+                                <span>% </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngFor="let amount of nds">
+                        <div class="col-xs-6 text-left t3">
+                            {{amount.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+
+                            
+                        </div>
+                        
+                        <div class="col-xs-6  text-right t3">
+                            {{amount.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-4 text-center">
+                    <div class="numberBg">{{DonorSupporter?.length}}<br /><span class="text">DONORS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row UtilizedWapper" *ngIf="NEEDTYPEID !== 3">
+        <div class="container FactsFigures">
+            <h2>How your money will be utilised</h2>
+            <div class="row" *ngFor="let moneyUtilized of nds">
+                <div id="sliderround" style="display: none;"></div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="svgCircle">
+                            <!-- <div class="circleIcon cIcon3 dtl" data-value="70">100</div> -->
+                            <div class="circleIcon cIcon2 dtl" data-value="40">{{moneyUtilized.ADMINISTRATION_CHARGES}}</div>
+                            <div class="circleIcon cIcon1 dtl" data-value="30">{{100 -
+                                moneyUtilized.ADMINISTRATION_CHARGES}}</div>
+                            <img src="/assets/images/5x5.png" class="wrp_img" id="svgCircleHeight" />
+                            <svg class="circle circle1" data-value="70" xmlns="http://www.w3.org/2000/svg">
+                                <circle class="bg firstCrrcl" fill="none" stroke="#f3f3f3" />
+                                <circle class="prg" fill="none" stroke="#f37021" />
+                            </svg>
+                            <svg class="circle circle2" data-value="40" xmlns="http://www.w3.org/2000/svg">
+                                <circle class="bg" fill="none" stroke="#f3f3f3" />
+                                <circle class="prg" fill="none" stroke="#fb8944" />
+                            </svg>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                    <!-- <div class="UtilizedText FiguresBox">
+                        <i>
+                            <img src="/assets/images/utilized-icon1.png">
+                        </i>
+                        <span class="text num">100</span>
+                        <span class="text2">% Total Cost</span>
+                    </div> -->
+                    <div class="UtilizedText FiguresBox">
+                        <i>
+                            <img src="/assets/images/utilized-icon2.png">
+                        </i>
+                        <span class="text num">{{moneyUtilized.ADMINISTRATION_CHARGES}}</span>
+                        <span class="text2">% Admin Cost</span>
+                    </div>
+                    <div class="UtilizedText FiguresBox">
+                        <i>
+                            <img src="/assets/images/utilized-icon3.png">
+                        </i>
+                        <span class="text num">{{100 - moneyUtilized.ADMINISTRATION_CHARGES}}</span>
+                        <span class="text2">% Program cost</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row CorporateWapper" *ngIf="GetPartnersD?.length > 0">
+        <div class="container">
+            <h2>Corporate Tie-Ups</h2>
+            <div class="PartnersSlider slider">
+                <div class="col-xs-12 col-sm-6 col-lg-6 item" *ngFor="let Partners of GetPartnersD">
+                    <div class="TieUpsThumb">
+                        <img src="{{ Partners.PARTNER_LOGO_FILEPATH }}" alt="" />
+                    </div>
+                    <div class="TieUpsText">
+                        <h3>{{ Partners.PARTNER_NAME }}</h3>
+                        <p [innerHTML]="Partners.PARTNER_DESCRIPTION"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row CommentsWapper commentsAnchor">
+        <div class="container" id="comments" data-anchor="comments">
+            <div class="row">
+                <h2>Comments</h2>
+                <div class="col-xs-12" [className]="NEEDTYPEID == 3 ? 'col-xs-12 col-lg-12' : 'col-xs-12 col-lg-8'">
+                    <div class="col-xs-12">
+                        <div class="CommentsBox">
+                            <form #FormCumment="ngForm" (ngSubmit)="postComment(FormCumment)" method="POST">
+                                <input [(ngModel)]="USERAGENT" id="UserAgent" name="UserAgent" type="hidden" />
+                                <input [(ngModel)]="IPADDRESS" id="ipAddress" name="ipAddress" type="hidden" />
+                                <input [(ngModel)]="COMMENT" name="cumment" id="cumment" type="text" class="form-control"
+                                    placeholder="Leave a message" maxlength="500" required>
+                                <button class="BtnBox" type="submit">Post</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-12" *ngIf="NeedComments?.length > 0">
+                        <div class="UserComentWapper commentsBottomBorder" *ngFor="let Comment of NeedComments | slice:0:3; let i=index">
+                            <div>
+                                <div class="UserImg">
+                                    <img *ngIf="Comment.ISPRIVATE == 0" src="{{Comment.DONOR_PROFILE_IMAGE_FILEPATH}}"
+                                        class="img-circle" onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'">
+                                </div>
+                                <div class="UserComent">
+                                    <p class="name pull-left">{{Comment.DONOR_USERNAME}}</p>
+                                    <p class="hours pull-right">{{Comment.ENTRYDATE | timeAgo}}</p>
+                                    <div class="clearfix"></div>
+                                    <p class="Comment">{{Comment.COMMENTS}}</p>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <a href="javascript:void(0)" class="BtnBox" (click)="open(ViewMoreComments)" *ngIf="NeedComments?.length > 5">Read
+                                all Comments</a>
+                            <!--<a href="#" class="ReadComments">Read all Comments</a>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-4 SupportersBox SupportersAnchor" id="supporters" *ngIf="NEEDTYPEID !== 3">
+                    <ul class="nav nav-tabs pull-left">
+                        <li class="active">
+                            <a data-toggle="tab" href="#Supporters">Supporters</a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#Campaigner">Campaigners</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="tab-content">
+                        <div id="Supporters" class="tab-pane fade in active">
+                            <div *ngIf="DonorSupporter?.length < 1">
+                                <p class="data_Not_Available"> No Records Found</p>
+                            </div>
+                            <div *ngIf="DonorSupporter?.length > 0">
+                                <div class="DataWapper" *ngFor="let DonorS of DonorSupporter">
+                                    <div class="img">
+                                        <img src="{{DonorS.DONOR_PROFILE_IMAGE_FILEPATH}}"  class="img-responsive"
+                                            onerror="this.onerror=''; this.src='/assets/images/supporters-pic.png';">
+                                    </div>
+                                    <div class="Text">{{DonorS.DONOR_USERNAME}}</div>
+                                </div>
+                            </div>
+                            <div class="paginationWapper" *ngIf="DonorSupporter?.length > 4" id="pager"></div>
+                        </div>
+                        <div id="Campaigner" class="tab-pane fade">
+                            <div *ngIf="GetCNers?.length < 1">
+                                <p class="data_Not_Available"> Data Not Found </p>
+                            </div>
+                            <div *ngIf="GetCNers?.length > 0">
+                                <div class="CamDataWapper" *ngFor="let CampaignerData of GetCNers">
+                                    <div class="img">
+                                        <img src="{{ CampaignerData.DONOR_PROFILE_IMAGE_FILEPATH }}" alt="" class="img-responsive"
+                                            onerror="this.onerror=''; this.src='/assets/images/supporters-pic.png';">
+                                    </div>
+                                    <div class="Text">{{ CampaignerData.DONOR_USERNAME }}</div>
+                                </div>
+                            </div>
+                            <div class="paginationWapper" *ngIf="GetCNers?.length > 4" id="CamPager"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="row TestimonialsWapper">
+        <div class="container similerData">
+            <h2 class="modalTitle" *ngIf="tsNds?.length > 0">Testimonials</h2>
+            
+            <div class="row sameHeightWrap" *ngIf="tsNds?.length > 0">
+                <div class="Testimonials">
+                    <div *ngFor="let testmonial of tsNds">
+                        <div class="col-xs-12 col-sm-12 col-lg-12">
+                            <div class="BoxWrap sameHeight">
+                                <div *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'None'">
+                                    <!-- <div class="T_IMG_Vid">                  
+                                                <img src="/assets/images/image_not_available.jpg" class="imgHW" style="opacity:0" />
+                                              </div> -->
+                                    <div class="Box">
+                                        <div class="text"> {{testmonial.STORY}} </div>
+                                        <div class="NameBox">
+                                            <div class="img"><img src="{{testmonial.CREATED_BY_PROFILE_IMAGE_FILEPATH}}"
+                                                    onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'"
+                                                    class="img-responsive"></div>
+
+                                            <div class="name">{{testmonial.CREATED_BY_USERNAME}} </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Image' || testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Video'">
+                                    <div class="T_IMG_Vid">
+                                        <img src="{{testmonial.SUPPORTING_DOCUMENT_URL_1}}" *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Image'"
+                                            class="img-responsive img" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" />
+                                        <iframe [src]="'https://www.youtube.com/embed/' + getVideoId(testmonial.SUPPORTING_DOCUMENT_URL_1) | safe"
+                                            *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Video'" frameborder="0"
+                                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        <img src="/assets/images/image_not_available.jpg" class="imgHW" />
+                                    </div>
+                                    <div class="Box imgVid">
+                                        <div class="text"> {{testmonial.STORY}} </div>
+                                        <div class="NameBox">
+                                            <div class="img"><img src="{{testmonial.CREATED_BY_PROFILE_IMAGE_FILEPATH}}"
+                                                    onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'"
+                                                    class="img-responsive"></div>
+
+                                            <div class="name">{{testmonial.CREATED_BY_USERNAME}}<br>
+                                                <!--<span class="from">Student (Perambalur)</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            
+        </div>
+    </div>
+    <div class="row TestimonialsWapper">
+        <div class="container similerData">
+            <h2 class="modalTitle" *ngIf="ssNds?.length > 0">Success Stories</h2>
+            
+            <div class="row" *ngIf="ssNds?.length > 0">
+                <div class="SuccessStories sameHeightWrap">
+                    <div *ngFor="let testmonial of ssNds">
+                        <div class="col-xs-12">
+                            <div class="BoxWrap sameHeight">
+                                <div *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'None'">
+                                    <!-- <div class="T_IMG_Vid">                  
+                                                <img src="/assets/images/image_not_available.jpg" class="imgHW" style="opacity:0" />
+                                              </div> -->
+                                    <div class="Box">
+                                        <div class="text"> {{testmonial.STORY}} </div>
+                                        <div class="NameBox">
+                                            <div class="img"><img src="{{testmonial.CREATED_BY_PROFILE_IMAGE_FILEPATH}}"
+                                                    onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'"
+                                                    class="img-responsive"></div>
+                                            <div class="name">{{testmonial.CREATED_BY_USERNAME}} </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Image' || testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Video'">
+                                    <div class="T_IMG_Vid">
+                                        <img src="{{testmonial.SUPPORTING_DOCUMENT_URL_1}}" *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Image'"
+                                            class="img-responsive img" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" />
+                                        <iframe [src]="'https://www.youtube.com/embed/' + getVideoId(testmonial.SUPPORTING_DOCUMENT_URL_1) | safe"
+                                            *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Video'" frameborder="0"
+                                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        <img src="/assets/images/image_not_available.jpg" class="imgHW" />
+                                    </div>
+                                    <div class="Box imgVid">
+                                        <div class="text"> {{testmonial.STORY}} </div>
+                                        <div class="NameBox" *ngIf="testmonial.CREATED_BY_EMAILID !== ''">
+                                            <div class="img"><img src="{{testmonial.CREATED_BY_PROFILE_IMAGE_FILEPATH}}"
+                                                    onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'"
+                                                    class="img-responsive"></div>
+                                            <div class="name">{{testmonial.CREATED_BY_USERNAME}}<br>
+                                                <!--<span class="from">Student (Perambalur)</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            
+        </div>
+    </div>
+    <div class="row listviewWapper similerData">
+        <div class="container">
+            <h2 class="modalTitle" *ngIf="SimilarNeeds?.length > 0">Similar Needs</h2>            
+            <div class="row" *ngIf="SimilarNeeds?.length > 0">
+                <div class="SimilarNeedsSlider sameHeightWrap">
+                    <div *ngFor="let need of SimilarNeeds">
+                        <div class="col-xs-12">
+                            <div class="MainBox">
+                                <div class="imageBox" *ngIf="need.NEEDTYPEID == 1 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">
+                                    <!--{{need.NEED_THUMBNAIL_IMAGE_FILEPATH  /assets/images/img-view2.png}}-->
+                                    <a routerLink="/donate/details/{{need.GROUP_NEED_ID}}/{{need.GROUP_NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}" ><img src="{{need.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';"
+                                        class="img-responsive"></a>
+                                    <div *ngIf="need.GROUP_NEED_ID != 0">
+                                        <div class="flag">
+                                            <p>Part of <br/>{{need.GROUP_NEED_TYPE}}</p>
+                                        </div>
+                                        <div class="partOfNeedName"><a routerLink="/donate/details/{{need.GROUP_NEED_ID}}/{{need.GROUP_NEED_NAME | slugify }}"
+                                            title="{{need.NEED_LINK_DESCRIPTION}}" style="color:#ffffff;">{{need.GROUP_NEED_NAME}} </a></div>
+                                    </div>
+                                </div>
+
+                                <div class="imgSliderWrapper" *ngIf="need.NEEDTYPEID == 2 || need.NEEDTYPEID == 5">
+                                    <img src="/assets/images/image_not_available.jpg" class="img-responsive viewImgSample" />
+                                    <div class="noOFNeeds">
+                                        <h2> {{ need.NEEDS_CHILD.length }}
+                                            <span *ngIf="need.NEEDS_CHILD.length == 1">Need</span><span *ngIf="need.NEEDS_CHILD.length > 1">Needs</span>
+                                        </h2>
+                                    </div>
+                                    <div class="imgSlider">
+                                        <div class="imgWrapper" *ngFor="let childNeed of need.NEEDS_CHILD">
+                                            <div>
+                                              <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'" routerLink="/donate/details/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">                          
+                                                <img src="{{childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}"
+                                                  class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';"></a>
+                                              <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'" routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">
+                                                <img src="/assets/images/compleadedNeeds.png" class="compleadedNeedsFlag" />
+                                                <img src="{{childNeed.NEED_THUMBNAIL_IMAGE_6_FILEPATH}}" alt="{{childNeed.NEED_ALT_IMAGE_TEXT}}"
+                                                    class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';">                              
+                                                  </a>
+                                              <div class="needName">
+                                                <a *ngIf="childNeed.STATUS_INFORMATION !== 'Donation Completed'" routerLink="/donate/details/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">{{childNeed.NEED_NAME}}</a>
+                                                <a *ngIf="childNeed.STATUS_INFORMATION == 'Donation Completed'" routerLink="/donate/completed-needs/{{childNeed.NEEDID}}/{{childNeed.NEED_NAME | slugify }}" title="{{childNeed.NEED_LINK_DESCRIPTION}}">{{childNeed.NEED_NAME}}</a>
+                                              </div>
+                                            </div>                      
+                                          </div>
+                                    </div>
+                                </div>
+
+                                <div class="BoxName">
+                                    <div class="icon">
+                                            <img src="{{need.SECTOR_ICON_FILEPATH}}" alt="{{need.NEED_ALT_IMAGE_TEXT}}">
+                                        <!-- <img src="/assets/images/categories_icon_01_Education.png" *ngIf="need.SECTORID == 2">                                       
+                                        <img src="/assets/images/categories_icon_02_EconomicDevelopment.png" *ngIf="need.SECTORID == 1">
+                                        <img src="/assets/images/categories_icon_03_SpecialChildren.png" *ngIf="need.SECTORID == 3">
+                                        <img src="/assets/images/categories_icon_04_WaterAndSanitation.png" *ngIf="need.SECTORID == 4">
+                                        <img src="/assets/images/categories_icon_05_HealthAndNutrition.png" *ngIf="need.SECTORID == 5">
+                                        <img src="/assets/images/categories_icon_01_Education.png" *ngIf="need.SECTORID == 6"> -->
+                                    </div>
+                                    <h2>
+                                        <a routerLink="/donate/cat-{{need.SECTOR | slugify}}" title="{{need.SECTOR_LINK_DESCRIPTION}}">{{need.SECTOR+"sdfghj"}}</a>
+                                        <!-- {{need.SECTOR}}   -->
+                                        <br>
+                                        <span>
+                                            <a routerLink="/donate/{{need.NEEDTYPE | slugify }}" title="{{need.NEEDTYPE_LINK_DESCRIPTION}}">{{need.NEEDTYPE}}</a>
+                                        </span>
+                                    </h2>
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                    <div class="sameHeight">
+                                    <h3>
+                                        <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}">{{need.NEED_NAME}}</a>
+                                    </h3>
+
+                                    <p class="discription" [innerHTML]="(need.NEED_SHORT_DESCRIPTION.length>150)?
+                                        (need.NEED_SHORT_DESCRIPTION |
+                                        slice:0:150)+'..':(need.NEED_SHORT_DESCRIPTION)"></p>
+                                        </div>
+                                    <div class="row" *ngIf='need.NEEDTYPEID == 2 || need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4 || need.NEEDTYPEID == 5'>
+                                        <div class="col-xs-3 col-sm-3 col-md-3  f-Bold">&nbsp;
+                                            <p>&nbsp;</p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row" *ngIf='need.NEEDTYPEID == 1 '>
+                                        <div class="col-xs-4 col-sm-3 f-Bold">
+                                            <span *ngIf="need.NEEDTYPEID !== 2">
+                                                {{need.DONATION_AMOUNT | currency : 'INR' :
+                                                'symbol-narrow' : '1.0-0'}}</span>
+                                            <span *ngIf="need.NEEDTYPEID == 2">
+                                                {{need.DONATION_AMOUNT_FOR_LARGE_NEED |
+                                                currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                                            <p>Raised</p>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-5 text-center f-Bold">
+                                            <div class="percentage">
+                                                <p class="count" *ngIf="need.NEEDTYPEID !== 2">{{CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)}}
+                                                    <span>%</span>
+                                                </p>
+                                                <div class="bgarea" *ngIf="need.NEEDTYPEID !== 2" [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)"></div>
+
+                                                <p class="count" *ngIf="need.NEEDTYPEID == 2">{{CalculatePercentage(need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED,need.DONATION_AMOUNT_FOR_LARGE_NEED)}}
+                                                    <span>%</span>
+                                                </p>
+                                                <div class="bgarea" *ngIf="need.NEEDTYPEID == 2" [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED,need.DONATION_AMOUNT_FOR_LARGE_NEED)"></div>
+                                            </div>
+                                            <p>Completed</p>
+                                        </div>
+                                        <div class="col-xs-4 f-Bold">
+                                            <span *ngIf="need.NEEDTYPEID !== 2">
+                                                {{ need.TOTAL_NEED_AMOUNT -
+                                                need.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                                            <span *ngIf="need.NEEDTYPEID == 2">
+                                                {{ (need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED
+                                                - need.DONATION_AMOUNT_FOR_LARGE_NEED) | currency : 'INR' :
+                                                'symbol-narrow' : '1.0-0'}}</span>
+                                            <br />
+                                            <p>Required</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class=" GoalLeft-Wapper" *ngIf='need.NEEDTYPEID == 3 || need.NEEDTYPEID == 5 || need.NEEDTYPEID == 4'>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 border">
+                                        <div class="icon">
+                                            <img src="/assets/images/icon-goal4.png">
+                                        </div>
+                                        <p>
+                                            {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                                            <span class="name" *ngIf="need.NEEDTYPEID == 3 || need.NEEDTYPEID == 4">Gift
+                                                Amount</span>
+                                            <span class="name" *ngIf="need.NEEDTYPEID == 5">Campaigner</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="icon">
+                                            <img src="/assets/images/icon-goal2.png">
+                                        </div>
+                                        <p>{{need.TOTAL_DONORS}}
+                                            <span class="name" *ngIf="need.TOTAL_DONORS < 1">Supporter</span>
+                                            <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                                <div class="GoalLeft-Wapper" *ngIf='need.NEEDTYPEID == 1 || need.NEEDTYPEID == 2'>
+                                    <div class="col-xs-4 col-sm-4 col-lg-4 border">
+                                        <div class="icon">
+                                            <img src="/assets/images/icon-goal.png">
+                                        </div>
+                                        <p>
+                                            <span *ngIf="need.NEEDTYPEID !== 2">
+                                                {{need.TOTAL_NEED_AMOUNT | currency :
+                                                'INR' : 'symbol-narrow' : '4.0-0' }} </span> <!-- number:0 -->
+                                            <span *ngIf="need.NEEDTYPEID == 2">
+                                                {{ need.TOTAL_NEED_AMOUNT_FOR_LARGE_NEED
+                                                | currency : 'INR' : 'symbol-narrow' : '4.0-0' }} </span>
+                                            <span class="name">Goal</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-lg-4  border">
+                                        <div class="icon">
+                                            <img src="/assets/images/icon-goal2.png">
+                                        </div>
+                                        <p>{{need.TOTAL_DONORS}}
+                                            <span class="name" *ngIf="need.TOTAL_DONORS < 1">Supporter</span>
+                                             <span class="name" *ngIf="need.TOTAL_DONORS > 1">Supporters</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-lg-4 ">
+                                        <div class="icon">
+                                            <img src="/assets/images/icon-goal3.png">
+                                        </div>
+                                        <p>
+                                            <span class="name">
+                                                <strong *ngIf="need.NEEDTYPEID !== 2">{{CalculateDays(need.END_DATE)}}</strong>
+                                                <strong *ngIf="need.NEEDTYPEID == 2">{{need.DAYS_LEFT_FOR_LARGE_NEED}}</strong>
+                                                <br />Days Left</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Need Box Start -->
+
+
+
+                <!-- Need Box End -->
+            </div>
+        </div>
+    </div>
+
+</div>
+<ng-template #SocialDonation let-c="close" let-d="dismiss" class="rk">
+    <div class="modal-header">
+        <h2 class="modal-title">Social Donation</h2>
+        <button type="button" class="close closeBtn" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class=" col-xs-12 ConnectWithUsThankU">
+                <h2> Your details captured successfully! We will get back to you soon.</h2>
+            </div>
+            <div class=" col-xs-12 ConnectWithUs formWapper">
+                <form #SocialDonation="ngForm" (ngSubmit)="SaveSocialDonation(SocialDonation)" novalidate>
+                    <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div>
+                    <div class="col-xs-12 col-sm-7 col-md-7">
+                        <input [(ngModel)]="SD_EMAILID" #TXTEMAIL="ngModel" id="txtEmail" name="txtEmail" type="text"
+                            class="form-control" placeholder="Enter your Email" pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$"
+                            required />
+                        <div class="errorMsg" *ngIf="(TXTEMAIL.touched && !TXTEMAIL.valid) || (SocialDonation.submitted && !TXTEMAIL.valid)">
+                            <span *ngIf="TXTEMAIL.errors.required">Email ID is required.</span>
+                            <span *ngIf="TXTEMAIL.errors.pattern">Please enter valid Email ID.</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-5 filedname">Contact No.<sup>*</sup> </div>
+                    <div class="col-xs-12 col-sm-7 col-md-7">
+                        <input [(ngModel)]="SD_CONTACT_NUMBER" #TXTCONTECTNO="ngModel" id="txtContactNo" name="txtContactNo"
+                            type="text" class="form-control" placeholder="Enter a Contact No." minlength="10" maxlength="10"
+                            pattern="^([5-9]{1})([0-9]{9})$" required />
+                        <div class="errorMsg" *ngIf="(TXTCONTECTNO.touched && !TXTCONTECTNO.valid) || (SocialDonation.submitted && !TXTCONTECTNO.valid)">
+                            <span *ngIf="TXTCONTECTNO.errors.required">Contact No is required.</span>
+                            <span *ngIf="TXTCONTECTNO.errors.pattern">Please enter valid Contact No.</span>
+                            <span *ngIf="TXTCONTECTNO.errors.minlength">Contact No. should be minimum {{
+                                TXTCONTECTNO.errors.minlength.requiredLength
+                                }} characters.</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-5 filedname">Contact Person<sup>*</sup></div>
+                    <div class="col-xs-12 col-sm-7 col-md-7">
+                        <input [(ngModel)]="SD_CONTACT_PERSON" #TXTCPNAME="ngModel" id="txtCPN" name="txtCPN" type="text"
+                            class="form-control" placeholder="Enter a Contact Person Name" minlength="3" pattern="[a-zA-Z&amp;0-9-.'_() ]*"
+                            required />
+                        <div class="errorMsg" *ngIf="(TXTCPNAME.touched && !TXTCPNAME.valid) || (SocialDonation.submitted && !TXTCPNAME.valid)">
+                            <span *ngIf="TXTCPNAME.errors.required">Contact Person Name is required.</span>
+                            <span *ngIf="TXTCPNAME.errors.pattern">Please enter valid Contact Person Name.</span>
+                            <span *ngIf="TXTCPNAME.errors.minlength">Contact Person Name should be minimum {{
+                                TXTCPNAME.errors.minlength.requiredLength
+                                }} characters.</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-5 filedname">Message<sup>*</sup></div>
+                    <div class="col-xs-12 col-sm-7 col-md-7">
+                        <textarea [(ngModel)]="SD_MESSAGE" #TXTMESSAGE="ngModel" id="txtMessage" name="txtMessage" rows="5"
+                            class="form-control textarea" minlength="20" maxlength="2000" pattern="[a-zA-Z0-9-.,'_;[\]\&amp;(){}<>/ ]*"
+                            type="text" required></textarea>
+                        <div class="errorMsg" *ngIf="(TXTMESSAGE.touched && !TXTMESSAGE.valid) || (SocialDonation.submitted && !TXTMESSAGE.valid)">
+                            <span *ngIf="TXTMESSAGE.errors.required">Description is required.</span>
+                            <span *ngIf="TXTMESSAGE.errors.pattern">Please enter valid characters.</span>
+                            <span *ngIf="TXTMESSAGE.errors.minlength">Description should be minimum {{
+                                TXTMESSAGE.errors.minlength.requiredLength
+                                }} characters.</span>
+                            <span *ngIf="TXTMESSAGE.errors.maxlength">Description can be maximum {{
+                                TXTMESSAGE.errors.minlength.requiredLength
+                                }} characters.</span>
+                        </div>
+                        <!-- <span class="error">Error Mess</span>  -->
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                        <input type="submit" value="Submit" class="BtnBox">
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+<ng-template #ConnectWithUs let-c="close" let-d="dismiss" class="rk">
+    <div class="modal-header">
+      <h2 class="modal-title ConnectWithUsThankU">Be our Corporate Partner </h2>
+      <button type="button" class="close closeBtn" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="SaveCWithUsOnSuccess == false">
+      <div class="row">
+        <div class=" col-xs-12 ConnectWithUs formWapper">
+            <form #CWithUs="ngForm" (ngSubmit)="SaveCWithUs(CWithUs)" novalidate>
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Organisation Name<sup>*</sup></div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <input [(ngModel)]="CWUS_NAME" #TXTNAME="ngModel" id="txtName" name="txtName" type="text" class="form-control"
+                        placeholder="Enter Organisation Name" pattern="[a-zA-Z&amp;0-9-.,'_() ]*" required />
+                    <div class="errorMsg" *ngIf="(TXTNAME.touched && !TXTNAME.valid) || (CWithUs.submitted && !TXTNAME.valid)">
+                        <span *ngIf="TXTNAME.errors.required">Organisation Name is required.</span>
+                        <span *ngIf="TXTNAME.errors.pattern">Please enter valid characters.</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Contact Person<sup>*</sup></div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <input [(ngModel)]="CWUS_CPNAME" #TXTCPNAME="ngModel" id="txtCPN" name="txtCPN" type="text"
+                        class="form-control" placeholder="Enter a Contact Person Name" minlength="3" pattern="[a-zA-Z&amp;0-9-.'_() ]*"
+                        required />
+                    <div class="errorMsg" *ngIf="(TXTCPNAME.touched && !TXTCPNAME.valid) || (CWithUs.submitted && !TXTCPNAME.valid)">
+                        <span *ngIf="TXTCPNAME.errors.required">Contact Person Name is required.</span>
+                        <span *ngIf="TXTCPNAME.errors.pattern">Please enter valid Contact Person Name.</span>
+                        <span *ngIf="TXTCPNAME.errors.minlength">Contact Person Name should be minimum {{
+                            TXTCPNAME.errors.minlength.requiredLength
+                            }} characters.</span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Company Logo</div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <div class="uploadfile ">
+                        <div class="browse-btn">
+                            <input [(ngModel)]="CWUS_FILE" #TXTFILE="ngModel" type="file" id="files" name="files"
+                                class="inputfile" (change)="SectorImageChange($event)" accept=".jpg, .jpeg, .png, .bmp, .gif"
+                                 />
+                        </div>
+                        <div class="nameuploadfile">Upload Company Logo</div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="errorMsg" *ngIf="(TXTFILE.touched && !TXTFILE.valid) || (CWithUs.submitted && !TXTFILE.valid)">
+                        <span *ngIf="TXTFILE.errors.required">Company Logo is required.</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Contact No.<sup>*</sup> </div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <input [(ngModel)]="CWUS_CONTECTNO" #TXTCONTECTNO="ngModel" id="txtContactNo" name="txtContactNo"
+                        type="text" class="form-control" placeholder="Enter a Contact No." minlength="10" maxlength="10"
+                        pattern="^([5-9]{1})([0-9]{9})$" required />
+                    <div class="errorMsg" *ngIf="(TXTCONTECTNO.touched && !TXTCONTECTNO.valid) || (CWithUs.submitted && !TXTCONTECTNO.valid)">
+                        <span *ngIf="TXTCONTECTNO.errors.required">Contact No is required.</span>
+                        <span *ngIf="TXTCONTECTNO.errors.pattern">Please enter valid Contact No.</span>
+                        <span *ngIf="TXTCONTECTNO.errors.minlength">Contact No. should be minimum {{
+                            TXTCONTECTNO.errors.minlength.requiredLength
+                            }} characters.</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Email ID<sup>*</sup></div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <input [(ngModel)]="CWUS_EMAIL" #TXTEMAIL="ngModel" id="txtEmail" name="txtEmail" type="text"
+                        class="form-control" placeholder="Enter your Email" pattern="^([a-zA-Z0-9]+[._-]?[a-zA-Z0-9])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$"
+                        required />
+                    <div class="errorMsg" *ngIf="(TXTEMAIL.touched && !TXTEMAIL.valid) || (CWithUs.submitted && !TXTEMAIL.valid)">
+                        <span *ngIf="TXTEMAIL.errors.required">Email ID is required.</span>
+                        <span *ngIf="TXTEMAIL.errors.pattern">Please enter valid Email ID.</span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">State</div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <select [(ngModel)]="CWUS_State" #TXTSTATE="ngModel" id="txtState" name="txtState" class="form-control"
+                      (change)="GetCity(CWUS_State)">
+                      <option value="">Select</option>
+                      <option *ngFor="let state of States" value="{{state.STATEID}}">{{state.STATE_NAME}}</option>
+                    </select>
+                    <div class="errorMsg" *ngIf="(TXTSTATE.touched && !TXTSTATE.valid) || (CWithUs.submitted && !TXTSTATE.valid)">
+                      <span *ngIf="TXTSTATE.errors.required">Please Select State.</span>
+                    </div>
+                  </div>
+                <!-- <div class="col-xs-12 col-sm-7 col-md-7">
+                    <input [(ngModel)]="CWUS_State" #TXTSTATE="ngModel" id="txtState" name="txtState" type="text"
+                        class="form-control" placeholder="Enter State Name" pattern="[a-zA-Z&amp;0-9-.'_() ]*"
+                         />
+                    <div class="errorMsg" *ngIf="(TXTSTATE.touched && !TXTSTATE.valid) || (CWithUs.submitted && !TXTSTATE.valid)">
+                        <span *ngIf="TXTSTATE.errors.required">Contact Person Name is required.</span>
+                        <span *ngIf="TXTSTATE.errors.pattern">Please enter valid Contact Person Name.</span>
+                        
+                    </div>
+                </div> -->
+                
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">City</div>
+
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <input [(ngModel)]="CWUS_CITY" #TXTCITY="ngModel" id="txtCity" name="txtCity" type="text"
+                        class="form-control" placeholder="Enter City Name"  pattern="[a-zA-Z&amp;0-9-.'_() ]*"
+                         />
+                    <div class="errorMsg" *ngIf="(TXTCITY.touched && !TXTCITY.valid) || (CWithUs.submitted && !TXTCITY.valid)">
+                        <span *ngIf="TXTCITY.errors.required">Contact Person Name is required.</span>
+                        <span *ngIf="TXTCITY.errors.pattern">Please enter valid Contact Person Name.</span>
+                        
+                    </div>
+                </div>
+                
+
+                <div class="col-xs-12 col-sm-5 col-md-5 filedname">Leave a Message<sup>*</sup></div>
+                <div class="col-xs-12 col-sm-7 col-md-7">
+                    <textarea [(ngModel)]="CWUS_MESSAGE" #TXTMESSAGE="ngModel" id="txtMessage" name="txtMessage"
+                        rows="5" class="form-control textarea" minlength="20" maxlength="2000" pattern="[a-zA-Z0-9-.,'_;[\]\&amp;(){}<>/ ]*"
+                        type="text" required></textarea>
+                    <div class="errorMsg" *ngIf="(TXTMESSAGE.touched && !TXTMESSAGE.valid) || (CWithUs.submitted && !TXTMESSAGE.valid)">
+                        <span *ngIf="TXTMESSAGE.errors.required">Description is required.</span>
+                        <span *ngIf="TXTMESSAGE.errors.pattern">Please enter valid characters.</span>
+                        <span *ngIf="TXTMESSAGE.errors.minlength">Description should be minimum {{
+                            TXTMESSAGE.errors.minlength.requiredLength
+                            }} characters.</span>
+                        <span *ngIf="TXTMESSAGE.errors.maxlength">Description can be maximum {{
+                            TXTMESSAGE.errors.minlength.requiredLength
+                            }} characters.</span>
+                    </div>
+                    
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    <input type="submit" value="Submit" class="BtnBox">
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+<ng-template #ViewMoreComments let-c="close" let-d="dismiss" class="rk">
+    <div class="modal-header">
+        <h4 class="modal-title">View All Comments</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class=" col-xs-12 vewAllComments">
+                <div class="UserComentWapper" *ngFor="let Comment of NeedComments">
+                    <hr>
+                    <div class="UserImg">
+                        <img *ngIf="Comment.ISPRIVATE == 0" src="{{Comment.DONOR_PROFILE_IMAGE_FILEPATH}}" class="img-circle">
+                    </div>
+                    <div class="UserComent">
+                        <p class="name pull-left">{{Comment.DONOR_USERNAME}}</p>
+                        <p class="hours pull-right">{{Comment.ENTRYDATE | timeAgo}}</p>
+                        <div class="clearfix"></div>
+                        <p class="Comment">{{Comment.COMMENTS}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+<ng-template #ViewMoreProgress let-c="close" let-d="dismiss" class="rk">
+    <div class="modal-header">
+        <h4 class="modal-title">Smart School Progress Deatils</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class=" col-xs-12 formWapper">
+                <div class="ProgressBar">
+                    <div class="sliderBar">
+                        <div class="col-xs-12 col-sm-12 col-lg-8">
+                            <div class="t1">Progress </div>
+                            <div class="t2" *ngFor="let date of nds">
+                                <span>{{CalculateDays(date.END_DATE)}}</span> Days left
+                            </div>
+                            <div class="progBar" *ngFor="let da of nds">
+                                <div class="orangeBg" [style.width.%]="ProgressPErcentage(da.DONATION_AMOUNT, da.TOTAL_NEED_AMOUNT)">
+                                    <div [class]="AddClass(ProgressPErcentage(da.DONATION_AMOUNT, da.TOTAL_NEED_AMOUNT))">{{ProgressPErcentage(da.DONATION_AMOUNT,
+                                        da.TOTAL_NEED_AMOUNT)}}
+                                        <span>% </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="let amount of nds">
+                                <div class="col-xs-4 text-left t3">
+                                    <fa-icon [icon]="faRupeeSign"></fa-icon>{{amount.DONATION_AMOUNT}}
+                                    <br>
+                                    <!-- <span class="text">The progress</span> -->
+                                </div>
+                                <div class="col-xs-4  text-right t3">
+                                    <fa-icon [icon]="faRupeeSign"></fa-icon>{{amount.TOTAL_NEED_AMOUNT}}
+                                    <br>
+                                    <!-- <span class="text">The target</span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-4" *ngFor="let donors of nds">
+                            <div class="numberBg">{{donors.TOTAL_DONORS}}
+                                <br>
+                                <span class="text">DONORS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<!-- <app-invite-friend></app-invite-friend>
+  <app-invite-friends-custom></app-invite-friends-custom> -->

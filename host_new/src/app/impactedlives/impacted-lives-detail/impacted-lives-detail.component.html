@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a routerLink="">Home</a>
+        </li>
+        <li>
+          <a routerLink="/impacted-lives">Impacted Lives</a>
+        </li>
+        <!-- <li class="active">Impacted Lives Detail</li> -->
+        <li><a routerLink="/impacted-lives/cat-{{SECTOR | slugify }}" title="{{SECTOR}}">{{SECTOR}}</a></li>
+        <li>
+          <a class="active" title="{{NeedName}}" >{{NeedName}}</a>
+        </li>
+      </ul>
+      <h1>{{NeedName}}</h1>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row sections">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>Gallery</h3><br />
+        </div>
+        <div class="col-xs-12 DetailPageGallery">
+          <div class="row MyDonationTAB ">
+            <div class="col-xs-12 ImpactedLivesDetail">
+              <!-- <div *ngFor="let pic of GalleryData ">
+                    <a data-fancybox="sgallery" href="{{pic.DOCUMENT_URL_9_FILEPATH}}">
+                      <img src="{{pic.DOCUMENT_URL_8_FILEPATH}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" />
+                    </a>
+                  </div> -->
+              <div *ngFor="let pic of GalleryData">
+                <div class="noPadding galleryImgBox" style="position:relative" *ngIf="pic.DOCUMENT_TYPE == 'Impacted Lives Video'">
+                  <a data-fancybox="sgallery" href="{{pic.DOCUMENT_URL}}" title="{{pic.DOCUMENT_ALT_IMAGE_TEXT}}">
+                    <img [src]="getSantizeUrl(getScreen(pic.DOCUMENT_URL))" alt="{{pic.DOCUMENT_ALT_IMAGE_TEXT}}" class="img-responsive img" style="width: 100%;">
+                    <div class="playBtn" *ngIf="Smalldocument?.length > 1">
+                      <img src="/assets/images/btn-more.png" class="img-responsive">
+                    </div>
+                  </a>
+                </div>
+                <div class="noPadding galleryImgBox" style="position:relative" *ngIf="pic.DOCUMENT_TYPE == 'Impacted Lives Image'">
+                  <a data-fancybox="sgallery" href="{{ pic.DOCUMENT_URL_2_FILEPATH}}" title="{{pic.DOCUMENT_ALT_IMAGE_TEXT}}">
+                    <img src="{{ pic.DOCUMENT_URL_2_FILEPATH}}" alt="{{pic.DOCUMENT_ALT_IMAGE_TEXT}}" style="width: 100%;" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'"
+                      class="img-responsive img">
+                    <div class="playBtn" *ngIf="Smalldocument?.length > 1">
+                      <img src="/assets/images/btn-more.png" class="img-responsive">
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 text-right">
+          <ul class="shareicon">
+            <li style="display: inline-block; float:none;">
+              <div id="ImpactLiveShareButton" style="display: inline-block; float: none; margin-right: 10px" class="need-share-button-default"
+                data-share-icon-style="box" data-share-networks="Facebook,Twitter,GooglePlus,Linkedin"
+                data-share-share-button-class="custom-button">
+                <span class="custom-button"><img src="/assets/images/icon-share.png" alt="share" class="icon" style="margin: 0 !important" /></span>
+              </div>
+              Share
+            </li>
+          </ul>
+        </div>
+      </div><br/>
+      <div class="row" *ngIf="ImpactedLivesData?.length > 0">
+        <div class="col-xs-12" *ngFor="let need of ImpactedLivesData">
+          <p [innerHTML]="need.DESCRIPTION"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

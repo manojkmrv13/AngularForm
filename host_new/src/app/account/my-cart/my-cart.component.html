@@ -1,0 +1,228 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li class="active">my cart</li>
+      </ul>
+      <h1 class="pull-left">my cart</h1>
+
+    </div>
+  </div>
+  <div class="row sections">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-3 visible-md visible-lg">
+          <div class="MenuWapper">
+            <ul>
+              <li><a routerLink="/account/my-profile"><i><img src="../assets/images/icon-home.png" class="img-responsive"></i>
+                  My Profile</a> </li>
+              <li><a routerLink="/account/my-contribution"><i><img src="../assets/images/icon-donation.png" class="img-responsive"></i>
+                  My Contribution</a> </li>
+              <li><a href="{{ChildSponsership+'&type=TaxReceipt'}}" target="_blank"><i><img src="../assets/images/icon-certificates.png"
+                      class="img-responsive"></i> My Receipts</a> </li>
+              <li><a routerLink="/account/share-my-experience"><i><img src="../assets/images/icon-testimoinal.png"
+                      class="img-responsive"></i> Share My Experience</a> </li>
+              <li><a routerLink="/account/notifications"><i><img src="../assets/images/icon-notification.png" class="img-responsive"></i>
+                  Notifications</a> </li>
+              <li><a routerLink="/account/change-password"><i><img src="../assets/images/icon-password.png" class="img-responsive"></i>
+                  Change Password</a> </li>
+              <li><a routerLink="/account/fundraising-activity"><i><img src="../assets/images/icon-fundraising.png"
+                      class="img-responsive"></i> My Fundraising Activity</a> </li>
+              <li class="active"><a routerLink="/account/my-cart"><i><img src="/assets/images/cartIcon_myWorld.jpg"
+                      class="img-responsive"></i>
+                  My Cart</a></li>
+              <li><a href="{{ChildSponsership}}" target="_blank"><i><img src="/assets/images/childSpIcon_myWorld.jpg"
+                      class="img-responsive"></i> Child Sponsorship</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-9 MyCART Account">
+          <!-- <div class="" *ngIf="CartNeedDataList?.length < 1">
+                <div class="col-xs-12 text-center">
+                    <div class="loadingBox resultNotFound">
+                        <div class="group"><img src="/assets/images/records.png"> &nbsp;<span>No Cart Item found</span></div>
+                    </div>
+                </div>
+            </div> -->
+          <div class="col-xs-12" *ngIf="CartNeedDataList?.length > 0">
+            <div class="form-group text-right">
+              <button class="btn btn-primary" (click)="RemoveAllCarts()">Clear Cart</button>
+            </div>
+          </div>
+          <div class="DonateFinalBox" *ngFor="let cartNeedItem of CartNeedDataList">
+            <div *ngIf="cartNeedItem.GROUP_NEED_NAME == '' ">
+              <button class="closeBtn" (click)="DeleteCartNeed(cartNeedItem.NEEDID)"></button>
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 text-center">
+                  <div class="image">
+                    <img src="{{cartNeedItem.NEED_THUMBNAIL_IMAGE_2_FILEPATH}}" alt="{{cartNeedItem.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" />
+                  </div>
+                  <div class="text">
+                    <a routerLink="/donate/details/{{cartNeedItem.NEEDID}}/{{cartNeedItem.NEED_NAME | slugify }}" title="{{cartNeedItem.NEED_LINK_DESCRIPTION}}">{{cartNeedItem.NEED_NAME}}</a>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 text-center">
+                  <div class="text2">
+                    {{cartNeedItem.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow'
+                    : '1.0-0'}}
+                    <p *ngIf="cartNeedItem.NEEDTYPEID == 3 || cartNeedItem.NEEDTYPEID == 4">Gift Amount</p>
+                    <p *ngIf="cartNeedItem.NEEDTYPEID == 1 || cartNeedItem.NEEDTYPEID == 2">Goal Amount</p>
+                    <p *ngIf="cartNeedItem.NEEDTYPEID == 5">Campaigner</p>
+                  </div>
+                </div>
+                <div class="clearfix  visible-sm"></div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="cartNeedItem.NEEDTYPEID == 3">
+                  <div class="text2">
+                    <select name="Quantity{{cartNeedItem.NEEDID}}" id="Quantity{{cartNeedItem.NEEDID}}" class="PselectCtrl form-control"
+                      (change)="giftAmountCalc(cartNeedItem.TOTAL_NEED_AMOUNT, cartNeedItem.NEEDID, $event)">
+                      <option [value]='' [selected]='select'>Select</option>
+                      <option *ngFor="let number of cartNeedItem.NEED_QUANTITY_VALUES" [selected]="number == cartNeedItem.AMOUNT / cartNeedItem.TOTAL_NEED_AMOUNT"
+                        value="{{number}}">{{number}}</option>
+                    </select>
+                    <div class="clearfix"></div>
+                    <p>Quantity</p>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center " *ngIf="cartNeedItem.NEEDTYPEID == 3">
+                  <div class="text3">My Contribution</div>
+                  <input class="showVal" type="hidden" name="need{{cartNeedItem.NEEDID}}" value="" id="actualA{{cartNeedItem.NEEDID}}">
+                  <input name="" id="donateA{{cartNeedItem.NEEDID}}" type="tel" value="{{cartNeedItem.AMOUNT}}" class="form-control rs DonateAmountControl typeNumberOnly"
+                    (blur)="donationAmountForGift(cartNeedItem.MINIMUM_AMOUNT_PAYABLE, $event)">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="cartNeedItem.NEEDTYPEID == 4">
+                  <div class="text2">
+                    <!--{{ cartNeedItem.CART_PAYMENT_FREQUENCY }}-->
+                    <select name="payFrequency{{cartNeedItem.NEEDID}}" id="payFrequency{{cartNeedItem.NEEDID}}" class="PselectCtrl form-control"
+                      (change)="customeSelectControl(cartNeedItem.TOTAL_NEED_AMOUNT, cartNeedItem.NEEDID, $event)">
+                      <option [value]='0' [selected]='select'>Select</option>
+                      <option *ngFor="let dt of cartNeedItem.PAY_FREQUENCY" [value]="dt.FREQUENCY_AMOUNT" [selected]="dt == cartNeedItem.CART_PAYMENT_FREQUENCY">{{
+                        dt.FREQUENCY }}</option>
+                    </select>
+                    <div class="clearfix"></div>
+                    <p>Frequency</p>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center " *ngIf="cartNeedItem.NEEDTYPEID == 4">
+                  <div class="text3">My Contribution
+                    <span class="GiftDonateAmount"></span>
+                  </div>
+                  <input class="showVal" type="hidden" name="need{{cartNeedItem.NEEDID}}" value="" id="actualA{{cartNeedItem.NEEDID}}">
+                  <input name="" type="text" id="donateA{{cartNeedItem.NEEDID}}" readonly type="text" value="{{cartNeedItem.AMOUNT}}"
+                    class="form-control rs DonateAmountControl" (blur)="donationAmountForGift(cartNeedItem.MINIMUM_AMOUNT_PAYABLE, $event)">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="cartNeedItem.NEEDTYPEID == 1">
+                  <div class="text2">
+                    {{ CalculateRemaingAmt(cartNeedItem.TOTAL_NEED_AMOUNT, cartNeedItem.TOTAL_DONATION_AMOUNT) |
+                    currency : 'INR' : 'symbol-narrow' : '1.0-0'}}
+                    <p>Required</p>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="cartNeedItem.NEEDTYPEID == 1">
+                  <div class="text3">My Contribution </div>
+                  <input class="showVal" type="hidden" name="need{{cartNeedItem.NEEDID}}" value="" id="actualA{{cartNeedItem.NEEDID}}">
+                  <input name="" type="tel" value="{{cartNeedItem.AMOUNT}}" class="form-control typeNumberOnly rs DonateAmountControl"
+                    id="donateA{{cartNeedItem.NEEDID}}" (blur)="donationAmount(cartNeedItem.TOTAL_NEED_AMOUNT - cartNeedItem.TOTAL_DONATION_AMOUNT, cartNeedItem.MINIMUM_AMOUNT_PAYABLE, $event)">
+                </div>
+              </div>
+            </div>
+            <div *ngIf="cartNeedItem.GROUP_NEED_NAME !== ''">
+              <h3 class="titleText">
+                <a routerLink="/donate/details/{{cartNeedItem.GROUP_NEED_ID}}/{{cartNeedItem.GROUP_NEED_NAME | slugify }}">{{cartNeedItem.GROUP_NEED_NAME}}</a>
+              </h3>
+              <div class="DonateFinalBox childItem" *ngFor="let ChildItem of cartNeedItem.NEEDS_CHILD">
+                <button class="closeBtn" (click)="DeleteCartNeed(ChildItem.NEEDID)"></button>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6 col-md-4 text-center">
+                    <div class="image">
+                      <img src="{{ChildItem.NEED_THUMBNAIL_IMAGE_2_FILEPATH}}" alt="{{ChildItem.NEED_ALT_IMAGE_TEXT}}" class="img-responsive" onerror="this.onerror=''; this.src='/assets/images/ImageThumb.jpg';" />
+                    </div>
+                    <div class="text">
+                      <a routerLink="/donate/details/{{ChildItem.NEEDID}}/{{ChildItem.NEED_NAME | slugify }}" title="{{ChildItem.NEED_LINK_DESCRIPTION}}">{{ChildItem.NEED_NAME}}</a>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-2 text-center">
+                    <div class="text2">
+                      {{ChildItem.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' :
+                      '1.0-0'}}
+                      <p *ngIf="ChildItem.NEEDTYPEID == 3 || ChildItem.NEEDTYPEID == 4">Gift Amount</p>
+                      <p *ngIf="ChildItem.NEEDTYPEID == 1 || ChildItem.NEEDTYPEID == 2">Goal Amount</p>
+                      <p *ngIf="ChildItem.NEEDTYPEID == 5">Campaigner</p>
+                    </div>
+                  </div>
+
+                  <div class="clearfix  visible-sm"></div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="ChildItem.NEEDTYPEID == 3">
+                    <div class="text2">
+                      <select name="Quantity{{ChildItem.NEEDID}}" id="Quantity{{ChildItem.NEEDID}}" class="PselectCtrl form-control"
+                        (change)="giftAmountCalc(ChildItem.TOTAL_NEED_AMOUNT, ChildItem.NEEDID, $event)">
+                        <option [value]='' [selected]='select'>Select</option>
+                        <option *ngFor="let number of ChildItem.NEED_QUANTITY_VALUES" [selected]="number == ChildItem.AMOUNT / ChildItem.TOTAL_NEED_AMOUNT"
+                          value="{{number}}">{{number}}</option>
+                      </select>
+                      <div class="clearfix"></div>
+                      <p>Quantity</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 text-center " *ngIf="ChildItem.NEEDTYPEID == 3">
+                    <div class="text3">My Contribution</div>
+                    <input class="showVal" type="hidden" name="need{{ChildItem.NEEDID}}" value="" id="actualA{{ChildItem.NEEDID}}">
+                    <input name="" id="donateA{{ChildItem.NEEDID}}" type="tel" value="{{ChildItem.AMOUNT}}" class="form-control rs DonateAmountControl typeNumberOnly"
+                      (blur)="donationAmountForGift(ChildItem.MINIMUM_AMOUNT_PAYABLE, $event)">
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="ChildItem.NEEDTYPEID == 4">
+                    <div class="text2">
+                      <!--{{ ChildItem.CART_PAYMENT_FREQUENCY }}-->
+                      <select name="payFrequency{{ChildItem.NEEDID}}" id="payFrequency{{ChildItem.NEEDID}}" class="PselectCtrl form-control"
+                        (change)="customeSelectControl(ChildItem.TOTAL_NEED_AMOUNT, ChildItem.NEEDID, $event)">
+                        <option [value]='0' [selected]='select'>Select</option>
+                        <option *ngFor="let dt of ChildItem.PAY_FREQUENCY" [value]="dt.FREQUENCY_AMOUNT" [selected]="dt == ChildItem.CART_PAYMENT_FREQUENCY">{{
+                          dt.FREQUENCY }}</option>
+                      </select>
+                      <div class="clearfix"></div>
+                      <p>Frequency</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 text-center " *ngIf="ChildItem.NEEDTYPEID == 4">
+                    <div class="text3">My Contribution
+                      <span class="GiftDonateAmount"></span>
+                    </div>
+                    <input class="showVal" type="hidden" name="need{{ChildItem.NEEDID}}" value="" id="actualA{{ChildItem.NEEDID}}">
+                    <input name="" type="text" id="donateA{{ChildItem.NEEDID}}" readonly type="text" value="{{ChildItem.AMOUNT}}"
+                      class="form-control rs DonateAmountControl" (blur)="donationAmountForGift(ChildItem.MINIMUM_AMOUNT_PAYABLE, $event)">
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="ChildItem.NEEDTYPEID == 1">
+                    <div class="text2">
+                      {{ CalculateRemaingAmt(ChildItem.TOTAL_NEED_AMOUNT, ChildItem.TOTAL_DONATION_AMOUNT) | currency :
+                      'INR' : 'symbol-narrow' : '1.0-0'}}
+                      <p>Required</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-3 text-center" *ngIf="ChildItem.NEEDTYPEID == 1">
+                    <div class="text3">My Contribution </div>
+                    <input class="showVal" type="hidden" name="need{{ChildItem.NEEDID}}" value="" id="actualA{{ChildItem.NEEDID}}">
+                    <input name="" type="tel" value="{{ChildItem.AMOUNT}}" class="form-control typeNumberOnly rs DonateAmountControl"
+                      id="donateA{{ChildItem.NEEDID}}" (blur)="donationAmount(ChildItem.TOTAL_NEED_AMOUNT - ChildItem.TOTAL_DONATION_AMOUNT, ChildItem.MINIMUM_AMOUNT_PAYABLE, $event)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="DonateFinalBox TotalFundraisingAmount" *ngIf="CartNeedDataList?.length > 0">
+            <div class="col-xs-12 text-right">
+              <div class="TotalAmountBox TotalDonationAmount ">
+                <h2>Total</h2>
+                <span class="amount TotalDAmoumt">
+                  {{TotalAmt | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</span>
+                <button name="" class="BtnBox" value="Proceed" (click)="SubmitDataRedirect()">Proceed</button>
+                <br>
+                <!-- <p>Your helping hand can take them a long way! </p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

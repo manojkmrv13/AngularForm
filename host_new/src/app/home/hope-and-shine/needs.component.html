@@ -1,0 +1,162 @@
+<div class="container-fluid" *ngIf="homePageNeedsList?.length > 0 || homePageNeedsList?.length > 0 || ComplitetNeeds?.length > 0">
+  <div class="container">
+    <div class="col-xs-12 text-center">
+      <h2>Gifts that bring hope</h2>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="UrgentNeeds?.length > 0">
+  <div class="row">
+    <div class="UrgentNeedsBox sections">
+      <div class="container">
+        <h2>Urgent Needs <a routerLink="/donate/filter-urgent" style="color:#ffffff;" ></a>
+          <span>
+            <img src="/assets/images/Icon-UrgentNeeds.png" alt="Urgent Needs">
+          </span>
+        </h2>
+
+        <div class="UrgentNeedsSlider">
+          <div class="Boxneeds " *ngFor="let need of UrgentNeeds">
+            <div class="imgWapper">
+              <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}"><img src="{{need.NEED_THUMBNAIL_IMAGE_7_FILEPATH}}"
+                  onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{need.NEED_ALT_IMAGE_TEXT}}" class="img-responsive"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="UrgentNeedsContaineBox" style="z-index:1">
+          <div class="Boxneeds" *ngFor="let need of UrgentNeeds">
+            <div class="boxCenter">
+              <h3><a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}" style="text-decoration:none; color:#ffffff;">{{need.NEED_NAME}}</a></h3>
+              <p [innerHTML]="need.NEED_SHORT_DESCRIPTION"></p>
+              <div class="totalneedBox">
+                <div class="col-xs-4 col-sm-4 col-md-5  noPadding f-Bold" style="margin-bottom: 10px;"> {{need.TOTAL_NEED_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0' }} <p style="line-height: inherit">Goal Amount</p>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-7  noPadding text-center" *ngIf="need.NEEDTYPEID !== 3 && need.NEEDTYPEID !== 4 && need.NEEDTYPEID !== 5">
+                  <p class="text-left mar5">Completed</p>
+                  <div class="percentage">
+                    <p class="count" style="color:#000000; font-size: 25px">{{CalculatePercentage(need.TOTAL_NEED_AMOUNT, need.DONATION_AMOUNT)}}
+                      <span>%</span></p>
+                    <div class="bgarea" [style.width.%]="CalculatePercentage(need.TOTAL_NEED_AMOUNT,need.DONATION_AMOUNT)"></div>
+                  </div>
+                  <div class="clr"></div>
+                  <div class="row">
+                    <div class="col-xs-6 text-left">
+                      <p class="mar5">{{need.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}} <br>
+                        <span>Raised</span></p>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <p class="mar5">{{need.TOTAL_NEED_AMOUNT - need.DONATION_AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}} <br> <span>Required</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}" class="pull-left donateSM">Donate</a>
+
+              <a routerLink="/donate/details/{{need.NEEDID}}/{{need.NEED_NAME | slugify }}" title="{{need.NEED_LINK_DESCRIPTION}}" class="pull-right ReadMore"> Know More</a>
+              <a routerLink="/donate/filter-urgent" class="pull-right ReadMore" style="margin-right: 10px; padding-right: 10px; border-right: 1px solid #ffffff">More Needs</a>
+              <!--<a href="#" class="DonateBtn"> Donate</a>-->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row sections">
+    <div class="container">
+      <div class="clearfix"></div>
+      <div class="MainNeedSlider row" *ngIf="homePageNeedsList?.length > 0">
+        <div *ngFor="let NeedSlider of homePageNeedsList; let i=index;">
+          <div class="col-xs-12 sameHeightWrap">
+            <h3 class="OT"><a routerLink="/donate/{{NeedSlider.NEEDTYPE | slugify }}" title="{{NeedSlider.NEEDTYPE_LINK_DESCRIPTION}}">{{NeedSlider.NEEDTYPE}}</a>
+              <span>
+                <img src="{{NeedSlider.CHILD_ITEM[0].NEEDTYPE_ICON_FILEPATH}}" alt="" />
+              </span>
+            </h3>
+            <div class="clr"></div>
+            <div class="rxSlider">
+              <!--<a routerLink="../donate" class="knowMoreBtn">Know More</a>-->
+              <div class="rxNext rxSliderBtn"></div>
+              <div class="rxPrev rxSliderBtn"></div>
+              <div class="rxSliderWrapper">
+                <div class="rxSlide" *ngFor="let slideItem of NeedSlider.CHILD_ITEM">
+                  <div class="rxSlidImg">
+                    <a routerLink="/donate/details/{{slideItem.NEEDID}}/{{slideItem.NEED_NAME | slugify }}" title="{{slideItem.NEED_LINK_DESCRIPTION}}"><img
+                        [defaultImage]="defaultImage" [lazyLoad]="slideItem.NEED_THUMBNAIL_IMAGE_6_FILEPATH" [offset]="offset"
+                        onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{slideItem.NEED_ALT_IMAGE_TEXT}}" class="img-responsive"></a>
+                  </div>
+                  <div class="rxTextbox">
+                    <h4 style="height: 38px;"><a routerLink="/donate/details/{{slideItem.NEEDID}}/{{slideItem.NEED_NAME | slugify }}"
+                        style="color:#333333" title="{{slideItem.NEED_LINK_DESCRIPTION}}">{{slideItem.NEED_NAME}}</a></h4>
+                    <p class="sameHeight discription shortDiscription" [innerHTML]="slideItem.NEED_SHORT_DESCRIPTION"> </p>
+                    <div class="clr"></div>
+
+                    <div class="form-group" style="margin-bottom: 15px;" style="font-weight: 400;">
+                      <a routerLink="/donate/details/{{slideItem.NEEDID}}/{{slideItem.NEED_NAME | slugify }}" class="readMore pull-left"
+                        style="color: #f37021 ; text-decoration: underline;">Donate</a>
+
+                      <a routerLink="/donate/details/{{slideItem.NEEDID}}/{{slideItem.NEED_NAME | slugify }}" class="readMore pull-right"
+                        style="color: #333333; text-decoration: underline;" title="{{slideItem.NEED_LINK_DESCRIPTION}}">Know More</a>
+                      <a routerLink="/donate/{{NeedSlider.NEEDTYPE | slugify }}" class="readMore pull-right" style="margin-right: 10px; padding-right: 10px; color: #333333; text-decoration: underline; border-right: 1px solid #333333">More
+                        Needs</a>
+                      <div class="clr"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <img src="/assets/images/Urgent-Needs.png" alt="Urgent Needs" class="heightImg" />
+            </div>
+          </div>
+        </div>        
+      </div>
+      <div class="row" *ngIf="ComplitetNeeds?.length > 0 && homePageNeedsList?.length > 0" style="border-bottom: 1px solid #b5b5b5;"></div>
+      <div class="row" *ngIf="ComplitetNeeds?.length > 0">
+        <div class="container">
+          <div class="CompletedNeedsBox sameHeightWrap">
+            <h2><a routerLink="/donate/completed-needs" title="Completed Needs">Completed Needs</a>
+              <span>
+                <img src="/assets/images/CompletedNeeds-icon.png" alt="Completed Needs">
+              </span>
+            </h2>
+            <div class="CompletedNeedsSlider">
+              <div class="BoxNeeds" *ngFor="let cNeed of ComplitetNeeds">
+                <div class="col-xs-12 col-sm-6 col-md-6 noPadding">
+                  <a routerLink="/donate/completed-needs/{{cNeed.NEEDID}}/{{cNeed.NEED_NAME | slugify }}" title="{{cNeed.NEED_LINK_DESCRIPTION}}"><img src="{{cNeed.NEED_THUMBNAIL_IMAGE_4_FILEPATH}}"
+                      onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';" alt="{{cNeed.NEED_ALT_IMAGE_TEXT}}" class="img-responsive"></a>
+                </div>
+                <div class="col-xs-12 col-sm-6 ">
+                  <h3><a routerLink="/donate/cat-{{cNeed.SECTOR | slugify}}" style="color:#333333;" title="{{cNeed.SECTOR_LINK_DESCRIPTION}}">{{cNeed.SECTOR}}</a></h3>
+                  <p class="t1"><a routerLink="/donate/completed-needs/{{cNeed.NEEDID}}/{{cNeed.NEED_NAME | slugify }}"
+                      style="color:#f37021" title="{{cNeed.NEED_LINK_DESCRIPTION}}">{{cNeed.NEED_NAME}}</a></p>
+                  <p class="t2 sameHeight" [innerHTML]="cNeed.NEED_SHORT_DESCRIPTION"> </p>
+                  <a routerLink="/donate/completed-needs/{{cNeed.NEEDID}}/{{cNeed.NEED_NAME | slugify }}" title="{{cNeed.NEED_LINK_DESCRIPTION}}" class="readMore"
+                    style="color: #333333; text-decoration: none; font-weight: 500; float: right;">Know More</a>
+                  <div class="clearfix"></div>
+                  <div class="TableBox">
+                    <div class="col-xs-6">
+                      <p class="p1">{{cNeed.TOTAL_DONORS}}</p>
+                      <p class="p2" *ngIf="cNeed.TOTAL_DONORS > 1">Supporters</p>
+                      <p class="p2" *ngIf="cNeed.TOTAL_DONORS < 2">Supporter</p>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+.StapBoxWapper{ width:80%; margin:20px auto 0 auto; position:relative; }
+.StapBoxWapper h2{ color:#f37021; float:left; margin:0; padding:0 0px 20px 0; font-size:35px; line-height:30px; margin-top:30px;  }
+.StapBoxWapper h2 span{ color:#000;}
+.StapBoxWapper .stapimg{ width:42px; float:left; margin:33px 0 0 0; padding:0;}
+.StapBoxWapper p{ font-size:20px; color:#333333; line-height:30px;  margin:0 0px 10px 0; line-height: 1.2em; }
+
+.StapBoxWapper ul{ margin:0; padding:0; list-style:none;}
+.StapBoxWapper ul li{ font-size:20px; color:#333333; line-height:30px; background:url(/assets/images/dots.png ) left 7px no-repeat; padding-left:20px; }

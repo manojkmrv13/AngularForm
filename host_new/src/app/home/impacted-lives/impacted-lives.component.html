@@ -1,0 +1,60 @@
+<div class="container-fluid" *ngIf="ImpactedLivesData?.length > 0">
+  <div class="row sections bgGrey">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h2>Impacted Lives </h2>
+          <p>Our pride lies in smiling happy children, an empowered community and a rebuilt city. We are indebted to
+            the countless
+            individuals who help us translate our vision into action, every day.
+            <br /> With your valuable support, we keep creating such beautiful miracles, every day.
+            <br /> If you are new here and have the will to make a positive change for the community at large, then now
+            is the
+            time to join us.
+            <br />
+            <br />
+          </p>
+        </div>
+        <div class="col-xs-12 sameHeightWrap">
+          <div class="HowHoShworks">
+            <div *ngFor="let item of ImpactedLivesData; let i = index">
+                <div class="ImpactedLivesBox" *ngIf="i % 2 == 0">
+                    <div class="imgBox">
+                      <img [defaultImage]="defaultImage" [offset]="offset" [lazyLoad]="item.IMPACTED_LIVES_IMAGE_2_FILEPATH" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';"
+                        class="img-responsive" alt="{{item.IMPACTED_ALT_IMAGE_TEXT}}" /> </div>
+                    <div class="textBox up sameHeight">
+                      <div>
+                        <h3><a routerLink="/impacted-lives/cat-{{item.SECTOR | slugify}}" title="{{item.SECTOR_LINK_DESCRIPTION}}" >{{item.SECTOR}}</a></h3>
+                        <p>
+                          <strong>{{item.TITLE}} </strong>                          
+                        </p>
+                        <p [innerHTML]="(item.SHORT_DESCRIPTION.length>150)? (item.SHORT_DESCRIPTION | slice:0:150)+'..':(item.SHORT_DESCRIPTION)"></p>
+                        <p><a routerLink="/impacted-lives/{{item.IMPACTEDID}}/{{item.TITLE | slugify }}" title="{{item.NEED_LINK_DESCRIPTION}}">Know More</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ImpactedLivesBox" *ngIf="i % 2 !== 0">
+                    <div class="textBox down sameHeight">
+                      <div>
+                        <h3><a routerLink="/impacted-lives/cat-{{item.SECTOR | slugify }}" title="{{item.SECTOR_LINK_DESCRIPTION}}">{{item.SECTOR}}</a></h3>
+                        <p>
+                          <strong>{{item.TITLE}} </strong>                         
+                        </p>
+                        <p [innerHTML]="(item.SHORT_DESCRIPTION.length>150)? (item.SHORT_DESCRIPTION | slice:0:150)+'..':(item.SHORT_DESCRIPTION)"></p>
+                        <p><a routerLink="/impacted-lives/{{item.IMPACTEDID}}/{{item.TITLE | slugify }}" title="{{item.IMPACTED_LINK_DESCRIPTION}}">Know More</a></p>
+                      </div>
+                    </div>
+                    <div class="imgBox">
+                      <img [defaultImage]="defaultImage" [lazyLoad]="item.IMPACTED_LIVES_IMAGE_2_FILEPATH" [offset]="offset" onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg';"
+                        class="img-responsive" alt="{{item.IMPACTED_ALT_IMAGE_TEXT}}" /> </div>
+    
+                  </div>
+
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

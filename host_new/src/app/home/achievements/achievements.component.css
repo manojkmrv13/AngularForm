@@ -1,0 +1,57 @@
+
+.Achievements { display: block; }
+.Achievements .cloBox { border-right:1px solid #e6e5e6; }
+.Achievements .AchievementsSlider .num { font-size:50px;/* font-family: 'Oswald', sans-serif; */ font-weight:900; color:#f37021; display:block; line-height:1em; }
+.Achievements .AchievementsSlider .group { padding:10px 0; display:block; }
+.Achievements .AchievementsSlider p  { font-size:15px; font-weight:400;/* font-family: 'Oswald', sans-serif; */ display: inline-block; width: calc(100% - 86px); }   
+.Achievements .AchievementsSlider .icon { float:left; margin-right:15px;  }
+
+.FactsFigures { display: block; }
+.svgCircle { margin-bottom: 30px; }
+.Achievements .cloBox { border-right:1px solid #e6e5e6; }
+.FactsFigures .FiguresBox { display:block; margin:18px 0;}
+.FactsFigures .FiguresBox .icon { float:left; margin-right:10px; } 
+.FactsFigures .FiguresBox p .num { color:#f37021; font-size:38px; display:inline-block; border-left:1px solid #9d9d9d; padding-left:10px; line-height:0.9em; font-weight: 900; margin-right:0;  }
+.FactsFigures .FiguresBox p .percent { font-size:22px;  margin-right:15px; color:#f37021; font-weight: 400; }
+.FactsFigures .FiguresBox p { font-size:24px; color:#333333;  font-weight: 400;/* font-family: 'Oswald', sans-serif; */ }
+
+.Accountablity .percentageBox { background:url(/assets/images/Accountablity.gif) center left no-repeat; padding:0 0 0 25px; height:115px; color:#f37021; width:100%; display:table; vertical-align:middle; margin-bottom:40px; font-size:70px; }
+.Accountablity .percentageBox:nth-child(even) {  background:url(/assets/images/Accountablity.gif) center right no-repeat; }
+.Accountablity .percentageBox .num {  display:table-cell; font-weight:900; vertical-align:middle; width:2.3em; position: relative;/* font-family: 'Oswald', sans-serif; */ line-height: 86px;
+    padding-bottom: 10px; padding-left: 0.4em;   }
+.Accountablity .percentageBox .num span { font-size:0.757em; font-weight:300; margin-right:15px; position: absolute; bottom: 10px;  }
+.Accountablity .percentageBox p { font-size:0.429em; margin:0; display:table-cell; line-height:1em; vertical-align:middle; font-weight:400 ;}
+
+
+
+
+@media(max-width:991px){
+    .Achievements .cloBox { border: none;}
+    .Accountablity .percentageBox  { font-size: 60px; margin-bottom: 20px; } 
+    
+}
+@media(max-width:767px){
+    .Achievements .AchievementsSlider .num { font-size:30px;}
+    .Accountablity .percentageBox  { font-size: 50px;}
+    .FactsFigures .FiguresBox p { font-size:16px; }
+}
+
+
+.progress1 {
+    transform: rotate(-90deg);
+}
+
+.progress__value {
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    animation: progress1 2s infinite alternate;
+}
+
+@keyframes progress1 {
+    from {
+        stroke-dashoffset: 339.292;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}

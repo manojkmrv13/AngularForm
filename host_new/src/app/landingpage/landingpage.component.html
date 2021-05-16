@@ -1,0 +1,222 @@
+
+<div class="container-fluid slider">
+   <div class="indexSlider1">
+      <div class="indexSliderSlider1">
+            <div class="slideContainer1"> 
+               <ngx-slick-carousel class="carousel hidden-xs" #slickModal="slick-carousel" [config]="slideConfig1" (init)="slickInit1($event)"
+             (breakpoint)="breakpoint1($event)" (afterChange)="afterChange1($event)" (beforeChange)="beforeChange1($event)">
+               <div ngxSlickItem class="dynamic_slider">
+                  <img src="../../assets/images/HOSH-2.png" class="bannImg visible-lg visible-md visible-sm">  
+                <!-- <img src="../../assets/images/HOSH-landing-page-banner.png" class="bannImg visible-lg visible-md visible-sm">   -->
+                <!-- <img src="../../assets/images/banner-shape.png" class="bannImg visible-lg visible-md visible-sm">  -->
+               </div> 
+               <div ngxSlickItem class="dynamic_slider hidden-xs">
+                <img src="../../assets/images/qr banner.png" class="bannImg visible-lg visible-md visible-sm">  
+                  <!-- <div class="centered">
+                  
+                    <div class="QRCode hidden-xs">
+                     <img src="../../assets//images/scan qr with text.png" alt="" width="auto" height="">
+                  </div>
+                </div>  -->
+               </div>
+             </ngx-slick-carousel>
+            <div class="mobile-header visible-xs hidden-lg">
+             <img src="../../assets/images/main-banner-mobile2.png" class="bannImg visible-xs">
+             <!-- <div class="centered">
+                <h1 class="header-overlay">LET’S HELP</h1>
+                <h3 class="header-overlayp">vulnerable children and <br>
+                   families during this difficult time.
+                </h3>
+             
+             </div>  -->
+            </div>
+                  <div class="top-left hidden-xs">
+                     <nav>
+                           <ul class="nav navbar-nav">
+                              <li class="active"><a href="/" target="_blank"><img src="../../assets/images/hosh-logo.png" class="mobileres-hosh hidden-xs"></a></li>
+                              <li class="rightdiv hidden-xs"></li>
+                              <li><a href="https://www.worldvision.in/" target="_blank"><img src="../../assets/images/WV-logo.png" class="mobileres-wv hidden-xs"></a></li>
+                              <li><img src="../assets/images/logo-mobile.png" class="pull-right hidden-lg hidden-sm hidden-md mobile" /></li>
+                           </ul>
+                     </nav>
+                  </div>
+                  <!-- <div class="top-right hidden-xs">
+                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                          <a href="#" class="addcart-cont">
+                            <img src="../../assets/images/heart.png" class="add-cart">
+                             <span class="badge">{{HomePageBanner.getCartCount}}</span>
+                           </a>
+                         </li>
+                        <li class="hidden-xs"><button type="button" class="login-btn"><a href="#"><img src="../../assets/images/login.png" class="loginbtnimg">LOG IN</a></button></li>
+                        <li><img src="../../assets/images/login.png" class="loginbtnimg visible-xs"></li>
+                     </ul>
+                  </div> -->
+
+                  <div class="top-right hidden-xs">
+                     <ul class="nav navbar-nav navbar-right">
+                        <li >
+                          <a class="addcart-cont"  >
+                            <img (click)="openCart()" src="../../assets/images/heart.png" class="add-cart">
+                             <span class="badge">{{HomePageBanner.getCartCount}}</span>
+                           </a>
+                         </li>
+                        <li (click)="opnSignin()" *ngIf="HomePageBanner.getUsername == '' || HomePageBanner.getUsername == null" class="hidden-xs"><button type="button" class="login-btn"><a href="javascript:void(0)" ><img  src="../../assets/images/login.png" class="loginbtnimg">LOG IN</a></button></li>
+                        <li #insideElement class="hidden-xs forlogout" *ngIf="HomePageBanner.getUsername !='' && HomePageBanner.getUsername != null" ><button type="button" class="login-btnlog" (click)="forMobLogout()">{{HomePageBanner.getUsername}}</button></li>
+                        <span class="logout" #insideElement>
+                           <button type="button" (click)="logout()" class="btn">Logout</button>
+                        </span>
+                        <!-- <li><img src="../../assets/images/login.png" class="loginbtnimg visible-xs"></li> -->
+                     </ul>
+                  </div>
+            </div>
+      </div>
+   </div>
+ </div>
+ <div class="mobile-only-visible visible-xs hidden-lg">
+    <app-land-header></app-land-header>
+ </div>
+ <app-bannerneed></app-bannerneed>
+ 
+ <div class="container-fluid impact-bcks hidden-xs">
+   <div class="row sections">
+      <div class="container">
+         <div cslass="listviewWapper">
+            <div class="row sameHeightWrap background-wrap">
+               <h3 class="impact-demo">Impacted lives</h3>
+               <ngx-slick-carousel class="carousel" 
+               #slickModal="slick-carousel" 
+               [config]="slideConfig" 
+               (init)="slickInit($event)"
+               (breakpoint)="breakpoint($event)"
+               (afterChange)="afterChange1($event)"
+               (beforeChange)="beforeChange1($event)">
+               <div ngxSlickItem *ngFor="let slide of slidesdaa" class="slide col-xs-12 col-sm-6 col-lg-4">
+               <div class="">
+                  <div class="MainBox impact">
+                     <div class="imageBox">
+                        <a> 
+                           <img class="slide-image" src="{{slide.image}}" >
+                        </a> 
+                     </div>
+                     <div class="BoxName">
+                        <h2 >{{slide.title}}</h2>
+                        <div class="sameHeight">
+                           <h3>
+                              {{slide.text}}
+                           </h3>
+                          
+                           <a title="" class="readmore" (click)="impactlive(slide)">
+                             Read more <span class="read-allow"> <img src="/assets/images/readMore-arrow.png" alt=""></span>
+                             </a>
+                           <!-- <button type="button" class="impact-btn">{{slide.btntext}}</button> -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </ngx-slick-carousel>
+              
+         
+
+   <!-- Modal -->
+   <div class="modal fade imapct-livespopup" id="myModal3" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Impacted Lives</h4>
+          </div>
+          <div class="modal-body impact-div">
+             <div class="row">
+                <div class="impactmain">
+                   <div class="impact-viewsec">
+                      <a> 
+                        <img class="slide-image" *ngIf="getIdToShow == 1" src="/assets/images/1.png" >
+                        <img class="slide-image" *ngIf="getIdToShow == 2" src="/assets/images/2.png" >
+                        <img class="slide-image" *ngIf="getIdToShow == 3" src="/assets/images/3.png" >
+                        <img class="slide-image" *ngIf="getIdToShow == 4" src="/assets/images/4.png" >
+                      </a> 
+                   </div>
+                   <div class="BoxName">
+                     <h2 *ngIf="getIdToShow == 1">Helped at the right time </h2>
+                     <h2 *ngIf="getIdToShow == 2">Relief for Sukbogi's family</h2>
+                     <h2 *ngIf="getIdToShow == 3">Making most of the opportunity </h2>
+                     <h2 *ngIf="getIdToShow == 4">A new beginning</h2>
+                     
+                    <div class="sameHeight">
+                        <h3 *ngIf="getIdToShow == 1" class="impact-popinner">My wife and I are both disabled. We have two infant daughters too. I am a tailor but do not have any work now. World Vision India came at the right time and gave us the food kit. We have no words to thank World Vision India.</h3>
+                        <h3 *ngIf="getIdToShow == 2" class="impact-popinner">This support came at the right time. We struggled a lot to feed our children. Now we can buy 20 kg of rice and other grocery items, says Sukbogi. Both Sukbogi and her husband were daily wage labourers had no work for more than three months.</h3>	
+                        <h3 *ngIf="getIdToShow == 3" class="impact-popinner">When the lives of women change, their families change and ultimately their children are benefitted. We thank World Vision India for making this possible in our community, says Sudha. One sewing machine has changed Sudha's life. In addition to supporting her family, she takes sewing classes for women in her community too.</h3>	
+                        <h3 *ngIf="getIdToShow == 4" class="impact-popinner">Now I earn a decent income and need not beg others for my wage for the day, says Sujata. When Sujata's husband died in 2015 she struggled to make ends meet. With the help of the pushcart she is able to sell chat items and earn anywhere between Rs. 200 to Rs. 700 a day. </h3>
+                      </div>
+                   </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+           <!--  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+          </div>
+        </div>
+        
+      </div>
+    </div>
+            </div>
+         </div>
+      </div>
+   </div>
+ </div>
+
+ <!--for mobile-->
+ <div class="container-fluid impact-mobile hidden-lg hidden-md hidden-sm">
+   <div class="row sections">
+      <div class="container">
+         <div cslass="listviewWapper">
+            <div class="row">
+            <div class="col-xs-4">
+               <h3 class="impact-mbldemo">Impacted Lives</h3>
+               <p class="imapact-lives-foot">With your valuable support, we keep creating such beautiful miracles, every day.</p>
+            </div>
+           
+            <ngx-slick-carousel class="carousel" 
+            #slickModal="slick-carousel" 
+            [config]="slideConfig" 
+            (init)="slickInit($event)"
+            (breakpoint)="breakpoint($event)"
+            (afterChange)="afterChange1($event)"
+            (beforeChange)="beforeChange1($event)">
+            <div ngxSlickItem *ngFor="let slide of slidesdaa" class="slide">
+               <div class="col-xs-4">
+                  <div class="MainBox impact">
+                     <div class="imageBox">
+                           <a> 
+                              <img class="slide-image" src="{{slide.image}}" >
+                           </a> 
+                          
+                     </div>
+                     <div class="BoxName">
+                        <!-- <h2 >Joy Ride</h2> -->
+                        <div class="sameHeight">
+                           <h3>
+                             {{slide.text}}
+                           </h3>
+                           <!-- <a routerLink="" title="" href="#" class="readmore" data-toggle="modal" data-target="#myModal3">
+                              Read more  <img src="/assets/images/readMore-arrow.png" alt="">
+                              </a> -->
+                           <!-- <button type="button" class="impact-btn">Education</button> -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               
+            </div>
+             </ngx-slick-carousel>
+            </div>
+         </div>      
+      </div>
+   </div>
+ </div>
+ <!---end mobile-->
+ <app-land-footer></app-land-footer>         

@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li>
+          <a routerLink="">Home</a>
+        </li>
+        <li>
+          <a routerLink="../donate">Donate</a>
+        </li>
+        <li class="active">Transaction Status</li>
+      </ul>
+      <h1 class="pull-left">Transaction Status</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <div class="paymentTabWapper">
+        <ul>
+          <li>
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-mycart.png">
+              </div>
+              My Cart</div>
+          </li>
+          <li>
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-yourdetail.png">
+              </div>
+              My Details</div>
+          </li>
+          <li>
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-mode.png">
+              </div>
+              Payment Mode</div>
+          </li>
+          <li class="active">
+            <div class="text">
+              <div class="Icon">
+                <img src="/assets/images/payment-trasection.png">
+              </div>
+              Transaction Status</div>
+          </li>
+        </ul>
+      </div>
+
+      
+
+      <div class="col-xs-12 DonateFinalBox" id="TransactionStatus" style="font-family: Arial, Helvetica, sans-serif;">
+        <div class="col-xs-12">
+          <h3 style="text-align: center; margin: 20px auto 20px auto; font-size: 20px; ">Transaction Status</h3>
+          <h4 *ngIf="PaymentFailed" class="text-center">Payment Failed</h4>
+        </div>        
+          <table class="table" *ngFor="let details of TransactionDetails" style="width:100%;">
+            <tr>
+              <td width="46%" style="text-align: right">Transaction Status</td><td width="8" style="text-align: center">:</td>
+              <td width="46%">{{ details.ORDER_STATUS }}</td>
+            </tr>
+            <tr>
+              <td width="46%" style="text-align: right">Transaction ID</td><td width="8" style="text-align: center">:</td>
+              <td width="46%">{{ details.ORDER_ID }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Transaction Date and Time</td><td width="8" style="text-align: center">:</td>
+              <td>{{ details.ENTRYDATE | date:'short' }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Transaction Reference Number</td><td width="8" style="text-align: center">:</td>
+              <td>{{ details.TRACKING_ID }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Email</td><td width="8" style="text-align: center">:</td>
+              <td>{{ details.DONOR_EMAILID }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Mobile No</td><td width="8" style="text-align: center">:</td>
+              <td>{{ details.DONOR_MOBILE }}</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Payment Amount </td><td width="8" style="text-align: center">:</td>
+              <td>{{ details.AMOUNT | currency : 'INR' : 'symbol-narrow' : '1.0-0'}}</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Pay From</td><td width="8" style="text-align: center">:</td>
+              <td>{{ details.PAYMENT_MODE }}</td>
+            </tr>            
+          </table>                  
+      </div>
+      <div class="col-xs-12 text-center">
+        <div class="form-group">
+            <a routerLink="/payment/details" class="btn btn-primary" *ngIf="TRYAGAIN">Try Again </a> &nbsp; &nbsp;
+            <button class="btn btn-primary" (click)="printDiv('TransactionStatus')">Print</button>
+            <a routerLink="/mygifts" class="btn btn-primary gotoLanding" *ngIf="checklandingpagestatus">Landing page</a>
+           
+        </div>        
+      </div>
+
+      <div class="DonateFinalBox TotalFundraisingAmount">
+        <div class="col-xs-12 text-center">
+          <div class="TotalAmountBox TotalDonationAmount">
+            <h2 class="extra">Thank You.</h2>
+            <div class="clearfix"></div>
+
+            <p *ngIf="isORDER_STATUS">Your payment has been successfully received with the above details.Please quote
+              your transaction
+              <br>reference number for any queries relating to this request.</p>
+
+            <!-- <p *ngIf="isORDER_STATUS">Your payment has been failed.Please quote your transaction
+                    <br>reference number for any queries relating to this request.</p> -->
+
+            <div class="clearfix"></div>
+            <a routerLink="/donate" class="BtnBox" style="cursor: pointer; text-decoration:none">Make Another Payment</a>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2471625713070170');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2471625713070170&ev=PageView&noscript=1"
+/></noscript>

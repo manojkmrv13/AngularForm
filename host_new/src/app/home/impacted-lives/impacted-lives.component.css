@@ -1,0 +1,27 @@
+.leftRs {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background :url(/assets/images/T_th_prev.png) no-repeat;
+    border:none;
+    border-radius: 999px;
+    left: 0;
+    z-index: 10;
+}
+
+.rightRs {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background :url(/assets/images/T_th_next.png) no-repeat;
+    border:none;
+    border-radius: 999px;
+    right: 0;
+    z-index: 10;
+}

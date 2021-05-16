@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="row PageName">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a routerLink="">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li class="active">Partners Speak</li>
+      </ul>
+      <h1 class="pull-left">Partners Speak</h1>
+      <div class="TaxCertificatesWapper pull-right">
+        <div class="formWapper">
+          <label> Filter by &nbsp; &nbsp;</label>
+          <select name="" class="input" (change)="setType($event)">
+            <option value="">All</option>
+            <option value="Donors Speak">Donors Speak</option>
+            <option value="Beneficiary Speak">Beneficiaries Speak</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/><br/>
+  <div class="row TestimonialsWapper">
+      <div class="container">
+        <div class="row sameHeightWrap">
+          <div class="col-xs-12 col-sm-6 col-lg-4" *ngFor="let testmonial of testmonialsData">
+            <div class="BoxWrap sameHeight">
+            <div *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'None'">
+                <!-- <div class="T_IMG_Vid">                  
+                    <img src="/assets/images/image_not_available.jpg" class="imgHW" style="opacity:0" />
+                  </div> -->
+              <div class="Box">
+                <div class="text" [innerHTML]="testmonial.STORY"></div>
+                <div class="NameBox">
+                  <div class="img"><img src="{{testmonial.CREATED_BY_PROFILE_IMAGE_FILEPATH}}" onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'"
+                      class="img-responsive"></div>
+  
+                  <div class="name">{{testmonial.CREATED_BY_USERNAME}} </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Image' || testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Video'">
+              <div class="T_IMG_Vid">
+                <img src="{{testmonial.SUPPORTING_DOCUMENT_NAME_1_FILEPATH}}" *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Image'" class="img-responsive img"
+                  onerror="this.onerror=''; this.src='/assets/images/image_not_available.jpg'" alt="{{testmonial.STORY_ALT_IMAGE_TEXT}}" />
+                <iframe [src]="'https://www.youtube.com/embed/' + getVideoId(testmonial.SUPPORTING_DOCUMENT_URL_1) | safe" *ngIf="testmonial.SUPPORTING_DOCUMENT_TYPE_1 == 'Video'"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <img src="/assets/images/image_not_available.jpg" class="imgHW" />
+              </div>
+              <div class="Box imgVid">
+                <div class="text" [innerHTML]="testmonial.STORY"></div>
+                <div class="NameBox" *ngIf="testmonial.CREATED_BY_EMAILID !== ''">
+                  <div class="img"><img src="{{testmonial.CREATED_BY_PROFILE_IMAGE_FILEPATH}}" onerror="this.onerror=''; this.src='/assets/images/comment-profile-photo.png'"
+                      class="img-responsive"></div>
+  
+                  <div class="name">{{testmonial.CREATED_BY_USERNAME}}<br>
+                    <!--<span class="from">Student (Perambalur)</span>-->
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <!-- <div class="" *ngIf="testmonialsData?.length < 1">
+              <div class="col-xs-12 text-center">
+                  <div class="loadingBox resultNotFound">
+                      <div class="group"><img src="/assets/images/records.png"> &nbsp;<span>No Records
+                              found</span></div>
+                  </div>
+              </div>
+          </div> -->
+  
+        </div>
+      </div>
+    </div>
+</div>
