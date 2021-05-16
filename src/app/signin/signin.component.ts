@@ -27,8 +27,8 @@ profileForm = new FormGroup({
 	
   }
 
-saveDetails(profileForm){
-	console.log(profileForm);
+saveDetails(profileForm: NgForm){
+	console.log(profileForm.value);
 }
 get Fname() { return this.profileForm.get('Fname'); }
 get Lname() { return this.profileForm.get('Lname'); }

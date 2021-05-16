@@ -10,14 +10,14 @@
 			class="alert alert-danger">
 
 		  <div *ngIf="Fname.errors.required">
-			First Name is required.
+			<small><em>First Name is required.</em></small>
 		  </div>
 		  <div *ngIf="Fname.errors.minlength">
-			First Name must be at least 4 characters long.
+			<small><em>First Name must be at least 4 characters long.</em></small>
 		  </div>
 		</div>
 		<div *ngIf="Fname.valid && (Lname.dirty || Lname.touched)" class="alert alert-success">
-		    First Name is Valid
+		    <small><em>First Name is Valid</em></small>
 		</div>
     </div>
     <div class="form-group col-md-6">
@@ -27,14 +27,14 @@
 			class="alert alert-danger">
 
 		  <div *ngIf="Lname.errors.required">
-			Last Name is required.
+			<small><em>Last Name is required.</em></small>
 		  </div>
 		  <div *ngIf="Lname.errors.minlength">
-			Last Name must be at least 4 characters long.
+			<small><em>Last Name must be at least 4 characters long.</em></small>
 		  </div>
 		</div>
 		<div *ngIf="Lname.valid && (Lname.dirty || Lname.touched)" class="alert alert-success">
-		    Last Name is Valid
+		    <small><em>Last Name is Valid</em></small>
 		</div>	  
     </div>
 	<div class="form-group col-md-6">
@@ -44,14 +44,14 @@
 			class="alert alert-danger">
 
 		  <div *ngIf="Email.errors.required">
-			Email is required.
+			<small><em>Email is required.</em></small>
 		  </div>
 		 <div *ngIf="Email.errors.pattern">
-			Enter valid email address.
+			<small><em>Enter valid email address.</em></small>
 		  </div>
 		</div>
 		<div *ngIf="Email.valid && (Email.dirty || Email.touched)" class="alert alert-success">
-		    Email is Valid
+		    <small><em>Email is Valid</em></small>
 		</div>
     </div>
 	<div class="form-group col-md-6">
@@ -61,20 +61,20 @@
 			class="alert alert-danger">
 
 		  <div *ngIf="Mobile.errors.required">
-			Mobile is required.
+			<small><em>Mobile is required.</em></small>
 		  </div>
 		 <div *ngIf="Mobile.errors.pattern">
-			Enter valid Mobile.
+			<small><em>Enter valid Mobile.</em></small>
 		  </div>
 		</div>
 		<div *ngIf="Mobile.valid && (Mobile.dirty || Mobile.touched)" class="alert alert-success">
-		    Mobile is Valid
+		    <small><em>Mobile is Valid</em></small>
 		</div>
     </div>
 	<div class="form-group col-md-6">
 	<label for="inputDOB">Date Of Birth</label>
     <div class="input-group">
-      <input class="form-control" type="date" id="inputDOB" name="dob" placeholder="yyyy-mm-dd"
+      <input min="1921-01-01" class="form-control" type="date" id="inputDOB" name="dob" placeholder="yyyy-mm-dd"
              [formControlName]="'dob'" ngbDatepicker #d="ngbDatepicker">
       <div class="input-group-append">
         <!-- <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button> -->
@@ -84,12 +84,12 @@
 	
 	<div *ngIf="dob.invalid && (dob.dirty || dob.touched)" class="alert alert-danger">
 	 <div *ngIf="dob.errors.age">
-                <sup>*</sup>Age should be more than 18 years
+                <small><em><sup>*</sup>Age should be more than 18 years</em></small>
               </div>
 			  
 	</div>
 	<div *ngIf="dob.valid && (dob.dirty || dob.touched)" class="alert alert-success">
-		    Date of Birth is Valid
+		    <small><em>Date of Birth is Valid</em></small>
 		</div>
   </div>
 <div class="form-group col-md-6">
@@ -99,74 +99,74 @@
 			class="alert alert-danger">
 
 		  <div *ngIf="Address.errors.required">
-			Address is required.
+			<small><em>Address is required.</em></small>
 		  </div>
 		  <div *ngIf="Address.errors.minlength">
-			Address must be at least 4 characters long.
+			<small><em>Address must be at least 4 characters long.</em></small>
 		  </div>
 		  <div *ngIf="Address.errors.maxlength">
-			Address must be less than 150 characters long.
+			<small><em>Address must be less than 150 characters long.</em></small>
 		  </div>
 		</div>
 		<div *ngIf="Address.valid && (Address.dirty || Address.touched)" class="alert alert-success">
-		    Address is Valid
+		    <small><em>Address is Valid</em></small>
 		</div>
   </div>
   <div class="form-group col-md-6">
       <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity" name="City" formControlName="City">
+      <input type="text" class="form-control" id="inputCity" placeholder="City" name="City" formControlName="City">
 	<div *ngIf="City.invalid && (City.dirty || City.touched)"
 			class="alert alert-danger">
 
 		  <div *ngIf="City.errors.required">
-			City is required.
+			<small><em>City is required.</em></small>
 		  </div>
 		  <div *ngIf="City.errors.minlength">
-			City must be at least 4 characters long.
+			<small><em>City must be at least 4 characters long.</em></small>
 		  </div>
 		  
 		</div>
 		<div *ngIf="City.valid && (City.dirty || City.touched)" class="alert alert-success">
-		    City is Valid
+		    <small><em>City is Valid</em></small>
 		</div>
     </div>
 	<div class="form-group col-md-6">
       <label for="inputState">State</label>
-      <input type="text" class="form-control" id="inputState" name="State" formControlName="State">
+      <input type="text" class="form-control" id="inputState" placeholder="State" name="State" formControlName="State">
 	<div *ngIf="State.invalid && (State.dirty || State.touched)"
 			class="alert alert-danger">
 
 		  <div *ngIf="State.errors.required">
-			State is required.
+			<small><em>State is required.</em></small>
 		  </div>
 		  <div *ngIf="State.errors.minlength">
-			State must be at least 4 characters long.
+			<small><em>State must be at least 4 characters long.</em></small>
 		  </div>
 		  
 		</div>
 		<div *ngIf="State.valid && (State.dirty || State.touched)" class="alert alert-success">
-		    State is Valid
+		    <small><em>State is Valid</em></small>
 		</div>
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword6">Password</label>
-		<input type="password" id="inputPassword6" name="Password" class="form-control" formControlName="Password" aria-describedby="passwordHelpInline">
+		<input type="password" id="inputPassword6" name="Password" placeholder="Password" class="form-control" formControlName="Password" aria-describedby="passwordHelpInline">
 		<div *ngIf="Password.invalid && (Password.dirty || Password.touched)"
 			class="alert alert-danger">
 
 		  <div *ngIf="Password.errors.required">
-			Password is required.
+			<small><em>Password is required.</em></small>
 		  </div>
 		  <div *ngIf="Password.errors.minlength">
-			Password must be at least 8 characters long.
+			<small><em>Password must be at least 8 characters long.</em></small>
 		  </div>
 		  <div *ngIf="Password.errors.maxlength">
-			Password must be not more than 20 characters long.
+			<small><em>Password must be not more than 20 characters long.</em></small>
 		  </div>
 		  
 		</div>
 		<div *ngIf="Password.valid && (Password.dirty || Password.touched)" class="alert alert-success">
-		    Password is Valid
+		    <small><em>Password is Valid</em></small>
 		</div>
 		</div>
 	<div class="form-group col-md-6">
@@ -176,17 +176,26 @@
 			class="alert alert-danger">
 
 		  
-			confirm Password must be equal to password.
+			<small><em>confirm Password must be equal to password.</em></small>
 		  
 		  
 		</div>
 		<!-- <div *ngIf="profileForm.errors.mismatch">does not match</div> -->
 		<div *ngIf="Cpassword.valid && (Cpassword.dirty || Cpassword.touched)" class="alert alert-success">
-		    confirm Password matches
+		    <small><em>confirm Password matches</em></small>
 		</div>
 		
     </div>
   </div>
-  <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">Submit form</button>
+  <div class="row">
+	<div class="col-md-2">
+     <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">Submit form</button>
+  </div>
+  <div class="col-md-2">
+     <button class="btn btn-primary" type="reset" [disabled]="!profileForm.valid">Reset</button>
+  </div>
+  </div>
+  
+  
 </form>
 </div>
